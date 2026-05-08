@@ -170,7 +170,7 @@ export default function MyBookingsPage() {
               <div
                 key={booking._id}
                 onClick={() => setSelectedBooking(booking)}
-                className="group relative flex flex-col lg:flex-row bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden hover:border-violet-500/40 hover:bg-white/[0.05] transition-all duration-500 shadow-xl cursor-pointer"
+                className="group relative flex flex-col lg:flex-row bg-foreground/[0.02] border border-foreground/10 rounded-3xl overflow-hidden hover:border-violet-500/40 hover:bg-foreground/[0.04] transition-all duration-500 shadow-xl cursor-pointer"
               >
                 <div
                   className={cn(
@@ -217,7 +217,7 @@ export default function MyBookingsPage() {
 
                 <div className="flex-1 p-6 lg:p-8 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-2xl font-bold text-foreground group-hover:text-violet-400 transition-colors mb-2">
+                    <h3 className="text-2xl font-bold text-foreground group-hover:text-violet-500 transition-colors mb-2">
                       {concert?.name || "Unknown Concert"}
                     </h3>
                     <div className="flex flex-wrap gap-y-2 gap-x-6">
@@ -232,7 +232,7 @@ export default function MyBookingsPage() {
                     </div>
                   </div>
 
-                  <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+                  <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 p-5 rounded-2xl bg-foreground/[0.03] border border-foreground/[0.05]">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">
                         Loại vé
@@ -253,7 +253,7 @@ export default function MyBookingsPage() {
                       <p className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">
                         Voucher
                       </p>
-                      <p className="text-sm font-bold text-emerald-400">
+                      <p className="text-sm font-bold text-emerald-500">
                         {typeof booking.voucherId === "object" &&
                         booking.voucherId
                           ? booking.voucherId.code
@@ -264,7 +264,7 @@ export default function MyBookingsPage() {
                       <p className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">
                         Tổng tiền
                       </p>
-                      <p className="text-lg font-black text-violet-400 leading-none">
+                      <p className="text-lg font-black text-violet-500 leading-none">
                         {fmtCurrency(booking.totalAmount)}
                       </p>
                     </div>
@@ -272,7 +272,7 @@ export default function MyBookingsPage() {
                 </div>
 
                 <div
-                  className="lg:w-64 p-6 lg:p-8 bg-white/[0.02] border-t lg:border-t-0 lg:border-l border-white/5 flex flex-col justify-center items-center gap-4 relative overflow-hidden"
+                  className="lg:w-64 p-6 lg:p-8 bg-foreground/[0.02] border-t lg:border-t-0 lg:border-l border-foreground/[0.05] flex flex-col justify-center items-center gap-4 relative overflow-hidden"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {isReserved ? (
@@ -282,7 +282,7 @@ export default function MyBookingsPage() {
                           <Clock className="w-3 h-3 animate-pulse" /> Giữ chỗ
                           kết thúc sau
                         </p>
-                        <p className="text-2xl font-black text-amber-400 font-mono tabular-nums leading-none">
+                        <p className="text-2xl font-black text-amber-500 font-mono tabular-nums leading-none">
                           {fmtCountdown(booking.expiredAt!)}
                         </p>
                       </div>
@@ -316,7 +316,7 @@ export default function MyBookingsPage() {
                             <ShieldCheck className="w-10 h-10 text-emerald-500" />
                           </div>
                           <div>
-                            <p className="text-lg font-bold text-emerald-400">
+                            <p className="text-lg font-bold text-emerald-500">
                               Vé đã xác nhận
                             </p>
                             <p className="text-xs text-foreground/40 mt-1 max-w-[150px]">
@@ -326,7 +326,7 @@ export default function MyBookingsPage() {
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto">
+                          <div className="w-20 h-20 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center mx-auto">
                             <AlertTriangle className="w-10 h-10 text-foreground/20" />
                           </div>
                           <div>
@@ -341,7 +341,7 @@ export default function MyBookingsPage() {
                       )}
                     </div>
                   )}
-                  <Ticket className="absolute -bottom-6 -right-6 w-32 h-32 text-white/[0.02] -rotate-12 pointer-events-none" />
+                  <Ticket className="absolute -bottom-6 -right-6 w-32 h-32 text-foreground/[0.02] -rotate-12 pointer-events-none" />
                 </div>
               </div>
             );

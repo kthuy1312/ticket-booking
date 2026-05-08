@@ -138,34 +138,36 @@ export default function ConcertDetailPage() {
     <div className="max-w-6xl mx-auto space-y-8 pb-20">
       {/* Concert Info Header */}
       <div className="glass-card overflow-hidden">
-        <div
-          className="relative min-h-[350px] md:min-h-[450px] flex items-end overflow-hidden"
-        >
+        <div className="relative min-h-[350px] md:min-h-[450px] flex items-end overflow-hidden">
           {/* Background Image & Overlays */}
           {concert.bannerUrl ? (
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-              style={{ backgroundImage: `url(${getAssetUrl(concert.bannerUrl)})` }}
+              style={{
+                backgroundImage: `url(${getAssetUrl(concert.bannerUrl)})`,
+              }}
             />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-violet-900 to-indigo-900" />
           )}
-          
           {/* Gradient Overlay for Readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-black/20" /> {/* Subtle overall dim */}
-          
+          <div className="absolute inset-0 bg-black/20" />{" "}
+          {/* Subtle overall dim */}
           {/* Patterns */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-
           {/* Content */}
           <div className="relative z-10 w-full p-8 md:p-12 lg:p-16">
             <div className="max-w-4xl space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-semibold text-white shadow-lg">
-                <span className={cn(
-                  "w-2.5 h-2.5 rounded-full animate-pulse",
-                  concert.status === "ACTIVE" ? "bg-emerald-400" : "bg-amber-400"
-                )}></span>
+                <span
+                  className={cn(
+                    "w-2.5 h-2.5 rounded-full animate-pulse",
+                    concert.status === "ACTIVE"
+                      ? "bg-emerald-400"
+                      : "bg-amber-400",
+                  )}
+                ></span>
                 {concert.status === "ACTIVE" ? "Đang mở bán" : "Chưa mở bán"}
               </div>
 
@@ -179,8 +181,12 @@ export default function ConcertDetailPage() {
                     <Calendar className="w-5 h-5 text-violet-300" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Ngày diễn ra</p>
-                    <p className="text-white font-semibold">{fmtDate(concert.eventDate)}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                      Ngày diễn ra
+                    </p>
+                    <p className="text-white font-semibold">
+                      {fmtDate(concert.eventDate)}
+                    </p>
                   </div>
                 </div>
 
@@ -189,7 +195,9 @@ export default function ConcertDetailPage() {
                     <MapPin className="w-5 h-5 text-indigo-300" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Địa điểm</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                      Địa điểm
+                    </p>
                     <p className="text-white font-semibold">{concert.venue}</p>
                   </div>
                 </div>
@@ -271,8 +279,6 @@ export default function ConcertDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Ticket Selection Area */}
         <div className="lg:col-span-2 space-y-6">
-
-
           <div className="space-y-4">
             {ticketTypes.map((ticket) => {
               const isAvailable = ticket.availableQuantity > 0;
@@ -332,8 +338,6 @@ export default function ConcertDetailPage() {
         {/* Checkout Panel */}
         <div className="lg:col-span-1">
           <div className="glass-card p-6 sticky top-28 space-y-6">
-
-
             {selectedTicket ? (
               <>
                 <div className="space-y-4 pb-6 border-b border-foreground/10">
@@ -414,8 +418,8 @@ export default function ConcertDetailPage() {
                         <span className="font-medium">Mã đã áp dụng</span>
                       </div>
                       <span className="font-bold">
-                        {voucherData.type === "PERCENT" 
-                          ? `Giảm ${voucherData.discountValue}%` 
+                        {voucherData.type === "PERCENT"
+                          ? `Giảm ${voucherData.discountValue}%`
                           : `Giảm ${fmtCurrency(voucherData.discountValue)}`}
                       </span>
                     </div>
@@ -472,7 +476,7 @@ export default function ConcertDetailPage() {
                       <Loader2 className="w-5 h-5 animate-spin" /> Đang xử lý...
                     </span>
                   ) : user?.role === "ADMIN" ? (
-                    "Admin chỉ xem, không đặt vé"
+                    "Tài khoản Admin không có quyền đặt vé"
                   ) : (
                     "Đặt vé ngay"
                   )}

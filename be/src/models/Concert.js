@@ -40,6 +40,18 @@ const concertSchema = new mongoose.Schema(
       default: "DRAFT",
     },
 
+    bannerUrl: {
+      type: String,
+      trim: true,
+    },
+
+    images: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

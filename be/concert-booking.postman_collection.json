@@ -1,0 +1,343 @@
+{
+  "info": {
+    "_postman_id": "concert-booking-local",
+    "name": "Concert Ticket Booking API",
+    "description": "Postman collection — chạy với local setup (http://localhost:8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "BASE_URL", "value": "http://localhost:8080" },
+    { "key": "adminToken", "value": "" },
+    { "key": "userToken", "value": "" },
+    { "key": "concertId", "value": "" },
+    { "key": "ticketTypeId", "value": "" },
+    { "key": "bookingId", "value": "" },
+    { "key": "voucherId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "🔐 Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/api/auth/register", "host": ["{{BASE_URL}}"], "path": ["api","auth","register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"Test@123\",\n  \"fullName\": \"Test User\",\n  \"phone\": \"0901234567\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": ["const r = pm.response.json();", "if(r.token) pm.collectionVariables.set('adminToken', r.token);"]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/api/auth/login", "host": ["{{BASE_URL}}"], "path": ["api","auth","login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@concert.vn\",\n  \"password\": \"Admin@123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login User1",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": ["const r = pm.response.json();", "if(r.token) pm.collectionVariables.set('userToken', r.token);"]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{BASE_URL}}/api/auth/login", "host": ["{{BASE_URL}}"], "path": ["api","auth","login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user1@example.com\",\n  \"password\": \"User@123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/auth/me", "host": ["{{BASE_URL}}"], "path": ["api","auth","me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎵 Concerts (Public)",
+      "item": [
+        {
+          "name": "List Active Concerts",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "const r = pm.response.json();",
+                "if(r.concerts && r.concerts.length > 0) {",
+                "  pm.collectionVariables.set('concertId', r.concerts[0]._id);",
+                "}"
+              ]
+            }
+          }],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/api/concerts", "host": ["{{BASE_URL}}"], "path": ["api","concerts"] }
+          }
+        },
+        {
+          "name": "Get Concert Detail",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/api/concerts/{{concertId}}", "host": ["{{BASE_URL}}"], "path": ["api","concerts","{{concertId}}"] }
+          }
+        },
+        {
+          "name": "Get Ticket Types",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "const r = pm.response.json();",
+                "if(r.ticketTypes && r.ticketTypes.length > 0) {",
+                "  pm.collectionVariables.set('ticketTypeId', r.ticketTypes[0]._id);",
+                "}"
+              ]
+            }
+          }],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/api/concerts/{{concertId}}/ticket-types", "host": ["{{BASE_URL}}"], "path": ["api","concerts","{{concertId}}","ticket-types"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎫 Bookings",
+      "item": [
+        {
+          "name": "Create Booking (no voucher)",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "const r = pm.response.json();",
+                "if(r.booking) pm.collectionVariables.set('bookingId', r.booking._id);"
+              ]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/bookings", "host": ["{{BASE_URL}}"], "path": ["api","bookings"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"concertId\": \"{{concertId}}\",\n  \"ticketTypeId\": \"{{ticketTypeId}}\",\n  \"quantity\": 2,\n  \"idempotencyKey\": \"{{$randomUUID}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Booking (with voucher WELCOME200K)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/bookings", "host": ["{{BASE_URL}}"], "path": ["api","bookings"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"concertId\": \"{{concertId}}\",\n  \"ticketTypeId\": \"{{ticketTypeId}}\",\n  \"quantity\": 1,\n  \"voucherCode\": \"WELCOME200K\",\n  \"idempotencyKey\": \"{{$randomUUID}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/bookings/my?page=1&limit=10", "host": ["{{BASE_URL}}"], "path": ["api","bookings","my"], "query": [{"key":"page","value":"1"},{"key":"limit","value":"10"}] }
+          }
+        },
+        {
+          "name": "Get Booking Detail",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/bookings/{{bookingId}}", "host": ["{{BASE_URL}}"], "path": ["api","bookings","{{bookingId}}"] }
+          }
+        },
+        {
+          "name": "Confirm Payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/bookings/{{bookingId}}/confirm-payment", "host": ["{{BASE_URL}}"], "path": ["api","bookings","{{bookingId}}","confirm-payment"] }
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/bookings/{{bookingId}}/cancel", "host": ["{{BASE_URL}}"], "path": ["api","bookings","{{bookingId}}","cancel"] },
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Thay đổi kế hoạch\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎟️ Vouchers",
+      "item": [
+        {
+          "name": "Validate Voucher",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/vouchers/validate?code=FLASHSALE50&amount=3000000", "host": ["{{BASE_URL}}"], "path": ["api","vouchers","validate"], "query": [{"key":"code","value":"FLASHSALE50"},{"key":"amount","value":"3000000"}] }
+          }
+        },
+        {
+          "name": "[ADMIN] Create Voucher",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/vouchers", "host": ["{{BASE_URL}}"], "path": ["api","vouchers"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"NEWCODE10\",\n  \"description\": \"Giảm 10%\",\n  \"discountType\": \"PERCENT\",\n  \"discountValue\": 10,\n  \"maxUsage\": 50,\n  \"minOrderAmount\": 0,\n  \"validFrom\": \"2026-01-01T00:00:00Z\",\n  \"validUntil\": \"2027-01-01T00:00:00Z\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Operation Dashboard (Admin)",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/stats", "host": ["{{BASE_URL}}"], "path": ["api","operation","stats"] }
+          }
+        },
+        {
+          "name": "All Bookings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/bookings?page=1&limit=20", "host": ["{{BASE_URL}}"], "path": ["api","operation","bookings"], "query": [{"key":"page","value":"1"},{"key":"limit","value":"20"}] }
+          }
+        },
+        {
+          "name": "Booking Detail + Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/bookings/{{bookingId}}", "host": ["{{BASE_URL}}"], "path": ["api","operation","bookings","{{bookingId}}"] }
+          }
+        },
+        {
+          "name": "Update Booking Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/operation/bookings/{{bookingId}}/status", "host": ["{{BASE_URL}}"], "path": ["api","operation","bookings","{{bookingId}}","status"] },
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"CONFIRMED\",\n  \"reason\": \"Admin xác nhận thanh toán thủ công\"\n}" }
+          }
+        },
+        {
+          "name": "All Concerts (incl. DRAFT)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/concerts", "host": ["{{BASE_URL}}"], "path": ["api","operation","concerts"] }
+          }
+        },
+        {
+          "name": "Create Concert (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/concerts", "host": ["{{BASE_URL}}"], "path": ["api","concerts"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Concert 2026\",\n  \"description\": \"Mô tả concert\",\n  \"venue\": \"Nhà hát Lớn, HN\",\n  \"eventDate\": \"2026-12-01T19:00:00+07:00\",\n  \"saleStartDate\": \"2026-06-01T00:00:00+07:00\",\n  \"saleEndDate\": \"2026-11-30T23:59:59+07:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Ticket Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/operation/concerts/{{concertId}}/ticket-types", "host": ["{{BASE_URL}}"], "path": ["api","operation","concerts","{{concertId}}","ticket-types"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Golden\",\n  \"description\": \"Khu vực sân khấu phụ\",\n  \"price\": 2000000,\n  \"totalQuantity\": 300,\n  \"maxPerBooking\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Ticket Availability",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/ticket-types/{{ticketTypeId}}/availability", "host": ["{{BASE_URL}}"], "path": ["api","operation","ticket-types","{{ticketTypeId}}","availability"] }
+          }
+        },
+        {
+          "name": "Voucher Usage Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/operation/vouchers", "host": ["{{BASE_URL}}"], "path": ["api","operation","vouchers"] }
+          }
+        },
+        {
+          "name": "Update Concert Status → ACTIVE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{BASE_URL}}/api/concerts/{{concertId}}/status", "host": ["{{BASE_URL}}"], "path": ["api","concerts","{{concertId}}","status"] },
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"ACTIVE\"\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}

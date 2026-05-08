@@ -1,0 +1,503 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Concert Ticket Booking API",
+    "version": "1.0.0",
+    "description": "Backend API cho nền tảng đặt vé concert — bao gồm luồng customer và operation dashboard."
+  },
+  "servers": [{ "url": "http://localhost:8080", "description": "Local" }],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "email": { "type": "string" },
+          "fullName": { "type": "string" },
+          "phone": { "type": "string" },
+          "role": { "type": "string", "enum": ["USER", "ADMIN"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Concert": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "venue": { "type": "string" },
+          "eventDate": { "type": "string", "format": "date-time" },
+          "saleStartDate": { "type": "string", "format": "date-time" },
+          "saleEndDate": { "type": "string", "format": "date-time" },
+          "status": { "type": "string", "enum": ["DRAFT", "ACTIVE", "ENDED", "CANCELLED"] },
+          "bannerUrl": { "type": "string" },
+          "images": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "TicketType": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "concertId": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "price": { "type": "number" },
+          "totalQuantity": { "type": "number" },
+          "availableQuantity": { "type": "number" },
+          "maxPerBooking": { "type": "number" }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "userId": { "type": "string" },
+          "concertId": { "type": "string" },
+          "ticketTypeId": { "type": "string" },
+          "voucherId": { "type": "string" },
+          "quantity": { "type": "number" },
+          "unitPrice": { "type": "number" },
+          "discountAmount": { "type": "number" },
+          "totalAmount": { "type": "number" },
+          "status": { "type": "string", "enum": ["RECEIVED","RESERVED","WAITING_PAYMENT","CONFIRMED","CANCELLED","EXPIRED"] },
+          "idempotencyKey": { "type": "string" },
+          "reservedAt": { "type": "string", "format": "date-time" },
+          "expiredAt": { "type": "string", "format": "date-time" },
+          "completedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Voucher": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "discountType": { "type": "string", "enum": ["PERCENT","FIXED"] },
+          "discountValue": { "type": "number" },
+          "maxUsage": { "type": "number" },
+          "currentUsage": { "type": "number" },
+          "minOrderAmount": { "type": "number" },
+          "validFrom": { "type": "string", "format": "date-time" },
+          "validUntil": { "type": "string", "format": "date-time" },
+          "isActive": { "type": "boolean" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": { "message": { "type": "string" } }
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Đăng ký tài khoản",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email","password","fullName"],
+                "properties": {
+                  "email": { "type": "string", "example": "user@example.com" },
+                  "password": { "type": "string", "example": "User@123" },
+                  "fullName": { "type": "string", "example": "Nguyễn Văn A" },
+                  "phone": { "type": "string", "example": "0901234567" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Đăng ký thành công" },
+          "409": { "description": "Email đã tồn tại" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Đăng nhập",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email","password"],
+                "properties": {
+                  "email": { "type": "string", "example": "admin@concert.vn" },
+                  "password": { "type": "string", "example": "Admin@123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Đăng nhập thành công, trả về JWT token" },
+          "401": { "description": "Sai email hoặc mật khẩu" }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Lấy thông tin user hiện tại",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Thông tin user" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/concerts": {
+      "get": {
+        "tags": ["Concerts"],
+        "summary": "Danh sách concert đang mở bán (ACTIVE)",
+        "responses": {
+          "200": { "description": "Danh sách concert" }
+        }
+      },
+      "post": {
+        "tags": ["Concerts"],
+        "summary": "[ADMIN] Tạo concert mới",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name","venue","eventDate","saleStartDate","saleEndDate"],
+                "properties": {
+                  "name": { "type": "string", "example": "BLACKPINK World Tour 2026" },
+                  "description": { "type": "string" },
+                  "venue": { "type": "string", "example": "SVĐ Quân Khu 7" },
+                  "eventDate": { "type": "string", "format": "date-time" },
+                  "saleStartDate": { "type": "string", "format": "date-time" },
+                  "saleEndDate": { "type": "string", "format": "date-time" },
+                  "bannerUrl": { "type": "string" },
+                  "images": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Tạo concert thành công" },
+          "403": { "description": "Forbidden" }
+        }
+      }
+    },
+    "/api/concerts/{id}": {
+      "get": {
+        "tags": ["Concerts"],
+        "summary": "Chi tiết concert",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Chi tiết concert" },
+          "404": { "description": "Không tìm thấy" }
+        }
+      }
+    },
+    "/api/concerts/{id}/ticket-types": {
+      "get": {
+        "tags": ["Concerts"],
+        "summary": "Danh sách loại vé và số lượng còn lại",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Danh sách loại vé" } }
+      }
+    },
+    "/api/concerts/{id}/status": {
+      "patch": {
+        "tags": ["Concerts"],
+        "summary": "[ADMIN] Cập nhật trạng thái concert",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": { "type": "string", "enum": ["DRAFT","ACTIVE","ENDED","CANCELLED"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Cập nhật thành công" } }
+      }
+    },
+    "/api/bookings": {
+      "post": {
+        "tags": ["Bookings"],
+        "summary": "Tạo đặt vé (atomic reserve)",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["concertId","ticketTypeId","quantity","idempotencyKey"],
+                "properties": {
+                  "concertId": { "type": "string" },
+                  "ticketTypeId": { "type": "string" },
+                  "quantity": { "type": "integer", "example": 2 },
+                  "voucherCode": { "type": "string", "example": "FLASHSALE50" },
+                  "idempotencyKey": { "type": "string", "example": "uuid-v4-here" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Đặt vé thành công, giữ chỗ 15 phút" },
+          "200": { "description": "Idempotent — booking đã tồn tại" },
+          "409": { "description": "Hết vé" },
+          "400": { "description": "Dữ liệu không hợp lệ hoặc voucher lỗi" }
+        }
+      }
+    },
+    "/api/bookings/my": {
+      "get": {
+        "tags": ["Bookings"],
+        "summary": "Lịch sử booking của tôi",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string" } },
+          { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 10 } }
+        ],
+        "responses": { "200": { "description": "Danh sách booking có phân trang" } }
+      }
+    },
+    "/api/bookings/{id}": {
+      "get": {
+        "tags": ["Bookings"],
+        "summary": "Chi tiết booking của tôi",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Chi tiết booking" }, "404": { "description": "Không tìm thấy" } }
+      }
+    },
+    "/api/bookings/{id}/confirm-payment": {
+      "post": {
+        "tags": ["Bookings"],
+        "summary": "Xác nhận đã thanh toán",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Xác nhận thành công → CONFIRMED" },
+          "400": { "description": "Trạng thái không hợp lệ hoặc đã hết hạn giữ chỗ" }
+        }
+      }
+    },
+    "/api/bookings/{id}/cancel": {
+      "post": {
+        "tags": ["Bookings"],
+        "summary": "Hủy booking (hoàn lại vé và voucher)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "reason": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Hủy thành công" } }
+      }
+    },
+    "/api/vouchers/validate": {
+      "get": {
+        "tags": ["Vouchers"],
+        "summary": "Kiểm tra voucher hợp lệ",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "in": "query", "name": "code", "required": true, "schema": { "type": "string" }, "example": "FLASHSALE50" },
+          { "in": "query", "name": "amount", "schema": { "type": "number" }, "example": 3000000 }
+        ],
+        "responses": {
+          "200": { "description": "Voucher hợp lệ, trả về discountAmount" },
+          "400": { "description": "Voucher không hợp lệ" },
+          "404": { "description": "Voucher không tồn tại" }
+        }
+      }
+    },
+    "/api/vouchers": {
+      "post": {
+        "tags": ["Vouchers"],
+        "summary": "[ADMIN] Tạo voucher mới",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code","discountType","discountValue","maxUsage","validFrom","validUntil"],
+                "properties": {
+                  "code": { "type": "string", "example": "SUMMER30" },
+                  "description": { "type": "string" },
+                  "discountType": { "type": "string", "enum": ["PERCENT","FIXED"] },
+                  "discountValue": { "type": "number", "example": 30 },
+                  "maxUsage": { "type": "integer", "example": 100 },
+                  "minOrderAmount": { "type": "number", "example": 500000 },
+                  "validFrom": { "type": "string", "format": "date-time" },
+                  "validUntil": { "type": "string", "format": "date-time" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Tạo voucher thành công" } }
+      },
+      "get": {
+        "tags": ["Vouchers"],
+        "summary": "[ADMIN] Danh sách voucher",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "in": "query", "name": "isActive", "schema": { "type": "boolean" } }
+        ],
+        "responses": { "200": { "description": "Danh sách voucher" } }
+      }
+    },
+    "/api/vouchers/{id}/toggle-status": {
+      "patch": {
+        "tags": ["Vouchers"],
+        "summary": "[ADMIN] Bật/Tắt trạng thái voucher",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Đã cập nhật trạng thái voucher" } }
+      }
+    },
+    "/api/operation/stats": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Tổng quan dashboard",
+        "security": [{ "BearerAuth": [] }],
+        "responses": { "200": { "description": "Thống kê tổng quan" } }
+      }
+    },
+    "/api/operation/bookings": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Tất cả booking",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string" } },
+          { "in": "query", "name": "concertId", "schema": { "type": "string" } },
+          { "in": "query", "name": "userId", "schema": { "type": "string" } },
+          { "in": "query", "name": "page", "schema": { "type": "integer" } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "Danh sách booking có phân trang" } }
+      }
+    },
+    "/api/operation/bookings/{id}": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Chi tiết booking + audit log",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Chi tiết booking và lịch sử thay đổi trạng thái" } }
+      }
+    },
+    "/api/operation/bookings/{id}/status": {
+      "patch": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Cập nhật trạng thái booking thủ công",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": { "type": "string", "enum": ["RESERVED","WAITING_PAYMENT","CONFIRMED","CANCELLED","EXPIRED"] },
+                  "reason": { "type": "string", "example": "Khách hàng thanh toán nhầm, xử lý thủ công" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Cập nhật thành công" }, "400": { "description": "Transition không hợp lệ" } }
+      }
+    },
+    "/api/operation/concerts": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Tất cả concert (kể cả DRAFT)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "query", "name": "status", "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Danh sách concert" } }
+      }
+    },
+    "/api/operation/concerts/{id}/ticket-types": {
+      "post": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Tạo loại vé cho concert",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name","price","totalQuantity"],
+                "properties": {
+                  "name": { "type": "string", "example": "VIP" },
+                  "description": { "type": "string" },
+                  "price": { "type": "number", "example": 3500000 },
+                  "totalQuantity": { "type": "integer", "example": 500 },
+                  "maxPerBooking": { "type": "integer", "example": 4 }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Tạo loại vé thành công" } }
+      }
+    },
+    "/api/operation/ticket-types/{id}/availability": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Kiểm tra tồn vé",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Thông tin tồn vé" } }
+      }
+    },
+    "/api/operation/vouchers": {
+      "get": {
+        "tags": ["Operation"],
+        "summary": "[ADMIN] Danh sách voucher + usage stats",
+        "security": [{ "BearerAuth": [] }],
+        "responses": { "200": { "description": "Danh sách voucher kèm thống kê" } }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Health check",
+        "responses": { "200": { "description": "Server đang hoạt động" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+    --primary: 263 70% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 215.4 16.3% 56.9%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+    --accent: 263 70% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 263 70% 60%;
+    --radius: 0.75rem;
+    --chart-1: 263 70% 60%;
+    --chart-2: 220 70% 60%;
+    --chart-3: 142 70% 45%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 0 70% 60%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-[#0a0e1a] text-foreground font-['Inter',sans-serif];
+    background: radial-gradient(ellipse at top left, rgba(99,60,180,0.15) 0%, #0a0e1a 50%),
+                radial-gradient(ellipse at bottom right, rgba(34,60,120,0.1) 0%, transparent 60%);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-2xl;
+    box-shadow: 0 4px 24px -2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-white/[0.06] hover:border-white/[0.12] hover:scale-[1.01];
+  }
+  .glass-card-hover:hover {
+    box-shadow: 0 8px 32px -4px rgba(99,60,180,0.3);
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-violet-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500
+           text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200
+           shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.15]
+           text-white/80 hover:text-white font-medium px-5 py-2.5 rounded-xl transition-all duration-200;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-red-600/80 to-red-700/80 hover:from-red-500 hover:to-red-600
+           text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-200
+           shadow-lg shadow-red-500/20 hover:shadow-red-500/35;
+  }
+
+  .input-field {
+    @apply w-full bg-white/[0.05] border border-white/[0.1] rounded-xl px-4 py-3 text-white placeholder-white/30
+           focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition-all duration-200;
+  }
+
+  .badge-status {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .status-received   { @apply badge-status bg-slate-500/20 text-slate-300 border border-slate-500/30; }
+  .status-reserved   { @apply badge-status bg-blue-500/20 text-blue-300 border border-blue-500/30; }
+  .status-waiting    { @apply badge-status bg-amber-500/20 text-amber-300 border border-amber-500/30; }
+  .status-confirmed  { @apply badge-status bg-emerald-500/20 text-emerald-300 border border-emerald-500/30; }
+  .status-cancelled  { @apply badge-status bg-red-500/20 text-red-300 border border-red-500/30; }
+  .status-expired    { @apply badge-status bg-gray-500/20 text-gray-400 border border-gray-500/30; }
+
+  .nav-link {
+    @apply flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/[0.06]
+           transition-all duration-200 text-sm font-medium cursor-pointer;
+  }
+
+  .nav-link-active {
+    @apply flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-white bg-violet-600/20 border border-violet-500/30
+           text-sm font-medium cursor-pointer;
+  }
+
+  .ticket-card {
+    @apply glass-card p-5 cursor-pointer border-2 transition-all duration-300
+           hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+
+  .ticket-card-selected {
+    @apply glass-card p-5 cursor-pointer border-2 border-violet-500/60 
+           shadow-lg shadow-violet-500/20 bg-violet-500/5;
+  }
+
+  .stat-card {
+    @apply glass-card p-6 flex flex-col gap-2;
+  }
+
+  .table-row {
+    @apply border-b border-white/[0.05] hover:bg-white/[0.03] transition-colors duration-150;
+  }
+
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139,92,246,0.3) transparent;
+  }
+  .scrollbar-custom::-webkit-scrollbar { width: 6px; }
+  .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-custom::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.3); border-radius: 3px; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(139,92,246,0.2); }
+  50%       { box-shadow: 0 0 40px rgba(139,92,246,0.4); }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.4s ease both; }
+.animate-fade-in    { animation: fadeIn 0.3s ease both; }
+.pulse-glow         { animation: pulse-glow 2s ease-in-out infinite; }
+.shimmer-text {
+  background: linear-gradient(90deg, #a78bfa, #818cf8, #c084fc, #818cf8, #a78bfa);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}

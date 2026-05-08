@@ -82,8 +82,5 @@ bookingSchema.index({ concertId: 1 });
 bookingSchema.index({ ticketTypeId: 1 });
 bookingSchema.index({ status: 1 });
 
-//kh cho duplicate booking cực quan trọng
-bookingSchema.index({ idempotencyKey: 1 }, { unique: true });
-
 const Booking = mongoose.model("Booking", bookingSchema);
 export default Booking;

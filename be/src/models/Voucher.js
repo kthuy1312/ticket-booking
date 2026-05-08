@@ -42,6 +42,7 @@ const voucherSchema = new mongoose.Schema(
       default: 0,
     },
 
+    //phải tối thiểu bnhiu tiền thì mới được sdung voucher
     minOrderAmount: {
       type: Number,
       default: 0,
@@ -73,7 +74,6 @@ const voucherSchema = new mongoose.Schema(
   },
 );
 
-voucherSchema.index({ code: 1 }, { unique: true });
 voucherSchema.index({ isActive: 1 });
 voucherSchema.index({ validFrom: 1, validUntil: 1 });
 

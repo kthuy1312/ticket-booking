@@ -18,6 +18,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { Link } from "react-router";
+import { Modal } from "antd";
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -55,18 +56,27 @@ export default function MyBookingsPage() {
     }
   };
 
-  const handleCancel = async (id: string) => {
-    if (!confirm("Bạn có chắc chắn muốn hủy đơn này?")) return;
-    setActionLoading(id);
-    try {
-      await bookingAPI.cancel(id, "Khách hàng tự hủy");
-      toast.success("Hủy đơn thành công");
-      fetchBookings();
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || "Lỗi hủy đơn");
-    } finally {
-      setActionLoading(null);
-    }
+  const handleCancel = (id: string) => {
+    Modal.confirm({
+      title: "Xác nhận hủy đơn",
+      content: "Bạn có chắc chắn muốn hủy đơn này? Hành động này không thể hoàn tác.",
+      okText: "Xác nhận hủy",
+      cancelText: "Quay lại",
+      okType: "danger",
+      centered: true,
+      onOk: async () => {
+        setActionLoading(id);
+        try {
+          await bookingAPI.cancel(id, "Khách hàng tự hủy");
+          toast.success("Hủy đơn thành công");
+          fetchBookings();
+        } catch (err: any) {
+          toast.error(err.response?.data?.message || "Lỗi hủy đơn");
+        } finally {
+          setActionLoading(null);
+        }
+      },
+    });
   };
 
   if (loading) {

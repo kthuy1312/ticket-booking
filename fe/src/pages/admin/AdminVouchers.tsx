@@ -4,6 +4,7 @@ import type { Voucher } from '@/types';
 import { fmtDate, fmtCurrency, cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Edit2, Tag, Plus, Power, Loader2, Info, X } from 'lucide-react';
+import { Modal, Select } from 'antd';
 
 export default function AdminVouchers() {
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
@@ -85,16 +86,25 @@ export default function AdminVouchers() {
     }
   };
 
-  const handleToggleStatus = async (id: string, isActive: boolean) => {
+  const handleToggleStatus = (id: string, isActive: boolean) => {
     const action = isActive ? 'vô hiệu hóa' : 'kích hoạt';
-    if (!confirm(`Bạn có chắc chắn muốn ${action} voucher này?`)) return;
-    try {
-      await voucherAPI.toggleStatus(id);
-      toast.success(`Đã ${action} voucher thành công`);
-      fetchVouchers();
-    } catch (err: any) {
-      toast.error(`Không thể ${action} voucher`);
-    }
+    
+    Modal.confirm({
+      title: 'Xác nhận thay đổi',
+      content: `Bạn có chắc chắn muốn ${action} voucher này?`,
+      okText: 'Xác nhận',
+      cancelText: 'Hủy',
+      centered: true,
+      onOk: async () => {
+        try {
+          await voucherAPI.toggleStatus(id);
+          toast.success(`Đã ${action} voucher thành công`);
+          fetchVouchers();
+        } catch (err: any) {
+          toast.error(`Không thể ${action} voucher`);
+        }
+      },
+    });
   };
 
   if (loading) {
@@ -221,10 +231,15 @@ export default function AdminVouchers() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground/70 mb-1">Loại giảm giá</label>
-                  <select value={discountType} onChange={e => setDiscountType(e.target.value as any)} className="input-field appearance-none bg-black/20">
-                    <option value="FIXED">Cố định (VNĐ)</option>
-                    <option value="PERCENT">Phần trăm (%)</option>
-                  </select>
+                  <Select 
+                    value={discountType} 
+                    onChange={val => setDiscountType(val)} 
+                    className="w-full h-10"
+                    options={[
+                      { value: 'FIXED', label: 'Cố định (VNĐ)' },
+                      { value: 'PERCENT', label: 'Phần trăm (%)' }
+                    ]}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground/70 mb-1">Mức giảm giá</label>

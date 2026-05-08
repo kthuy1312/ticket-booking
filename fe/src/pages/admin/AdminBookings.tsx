@@ -10,6 +10,7 @@ import {
 } from "@/lib/utils";
 import { toast } from "sonner";
 import { Ticket, Loader2, Edit, AlertCircle } from "lucide-react";
+import { Select } from "antd";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -259,21 +260,15 @@ export default function AdminBookings() {
                       <label className="block text-xs font-medium text-foreground/70 mb-1 uppercase">
                         Trạng thái mới
                       </label>
-                      <select
+                      <Select
                         value={newStatus}
-                        onChange={(e) => setNewStatus(e.target.value)}
-                        className="input-field appearance-none bg-background/50"
-                      >
-                        {Object.keys(STATUS_LABELS).map((key) => (
-                          <option
-                            key={key}
-                            value={key}
-                            className="bg-background text-foreground"
-                          >
-                            {STATUS_LABELS[key]}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(val) => setNewStatus(val)}
+                        className="w-full h-10"
+                        options={Object.keys(STATUS_LABELS).map((key) => ({
+                          value: key,
+                          label: STATUS_LABELS[key],
+                        }))}
+                      />
                     </div>
 
                     <div>

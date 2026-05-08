@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useThemeStore } from '@/stores/useThemeStore';
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 
 // Pages
 import LoginPage from '@/pages/LoginPage';
@@ -31,6 +32,7 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
   return <>{children}</>;
 }
 
+
 function App() {
   const { fetchMe, token } = useAuthStore();
   const { theme } = useThemeStore();
@@ -46,7 +48,16 @@ function App() {
   }, [theme]);
 
   return (
-    <>
+    <ConfigProvider
+      theme={{
+        algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+        token: {
+          colorPrimary: '#7c3aed', // violet-600
+          borderRadius: 12,
+          fontFamily: "'Inter', sans-serif",
+        },
+      }}
+    >
       <Toaster richColors position="top-right" />
       <BrowserRouter>
         <Routes>
@@ -86,7 +97,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </ConfigProvider>
   );
 }
 

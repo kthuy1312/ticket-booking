@@ -58,7 +58,7 @@ function App() {
         },
       }}
     >
-      <Toaster richColors position="top-right" />
+      <Toaster richColors position="bottom-right" />
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}

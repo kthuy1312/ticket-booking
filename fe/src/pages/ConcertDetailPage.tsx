@@ -69,8 +69,8 @@ export default function ConcertDetailPage() {
       const orderAmount = selectedTicket.price * quantity;
       const res = await voucherAPI.validate(voucherCode, orderAmount);
       setVoucherData({
-        discountValue: res.discountValue || 0,
-        type: res.voucher?.discountType || "FIXED",
+        discountValue: res.voucher.discountValue,
+        type: res.voucher.discountType,
       });
       toast.success("Áp dụng mã giảm giá thành công!");
     } catch (err: any) {
@@ -264,12 +264,14 @@ export default function ConcertDetailPage() {
         </div>
       </div>
 
+      <h2 className="text-2xl font-bold text-foreground flex items-center gap-2 px-1">
+        <Ticket className="w-6 h-6 text-violet-400" /> Chọn loại vé
+      </h2>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Ticket Selection Area */}
         <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Ticket className="w-6 h-6 text-violet-400" /> Chọn loại vé
-          </h2>
+
 
           <div className="space-y-4">
             {ticketTypes.map((ticket) => {
@@ -330,9 +332,7 @@ export default function ConcertDetailPage() {
         {/* Checkout Panel */}
         <div className="lg:col-span-1">
           <div className="glass-card p-6 sticky top-28 space-y-6">
-            <h3 className="text-xl font-bold text-foreground mb-4">
-              Thông tin vé
-            </h3>
+
 
             {selectedTicket ? (
               <>
@@ -408,29 +408,52 @@ export default function ConcertDetailPage() {
                     </button>
                   </div>
                   {voucherData && (
-                    <p className="text-sm text-emerald-400 flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" /> Đã áp dụng mã giảm
-                      giá
-                    </p>
+                    <div className="text-sm text-emerald-400 flex items-center justify-between bg-emerald-500/5 px-3 py-2 rounded-xl border border-emerald-500/10 animate-in zoom-in-95 duration-300">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span className="font-medium">Mã đã áp dụng</span>
+                      </div>
+                      <span className="font-bold">
+                        {voucherData.type === "PERCENT" 
+                          ? `Giảm ${voucherData.discountValue}%` 
+                          : `Giảm ${fmtCurrency(voucherData.discountValue)}`}
+                      </span>
+                    </div>
                   )}
                 </div>
 
                 <div className="space-y-3 pt-2">
                   <div className="flex justify-between text-foreground/60 text-sm">
                     <span>Tạm tính</span>
-                    <span className="font-medium text-foreground">{fmtCurrency(subTotal)}</span>
+                    <span className="font-medium text-foreground">
+                      {fmtCurrency(subTotal)}
+                    </span>
                   </div>
                   {discount > 0 && (
-                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400 text-sm font-medium">
-                      <span>Giảm giá</span>
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400 text-sm font-medium animate-in fade-in slide-in-from-right-2">
+                      <div className="flex items-center gap-1">
+                        <span>Giảm giá</span>
+                        {voucherData?.type === "PERCENT" && (
+                          <span className="text-[10px] bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                            -{voucherData.discountValue}%
+                          </span>
+                        )}
+                      </div>
                       <span>-{fmtCurrency(discount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-foreground font-bold text-xl pt-3 border-t border-foreground/10">
+                  <div className="flex justify-between items-center text-foreground font-bold text-xl pt-3 border-t border-foreground/10">
                     <span>Tổng tiền</span>
-                    <span className="text-violet-600 dark:text-violet-400">
-                      {fmtCurrency(total)}
-                    </span>
+                    <div className="flex flex-col items-end">
+                      {discount > 0 && (
+                        <p className="text-xs text-foreground/30 line-through font-medium mb-0.5">
+                          {fmtCurrency(subTotal)}
+                        </p>
+                      )}
+                      <span className="text-2xl font-black text-violet-600 dark:text-violet-400">
+                        {fmtCurrency(total)}
+                      </span>
+                    </div>
                   </div>
                 </div>
 

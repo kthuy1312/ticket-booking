@@ -22,7 +22,7 @@ export const getAllBookings = async (req, res) => {
         .skip(skip)
         .limit(parseInt(limit))
         .populate("userId", "fullName email phone")
-        .populate("concertId", "name venue eventDate")
+        .populate("concertId", "name venue eventDate bannerUrl")
         .populate("ticketTypeId", "name price")
         .populate("voucherId", "code discountType discountValue")
         .select("-__v"),
@@ -48,7 +48,7 @@ export const getBookingDetail = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
       .populate("userId", "fullName email phone role")
-      .populate("concertId", "name venue eventDate status")
+      .populate("concertId", "name venue eventDate status bannerUrl")
       .populate("ticketTypeId", "name price totalQuantity availableQuantity")
       .populate("voucherId", "code discountType discountValue")
       .select("-__v");

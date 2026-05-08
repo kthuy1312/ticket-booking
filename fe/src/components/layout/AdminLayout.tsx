@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from "react-router";
+import { Outlet, Link, useLocation, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { cn } from "@/lib/utils";
 import {
@@ -11,15 +11,27 @@ import {
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { toast } from "sonner";
+import { Modal } from "antd";
 
 export default function AdminLayout() {
   const { user, logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
-    toast.success("Đăng xuất thành công!");
-    window.location.href = "/login";
+    Modal.confirm({
+      title: "Xác nhận đăng xuất",
+      content: "Bạn có chắc chắn muốn thoát khỏi hệ thống quản trị?",
+      okText: "Đăng xuất",
+      cancelText: "Hủy",
+      okType: "danger",
+      centered: true,
+      onOk: () => {
+        logout();
+        toast.success("Đăng xuất thành công!");
+        navigate("/login");
+      },
+    });
   };
 
   const navItems = [

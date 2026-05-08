@@ -1,18 +1,30 @@
-import { Outlet, Link, useLocation } from "react-router";
+import { Outlet, Link, useLocation, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { LogOut, Ticket, Music } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import ThemeToggle from "./ThemeToggle";
+import { Modal } from "antd";
 
 export default function MainLayout() {
   const { user, logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
-    toast.success("Đăng xuất thành công!");
-    window.location.href = "/login";
+    Modal.confirm({
+      title: "Xác nhận đăng xuất",
+      content: "Bạn có chắc chắn muốn thoát khỏi hệ thống?",
+      okText: "Đăng xuất",
+      cancelText: "Hủy",
+      okType: "danger",
+      centered: true,
+      onOk: () => {
+        logout();
+        toast.success("Đăng xuất thành công!");
+        navigate("/login");
+      },
+    });
   };
 
   return (

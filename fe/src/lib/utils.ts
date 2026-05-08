@@ -6,10 +6,16 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getAssetUrl = (path?: string) => {
-  if (!path) return '';
-  if (path.startsWith('http')) return path;
-  const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8080/api').replace('/api', '');
-  return `${baseUrl}${path}`;
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  
+  const envUrl = import.meta.env.VITE_API_URL;
+  // If envUrl exists and starts with http, use it. Otherwise fallback to localhost:8080
+  const baseApiUrl = (envUrl && envUrl.startsWith("http")) ? envUrl : "http://localhost:8080/api";
+  const baseUrl = baseApiUrl.replace(/\/api$/, "").replace(/\/api\/$/, "");
+  
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${baseUrl}${cleanPath}`;
 };
 
 // Shared helper utilities

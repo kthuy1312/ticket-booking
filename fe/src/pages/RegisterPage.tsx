@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { toast } from "sonner";
-import { Music, ArrowRight, Loader2 } from "lucide-react";
+import { Music, ArrowRight, Loader2, Home, ChevronLeft } from "lucide-react";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -46,6 +46,15 @@ export default function RegisterPage() {
       <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px]" />
 
       <div className="w-full max-w-md animate-fade-in-up z-10">
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground mb-4 px-2 transition-colors group"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <Home className="w-4 h-4" />
+          <span className="text-sm font-medium">Về trang chủ</span>
+        </Link>
+
         <div className="glass-card p-8">
           <div className="flex flex-col items-center mb-8">
             <img

@@ -272,7 +272,7 @@ export const getMyBookings = async (req, res) => {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(parseInt(limit))
-        .populate("concertId", "name venue eventDate")
+        .populate("concertId", "name venue eventDate bannerUrl")
         .populate("ticketTypeId", "name price")
         .populate("voucherId", "code discountType discountValue")
         .select("-__v -idempotencyKey"),
@@ -300,7 +300,7 @@ export const getBookingById = async (req, res) => {
       _id: req.params.id,
       userId: req.user._id,
     })
-      .populate("concertId", "name venue eventDate")
+      .populate("concertId", "name venue eventDate bannerUrl")
       .populate("ticketTypeId", "name price")
       .populate("voucherId", "code discountType discountValue")
       .select("-__v -idempotencyKey");

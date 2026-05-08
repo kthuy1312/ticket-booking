@@ -8,7 +8,8 @@ import { Music, Plus, Edit2, CheckCircle2, Ticket, Loader2 } from 'lucide-react'
 export default function AdminConcerts() {
   const [concerts, setConcerts] = useState<Concert[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingConcert, setEditingConcert] = useState<Concert | null>(null);
 
   // Form states
   const [name, setName] = useState('');
@@ -31,7 +32,32 @@ export default function AdminConcerts() {
     fetchConcerts();
   }, []);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const formatDateForInput = (dateStr: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 16);
+  };
+
+  const openCreateModal = () => {
+    setEditingConcert(null);
+    setName(''); setVenue(''); setEventDate(''); setSaleStartDate(''); setSaleEndDate(''); setDescription(''); setBannerFile(null); setGalleryFiles(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (concert: Concert) => {
+    setEditingConcert(concert);
+    setName(concert.name);
+    setVenue(concert.venue);
+    setEventDate(formatDateForInput(concert.eventDate));
+    setSaleStartDate(formatDateForInput(concert.saleStartDate));
+    setSaleEndDate(formatDateForInput(concert.saleEndDate));
+    setDescription(concert.description || '');
+    setBannerFile(null);
+    setGalleryFiles(null);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
@@ -41,24 +67,23 @@ export default function AdminConcerts() {
     formData.append('saleStartDate', new Date(saleStartDate).toISOString());
     formData.append('saleEndDate', new Date(saleEndDate).toISOString());
     
-    if (bannerFile) {
-      formData.append('banner', bannerFile);
-    }
-    
+    if (bannerFile) formData.append('banner', bannerFile);
     if (galleryFiles) {
-      Array.from(galleryFiles).forEach(file => {
-        formData.append('images', file);
-      });
+      Array.from(galleryFiles).forEach(file => formData.append('images', file));
     }
 
     try {
-      await concertAPI.create(formData);
-      toast.success('Tạo concert thành công');
-      setIsCreating(false);
-      setName(''); setVenue(''); setEventDate(''); setSaleStartDate(''); setSaleEndDate(''); setDescription(''); setBannerFile(null); setGalleryFiles(null);
+      if (editingConcert) {
+        await concertAPI.update(editingConcert._id, formData);
+        toast.success('Cập nhật concert thành công');
+      } else {
+        await concertAPI.create(formData);
+        toast.success('Tạo concert thành công');
+      }
+      setIsModalOpen(false);
       fetchConcerts();
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Lỗi tạo concert');
+      toast.error(err.response?.data?.message || 'Có lỗi xảy ra');
     }
   };
 
@@ -94,31 +119,34 @@ export default function AdminConcerts() {
           </div>
         </div>
         <button 
-          onClick={() => setIsCreating(!isCreating)}
+          onClick={openCreateModal}
           className="btn-primary flex items-center gap-2"
         >
-          {isCreating ? 'Hủy bỏ' : <><Plus className="w-4 h-4" /> Tạo mới</>}
+          <Plus className="w-4 h-4" /> Tạo mới
         </button>
       </div>
 
-      {isCreating && (
-        <div className="glass-card p-6 mb-8 animate-fade-in-up">
-          <h2 className="text-xl font-bold text-white mb-4">Tạo Sự Kiện Mới</h2>
-          <form onSubmit={handleCreate} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Tên sự kiện</label>
-                <input required type="text" value={name} onChange={e => setName(e.target.value)} className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Địa điểm</label>
-                <input required type="text" value={venue} onChange={e => setVenue(e.target.value)} className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Thời gian diễn ra</label>
-                <input required type="datetime-local" value={eventDate} onChange={e => setEventDate(e.target.value)} className="input-field" />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button onClick={() => setIsModalOpen(false)} className="modal-close">×</button>
+            <h2 className="text-2xl font-bold text-white mb-6">
+              {editingConcert ? 'Chỉnh Sửa Sự Kiện' : 'Tạo Sự Kiện Mới'}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-white/70 mb-1">Tên sự kiện</label>
+                  <input required type="text" value={name} onChange={e => setName(e.target.value)} className="input-field" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Địa điểm</label>
+                  <input required type="text" value={venue} onChange={e => setVenue(e.target.value)} className="input-field" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Thời gian diễn ra</label>
+                  <input required type="datetime-local" value={eventDate} onChange={e => setEventDate(e.target.value)} className="input-field" />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-white/70 mb-1">Bắt đầu bán vé</label>
                   <input required type="datetime-local" value={saleStartDate} onChange={e => setSaleStartDate(e.target.value)} className="input-field" />
@@ -127,33 +155,38 @@ export default function AdminConcerts() {
                   <label className="block text-sm font-medium text-white/70 mb-1">Kết thúc bán</label>
                   <input required type="datetime-local" value={saleEndDate} onChange={e => setSaleEndDate(e.target.value)} className="input-field" />
                 </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-white/70 mb-1">Mô tả</label>
+                  <textarea rows={3} value={description} onChange={e => setDescription(e.target.value)} className="input-field" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1 text-emerald-400">Banner (Để trống nếu không đổi)</label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={e => setBannerFile(e.target.files?.[0] || null)} 
+                    className="input-field py-1.5 text-xs" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1 text-violet-400">Gallery (Để trống nếu không đổi)</label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    multiple
+                    onChange={e => setGalleryFiles(e.target.files)} 
+                    className="input-field py-1.5 text-xs" 
+                  />
+                </div>
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-white/70 mb-1">Mô tả</label>
-                <textarea rows={3} value={description} onChange={e => setDescription(e.target.value)} className="input-field" />
+              <div className="flex gap-3 mt-6">
+                <button type="submit" className="btn-primary flex-1">
+                  {editingConcert ? 'Lưu Thay Đổi' : 'Tạo Sự Kiện'}
+                </button>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-ghost">Hủy</button>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1 text-emerald-400">Banner Sự Kiện (Chọn 1 ảnh)</label>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={e => setBannerFile(e.target.files?.[0] || null)} 
-                  className="input-field py-1.5" 
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1 text-violet-400">Hình ảnh Gallery (Có thể chọn nhiều ảnh)</label>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  multiple
-                  onChange={e => setGalleryFiles(e.target.files)} 
-                  className="input-field py-1.5" 
-                />
-              </div>
-            </div>
-            <button type="submit" className="btn-primary mt-4">Lưu Sự Kiện</button>
-          </form>
+            </form>
+          </div>
         </div>
       )}
 
@@ -174,8 +207,12 @@ export default function AdminConcerts() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/5 flex-shrink-0">
-                        {concert.bannerUrl || concert.images?.[0] ? (
-                          <img src={getAssetUrl(concert.bannerUrl || concert.images?.[0])} className="w-full h-full object-cover" alt="" />
+                        {(concert.bannerUrl || (concert.images && concert.images.length > 0)) ? (
+                          <img 
+                            src={getAssetUrl(concert.bannerUrl || concert.images?.[0])} 
+                            className="w-full h-full object-cover" 
+                            alt="" 
+                          />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Music className="w-4 h-4 text-white/20" />
@@ -200,6 +237,13 @@ export default function AdminConcerts() {
                     {fmtDate(concert.eventDate)}
                   </td>
                   <td className="p-4 text-right space-x-2">
+                    <button 
+                      onClick={() => openEditModal(concert)}
+                      className="btn-ghost !p-2 !rounded-lg text-xs"
+                      title="Chỉnh sửa thông tin"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
                     <button 
                       onClick={() => toggleStatus(concert._id, concert.status)}
                       className="btn-ghost !p-2 !rounded-lg text-xs"

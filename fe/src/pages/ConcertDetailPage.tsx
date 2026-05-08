@@ -292,14 +292,17 @@ export default function ConcertDetailPage() {
 
                 <button 
                   onClick={handleBookTicket}
-                  disabled={bookingLoading}
-                  className="btn-primary w-full mt-6 py-3.5 text-lg shadow-xl shadow-violet-500/20"
+                  disabled={bookingLoading || user?.role === 'ADMIN'}
+                  className={cn(
+                    "btn-primary w-full mt-6 py-3.5 text-lg shadow-xl",
+                    user?.role === 'ADMIN' ? "opacity-50 cursor-not-allowed grayscale" : "shadow-violet-500/20"
+                  )}
                 >
                   {bookingLoading ? (
                     <span className="flex items-center justify-center gap-2">
                       <Loader2 className="w-5 h-5 animate-spin" /> Đang xử lý...
                     </span>
-                  ) : 'Đặt vé ngay'}
+                  ) : user?.role === 'ADMIN' ? 'Admin chỉ xem, không đặt vé' : 'Đặt vé ngay'}
                 </button>
               </>
             ) : (

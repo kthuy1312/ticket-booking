@@ -4,6 +4,7 @@ import {
   getConcert,
   getTicketTypes,
   createConcert,
+  updateConcert,
   updateConcertStatus,
 } from "../controller/concertController.js";
 import { protectedRoute } from "../middlewares/authMiddleware.js";
@@ -27,6 +28,18 @@ router.post(
   ]),
   createConcert,
 );
+
+router.put(
+  "/:id",
+  protectedRoute,
+  adminOnly,
+  upload.fields([
+    { name: "banner", maxCount: 1 },
+    { name: "images", maxCount: 10 },
+  ]),
+  updateConcert,
+);
+
 router.patch("/:id/status", protectedRoute, adminOnly, updateConcertStatus);
 
 export default router;

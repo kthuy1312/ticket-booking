@@ -2,6 +2,8 @@ import { Outlet, Link, useLocation } from 'react-router';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { LogOut, Ticket, Music, User as UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import ThemeToggle from './ThemeToggle';
 
 export default function MainLayout() {
   const { user, logout } = useAuthStore();
@@ -9,6 +11,7 @@ export default function MainLayout() {
 
   const handleLogout = () => {
     logout();
+    toast.success('Đăng xuất thành công!');
     window.location.href = '/login';
   };
 
@@ -26,7 +29,7 @@ export default function MainLayout() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-xl tracking-tight text-white group-hover:text-violet-200 transition-colors">
+              <span className="font-bold text-xl tracking-tight text-foreground group-hover:text-violet-400 transition-colors">
                 TixNow
               </span>
             </Link>
@@ -55,6 +58,7 @@ export default function MainLayout() {
 
             {/* Right section */}
             <div className="flex items-center gap-4">
+              <ThemeToggle />
               {user ? (
                 <div className="flex items-center gap-4">
                   {user.role === 'ADMIN' && (
@@ -62,10 +66,10 @@ export default function MainLayout() {
                       Admin Dashboard
                     </Link>
                   )}
-                  <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+                  <div className="flex items-center gap-3 pl-4 border-l border-foreground/10">
                     <div className="flex flex-col items-end">
-                      <span className="text-sm font-semibold text-white">{user.fullName}</span>
-                      <span className="text-xs text-white/50">{user.email}</span>
+                      <span className="text-sm font-semibold text-foreground">{user.fullName}</span>
+                      <span className="text-xs text-foreground/50">{user.email}</span>
                     </div>
                     <button
                       onClick={handleLogout}
@@ -97,9 +101,9 @@ export default function MainLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-white/[0.05] bg-[#0a0e1a]/80 backdrop-blur-md">
+      <footer className="mt-auto border-t border-foreground/[0.05] bg-[var(--bg-color)]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <p className="text-center text-sm text-white/40">
+          <p className="text-center text-sm text-foreground/40">
             &copy; {new Date().getFullYear()} TixNow. Đồ án thiết kế Web.
           </p>
         </div>

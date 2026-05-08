@@ -99,6 +99,56 @@ export const createConcert = async (req, res) => {
   }
 };
 
+export const updateConcert = async (req, res) => {
+  try {
+    const { name, description, venue, eventDate, saleStartDate, saleEndDate } =
+      req.body;
+
+    const concert = await Concert.findById(req.params.id);
+    if (!concert) {
+      return res.status(404).json({ message: "Concert không tồn tại" });
+    }
+
+    //xlyfiles từ multer
+    let bannerUrl = concert.bannerUrl;
+    let images = concert.images;
+
+    if (req.files) {
+      if (req.files.banner && req.files.banner[0]) {
+        bannerUrl = `/uploads/${req.files.banner[0].filename}`;
+      }
+      if (req.files.images && req.files.images.length > 0) {
+        images = req.files.images.map((f) => `/uploads/${f.filename}`);
+      }
+    }
+
+    const updated = await Concert.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: name || concert.name,
+        description:
+          description !== undefined ? description : concert.description,
+        venue: venue || concert.venue,
+        eventDate: eventDate ? new Date(eventDate) : concert.eventDate,
+        saleStartDate: saleStartDate
+          ? new Date(saleStartDate)
+          : concert.saleStartDate,
+        saleEndDate: saleEndDate ? new Date(saleEndDate) : concert.saleEndDate,
+        bannerUrl,
+        images,
+      },
+      { new: true },
+    );
+
+    return res
+      .status(200)
+      .json({ message: "Cập nhật thành công", concert: updated });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Lỗi server" });
+  }
+};
+
 export const updateConcertStatus = async (req, res) => {
   try {
     const { status } = req.body;

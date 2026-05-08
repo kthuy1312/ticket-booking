@@ -3,12 +3,13 @@ import { voucherAPI, operationAPI } from '@/services/api';
 import type { Voucher } from '@/types';
 import { fmtDate, fmtCurrency, cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { Tag, Plus, Power, Loader2, Info } from 'lucide-react';
+import { Edit2, Tag, Plus, Power, Loader2, Info, X } from 'lucide-react';
 
 export default function AdminVouchers() {
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
 
   // Form states
   const [code, setCode] = useState('');
@@ -31,24 +32,56 @@ export default function AdminVouchers() {
     fetchVouchers();
   }, []);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const formatDateForInput = (dateStr: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 16);
+  };
+
+  const openCreateModal = () => {
+    setEditingVoucher(null);
+    setCode(''); setDescription(''); setDiscountType('FIXED'); setDiscountValue(0); setMinOrderAmount(0); setMaxUsage(100); setValidFrom(''); setValidUntil('');
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (voucher: Voucher) => {
+    setEditingVoucher(voucher);
+    setCode(voucher.code);
+    setDescription(voucher.description || '');
+    setDiscountType(voucher.discountType);
+    setDiscountValue(voucher.discountValue);
+    setMinOrderAmount(voucher.minOrderAmount);
+    setMaxUsage(voucher.maxUsage);
+    setValidFrom(formatDateForInput(voucher.validFrom));
+    setValidUntil(formatDateForInput(voucher.validUntil));
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const data = {
+      code: code.toUpperCase(),
+      description,
+      discountType,
+      discountValue: Number(discountValue),
+      minOrderAmount: Number(minOrderAmount),
+      maxUsage: Number(maxUsage),
+      validFrom: new Date(validFrom).toISOString(),
+      validUntil: new Date(validUntil).toISOString(),
+    };
+
     try {
-      await voucherAPI.create({
-        code: code.toUpperCase(),
-        description,
-        discountType,
-        discountValue: Number(discountValue),
-        minOrderAmount: Number(minOrderAmount),
-        maxUsage: Number(maxUsage),
-        validFrom: new Date(validFrom).toISOString(),
-        validUntil: new Date(validUntil).toISOString(),
-      });
-      toast.success('Tạo Voucher thành công');
-      setIsCreating(false);
+      if (editingVoucher) {
+        await voucherAPI.update(editingVoucher._id, data);
+        toast.success('Cập nhật voucher thành công');
+      } else {
+        await voucherAPI.create(data);
+        toast.success('Tạo Voucher thành công');
+      }
+      setIsModalOpen(false);
       fetchVouchers();
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Lỗi tạo voucher');
+      toast.error(err.response?.data?.message || 'Có lỗi xảy ra');
     }
   };
 
@@ -85,58 +118,68 @@ export default function AdminVouchers() {
           </div>
         </div>
         <button 
-          onClick={() => setIsCreating(!isCreating)}
+          onClick={openCreateModal}
           className="btn-primary flex items-center gap-2"
         >
-          {isCreating ? 'Hủy bỏ' : <><Plus className="w-4 h-4" /> Tạo Voucher Mới</>}
+          <Plus className="w-4 h-4" /> Tạo Voucher Mới
         </button>
       </div>
 
-      {isCreating && (
-        <div className="glass-card p-6 mb-8 animate-fade-in-up border-l-4 border-l-violet-500">
-          <h2 className="text-xl font-bold text-white mb-4">Tạo Voucher Mới</h2>
-          <form onSubmit={handleCreate} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Mã Voucher (Code)</label>
-                <input required type="text" value={code} onChange={e => setCode(e.target.value.toUpperCase())} className="input-field uppercase font-mono" placeholder="VD: FLASHSALE50" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Loại giảm giá</label>
-                <select value={discountType} onChange={e => setDiscountType(e.target.value as any)} className="input-field appearance-none bg-black/20">
-                  <option value="FIXED" className="bg-slate-900">Cố định (VNĐ)</option>
-                  <option value="PERCENT" className="bg-slate-900">Phần trăm (%)</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Mức giảm giá</label>
-                <input required type="number" min="1" value={discountValue} onChange={e => setDiscountValue(Number(e.target.value))} className="input-field" placeholder={discountType === 'FIXED' ? 'VD: 50000' : 'VD: 10'} />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Giá trị đơn tối thiểu (VNĐ)</label>
-                <input required type="number" min="0" value={minOrderAmount} onChange={e => setMinOrderAmount(Number(e.target.value))} className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1">Số lượt dùng tối đa</label>
-                <input required type="number" min="1" value={maxUsage} onChange={e => setMaxUsage(Number(e.target.value))} className="input-field" />
-              </div>
-              <div className="md:col-span-2 grid grid-cols-2 gap-2 border-t border-white/10 pt-4 mt-2">
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button onClick={() => setIsModalOpen(false)} className="modal-close">×</button>
+            <h2 className="text-2xl font-bold text-white mb-6">
+              {editingVoucher ? 'Chỉnh Sửa Voucher' : 'Tạo Voucher Mới'}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Hiệu lực từ</label>
-                  <input required type="datetime-local" value={validFrom} onChange={e => setValidFrom(e.target.value)} className="input-field" />
+                  <label className="block text-sm font-medium text-white/70 mb-1">Mã Voucher</label>
+                  <input required type="text" value={code} onChange={e => setCode(e.target.value.toUpperCase())} className="input-field uppercase font-mono" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Đến hết</label>
-                  <input required type="datetime-local" value={validUntil} onChange={e => setValidUntil(e.target.value)} className="input-field" />
+                  <label className="block text-sm font-medium text-white/70 mb-1">Loại giảm giá</label>
+                  <select value={discountType} onChange={e => setDiscountType(e.target.value as any)} className="input-field appearance-none bg-black/20">
+                    <option value="FIXED">Cố định (VNĐ)</option>
+                    <option value="PERCENT">Phần trăm (%)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Mức giảm giá</label>
+                  <input required type="number" value={discountValue} onChange={e => setDiscountValue(Number(e.target.value))} className="input-field" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Đơn tối thiểu (VNĐ)</label>
+                  <input required type="number" value={minOrderAmount} onChange={e => setMinOrderAmount(Number(e.target.value))} className="input-field" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Số lượt dùng tối đa</label>
+                  <input required type="number" value={maxUsage} onChange={e => setMaxUsage(Number(e.target.value))} className="input-field" />
+                </div>
+                <div className="md:col-span-2 grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Hiệu lực từ</label>
+                    <input required type="datetime-local" value={validFrom} onChange={e => setValidFrom(e.target.value)} className="input-field" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-white/70 mb-1">Đến hết</label>
+                    <input required type="datetime-local" value={validUntil} onChange={e => setValidUntil(e.target.value)} className="input-field" />
+                  </div>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-white/70 mb-1">Mô tả</label>
+                  <input type="text" value={description} onChange={e => setDescription(e.target.value)} className="input-field" />
                 </div>
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-white/70 mb-1">Mô tả (Tùy chọn)</label>
-                <input type="text" value={description} onChange={e => setDescription(e.target.value)} className="input-field" />
+              <div className="flex gap-3 mt-6">
+                <button type="submit" className="btn-primary flex-1">
+                  {editingVoucher ? 'Lưu Thay Đổi' : 'Phát Hành Voucher'}
+                </button>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-ghost">Hủy</button>
               </div>
-            </div>
-            <button type="submit" className="btn-primary mt-4">Phát Hành Voucher</button>
-          </form>
+            </form>
+          </div>
         </div>
       )}
 
@@ -148,7 +191,6 @@ export default function AdminVouchers() {
 
           return (
             <div key={v._id} className={`glass-card relative overflow-hidden transition-all duration-300 ${!isAvailable ? 'opacity-70 grayscale' : 'hover:scale-[1.02]'}`}>
-              {/* Status Ribbon */}
               <div className={`absolute top-4 right-4 px-2 py-1 rounded text-xs font-bold ${
                 !v.isActive ? 'bg-red-500/20 text-red-400' :
                 isExpired ? 'bg-gray-500/20 text-gray-400' :
@@ -173,7 +215,6 @@ export default function AdminVouchers() {
                   <p>HSD: <span className="text-white">{fmtDate(v.validUntil)}</span></p>
                 </div>
 
-                {/* Progress Bar for Usage */}
                 <div className="space-y-1 mb-6">
                   <div className="flex justify-between text-xs text-white/50">
                     <span>Đã dùng: {v.currentUsage}</span>
@@ -187,18 +228,26 @@ export default function AdminVouchers() {
                   </div>
                 </div>
 
-                <button 
-                  onClick={() => handleToggleStatus(v._id, v.isActive)}
-                  className={cn(
-                    "w-full py-2 flex items-center justify-center gap-2 rounded-lg transition-colors text-sm font-semibold",
-                    v.isActive 
-                      ? "bg-red-500/10 text-red-400 hover:bg-red-500/20" 
-                      : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
-                  )}
-                >
-                  <Power className="w-4 h-4" />
-                  {v.isActive ? 'Vô hiệu hóa' : 'Kích hoạt'}
-                </button>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => handleToggleStatus(v._id, v.isActive)}
+                    className={cn(
+                      "flex-1 py-2 flex items-center justify-center gap-2 rounded-lg transition-colors text-sm font-semibold",
+                      v.isActive 
+                        ? "bg-red-500/10 text-red-400 hover:bg-red-500/20" 
+                        : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                    )}
+                  >
+                    <Power className="w-4 h-4" />
+                    {v.isActive ? 'Tắt' : 'Bật'}
+                  </button>
+                  <button 
+                    onClick={() => openEditModal(v)}
+                    className="p-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white rounded-lg transition-colors"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           );

@@ -138,6 +138,55 @@ export const createVoucher = async (req, res) => {
   }
 };
 
+export const updateVoucher = async (req, res) => {
+  try {
+    const {
+      code,
+      description,
+      discountType,
+      discountValue,
+      maxUsage,
+      minOrderAmount,
+      validFrom,
+      validUntil,
+      isActive,
+    } = req.body;
+
+    const voucher = await Voucher.findById(req.params.id);
+    if (!voucher) {
+      return res.status(404).json({ message: "Voucher không tồn tại" });
+    }
+
+    if (discountType && !["PERCENT", "FIXED"].includes(discountType)) {
+      return res.status(400).json({ message: "discountType phải là PERCENT hoặc FIXED" });
+    }
+
+    const updated = await Voucher.findByIdAndUpdate(
+      req.params.id,
+      {
+        code: code ? code.toUpperCase().trim() : voucher.code,
+        description: description !== undefined ? description : voucher.description,
+        discountType: discountType || voucher.discountType,
+        discountValue: discountValue != null ? discountValue : voucher.discountValue,
+        maxUsage: maxUsage != null ? maxUsage : voucher.maxUsage,
+        minOrderAmount: minOrderAmount != null ? minOrderAmount : voucher.minOrderAmount,
+        validFrom: validFrom ? new Date(validFrom) : voucher.validFrom,
+        validUntil: validUntil ? new Date(validUntil) : voucher.validUntil,
+        isActive: isActive !== undefined ? isActive : voucher.isActive,
+      },
+      { new: true },
+    );
+
+    return res.status(200).json({ message: "Cập nhật voucher thành công", voucher: updated });
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(409).json({ message: "Mã voucher đã tồn tại" });
+    }
+    console.error(err);
+    return res.status(500).json({ message: "Lỗi server" });
+  }
+};
+
 export const listVouchers = async (req, res) => {
   try {
     const { isActive } = req.query;

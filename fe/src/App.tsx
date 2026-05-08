@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useThemeStore } from '@/stores/useThemeStore';
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
 
@@ -32,10 +33,17 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
 
 function App() {
   const { fetchMe, token } = useAuthStore();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (token) fetchMe();
   }, [token, fetchMe]);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+  }, [theme]);
 
   return (
     <>

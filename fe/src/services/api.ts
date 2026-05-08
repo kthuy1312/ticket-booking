@@ -16,6 +16,7 @@ export const concertAPI = {
   get: (id: string) => api.get(`/concerts/${id}`).then(r => r.data.concert as Concert),
   ticketTypes: (id: string) => api.get(`/concerts/${id}/ticket-types`).then(r => r.data.ticketTypes as TicketType[]),
   create: (data: object) => api.post('/concerts', data).then(r => r.data),
+  update: (id: string, data: FormData | object) => api.put(`/concerts/${id}`, data).then(r => r.data),
   updateStatus: (id: string, status: string) =>
     api.patch(`/concerts/${id}/status`, { status }).then(r => r.data),
 };
@@ -44,6 +45,7 @@ export const voucherAPI = {
   validate: (code: string, amount: number) =>
     api.get('/vouchers/validate', { params: { code, amount } }).then(r => r.data),
   create: (data: object) => api.post('/vouchers', data).then(r => r.data),
+  update: (id: string, data: object) => api.put(`/vouchers/${id}`, data).then(r => r.data),
   list: (params?: { isActive?: boolean }) =>
     api.get('/vouchers', { params }).then(r => r.data.vouchers as Voucher[]),
   toggleStatus: (id: string) => api.patch(`/vouchers/${id}/toggle-status`).then(r => r.data),

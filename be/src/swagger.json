@@ -170,10 +170,10 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["name","venue","eventDate","saleStartDate","saleEndDate"],
+                "required": ["name", "venue", "eventDate", "saleStartDate", "saleEndDate"],
                 "properties": {
                   "name": { "type": "string", "example": "BLACKPINK World Tour 2026" },
                   "description": { "type": "string" },
@@ -181,8 +181,8 @@
                   "eventDate": { "type": "string", "format": "date-time" },
                   "saleStartDate": { "type": "string", "format": "date-time" },
                   "saleEndDate": { "type": "string", "format": "date-time" },
-                  "bannerUrl": { "type": "string" },
-                  "images": { "type": "array", "items": { "type": "string" } }
+                  "banner": { "type": "string", "format": "binary", "description": "Ảnh banner chính" },
+                  "images": { "type": "array", "items": { "type": "string", "format": "binary" }, "description": "Nhiều ảnh gallery" }
                 }
               }
             }
@@ -201,6 +201,36 @@
         "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
         "responses": {
           "200": { "description": "Chi tiết concert" },
+          "404": { "description": "Không tìm thấy" }
+        }
+      },
+      "put": {
+        "tags": ["Concerts"],
+        "summary": "[ADMIN] Chỉnh sửa concert",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "venue": { "type": "string" },
+                  "eventDate": { "type": "string", "format": "date-time" },
+                  "saleStartDate": { "type": "string", "format": "date-time" },
+                  "saleEndDate": { "type": "string", "format": "date-time" },
+                  "banner": { "type": "string", "format": "binary" },
+                  "images": { "type": "array", "items": { "type": "string", "format": "binary" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cập nhật thành công" },
           "404": { "description": "Không tìm thấy" }
         }
       }
@@ -372,6 +402,39 @@
           { "in": "query", "name": "isActive", "schema": { "type": "boolean" } }
         ],
         "responses": { "200": { "description": "Danh sách voucher" } }
+      }
+    },
+    "/api/vouchers/{id}": {
+      "put": {
+        "tags": ["Vouchers"],
+        "summary": "[ADMIN] Chỉnh sửa voucher",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "description": { "type": "string" },
+                  "discountType": { "type": "string", "enum": ["PERCENT","FIXED"] },
+                  "discountValue": { "type": "number" },
+                  "maxUsage": { "type": "integer" },
+                  "minOrderAmount": { "type": "number" },
+                  "validFrom": { "type": "string", "format": "date-time" },
+                  "validUntil": { "type": "string", "format": "date-time" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cập nhật thành công" },
+          "404": { "description": "Không tìm thấy" }
+        }
       }
     },
     "/api/vouchers/{id}/toggle-status": {

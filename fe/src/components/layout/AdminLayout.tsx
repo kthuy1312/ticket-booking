@@ -34,11 +34,13 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-72 glass-card rounded-none border-y-0 border-l-0 flex flex-col h-screen sticky top-0">
         <div className="h-20 flex items-center px-6 border-b border-foreground/[0.05]">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mr-3">
-            <Ticket className="w-4 h-4 text-white" />
-          </div>
+          <img 
+            src="/Melotix-logo.png" 
+            alt="Melotix Logo" 
+            className="w-10 h-10 rounded-lg object-cover mr-3"
+          />
           <span className="font-bold text-xl text-foreground tracking-wide">
-            Admin Portal
+            Melotix Admin
           </span>
         </div>
 

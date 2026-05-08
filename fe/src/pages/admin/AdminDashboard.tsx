@@ -39,7 +39,7 @@ export default function AdminDashboard() {
         </div>
         <div>
           <h1 className="text-3xl font-bold text-white">Tổng Quan</h1>
-          <p className="text-white/50 text-sm mt-1">Theo dõi hoạt động của hệ thống TixNow</p>
+          <p className="text-white/50 text-sm mt-1">Theo dõi hoạt động của hệ thống Melotix</p>
         </div>
       </div>
 

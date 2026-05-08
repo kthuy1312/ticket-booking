@@ -25,12 +25,14 @@ export default function MainLayout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Music className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-foreground group-hover:text-violet-400 transition-colors">
-                TixNow
+            <Link to="/" className="flex items-center gap-3 group">
+              <img 
+                src="/Melotix-logo.png" 
+                alt="Melotix Logo" 
+                className="w-10 h-10 rounded-xl object-cover group-hover:scale-105 transition-transform"
+              />
+              <span className="font-bold text-2xl tracking-tight text-foreground group-hover:text-violet-400 transition-colors">
+                Melotix
               </span>
             </Link>
 
@@ -104,7 +106,7 @@ export default function MainLayout() {
       <footer className="mt-auto border-t border-foreground/[0.05] bg-[var(--bg-color)]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-center text-sm text-foreground/40">
-            &copy; {new Date().getFullYear()} TixNow. Đồ án thiết kế Web.
+            &copy; {new Date().getFullYear()} Melotix. Đồ án thiết kế Web.
           </p>
         </div>
       </footer>

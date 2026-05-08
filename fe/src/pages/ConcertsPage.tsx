@@ -32,7 +32,7 @@ export default function ConcertsPage() {
             Săn Vé Sự Kiện Đỉnh Cao
           </h1>
           <p className="text-lg text-white/70">
-            Khám phá những concert hot nhất và đặt vé ngay hôm nay. Trải nghiệm âm nhạc không giới hạn cùng TixNow.
+            Khám phá những concert hot nhất và đặt vé ngay hôm nay. Trải nghiệm âm nhạc không giới hạn cùng Melotix.
           </p>
           
           <div className="relative mt-8 max-w-md mx-auto">

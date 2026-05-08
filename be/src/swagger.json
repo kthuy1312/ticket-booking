@@ -3,7 +3,7 @@
   "info": {
     "title": "Concert Ticket Booking API",
     "version": "1.0.0",
-    "description": "Backend API cho nền tảng đặt vé concert — bao gồm luồng customer và operation dashboard."
+    "description": "Backend API cho nền tảng đặt vé concert Melotix — bao gồm luồng customer và operation dashboard."
   },
   "servers": [{ "url": "http://localhost:8080", "description": "Local" }],
   "components": {

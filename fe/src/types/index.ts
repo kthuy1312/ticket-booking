@@ -19,6 +19,7 @@ export interface Concert {
   saleEndDate: string;
   status: 'DRAFT' | 'ACTIVE' | 'ENDED' | 'CANCELLED';
   bannerUrl?: string;
+  seatMapImage?: string;
   images?: string[];
   createdBy?: string | { _id: string; fullName: string; email: string };
   createdAt?: string;
@@ -33,6 +34,7 @@ export interface TicketType {
   totalQuantity: number;
   availableQuantity: number;
   maxPerBooking: number;
+  sortOrder?: number;
 }
 
 export interface Booking {

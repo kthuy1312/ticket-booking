@@ -41,6 +41,10 @@ const ticketTypeSchema = new mongoose.Schema(
       type: Number,
       default: 5,
     },
+    sortOrder: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

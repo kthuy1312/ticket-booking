@@ -182,7 +182,7 @@ export const getAllConcerts = async (req, res) => {
 
 export const createTicketType = async (req, res) => {
   try {
-    const { name, description, price, totalQuantity, maxPerBooking } = req.body;
+    const { name, description, price, totalQuantity, maxPerBooking, sortOrder } = req.body;
     const concertId = req.params.id;
 
     if (!name || price == null || !totalQuantity) {
@@ -204,6 +204,7 @@ export const createTicketType = async (req, res) => {
       totalQuantity,
       availableQuantity: totalQuantity,
       maxPerBooking: maxPerBooking || 5,
+      sortOrder: sortOrder || 0,
     });
 
     return res
@@ -215,6 +216,36 @@ export const createTicketType = async (req, res) => {
         .status(409)
         .json({ message: "Tên loại vé đã tồn tại trong concert này" });
     }
+    console.error(err);
+    return res.status(500).json({ message: "Lỗi server" });
+  }
+};
+
+export const updateTicketType = async (req, res) => {
+  try {
+    const { name, description, price, totalQuantity, maxPerBooking, sortOrder } = req.body;
+    const id = req.params.id;
+
+    const ticketType = await TicketType.findById(id);
+    if (!ticketType) {
+      return res.status(404).json({ message: "Loại vé không tồn tại" });
+    }
+
+    const updated = await TicketType.findByIdAndUpdate(
+      id,
+      {
+        name: name !== undefined ? name.trim() : ticketType.name,
+        description: description !== undefined ? description.trim() : ticketType.description,
+        price: price !== undefined ? price : ticketType.price,
+        totalQuantity: totalQuantity !== undefined ? totalQuantity : ticketType.totalQuantity,
+        maxPerBooking: maxPerBooking !== undefined ? maxPerBooking : ticketType.maxPerBooking,
+        sortOrder: sortOrder !== undefined ? sortOrder : ticketType.sortOrder,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({ message: "Cập nhật loại vé thành công", ticketType: updated });
+  } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Lỗi server" });
   }

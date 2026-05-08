@@ -38,7 +38,9 @@ export const getTicketTypes = async (req, res) => {
 
     const ticketTypes = await TicketType.find({
       concertId: req.params.id,
-    }).select("-__v");
+    })
+      .sort({ sortOrder: 1, price: 1 })
+      .select("-__v");
 
     return res.status(200).json({ ticketTypes });
   } catch (err) {
@@ -55,11 +57,15 @@ export const createConcert = async (req, res) => {
 
     // Xử lý files từ multer
     let bannerUrl = "";
+    let seatMapImage = "";
     let images = [];
 
     if (req.files) {
       if (req.files.banner && req.files.banner[0]) {
         bannerUrl = `/uploads/${req.files.banner[0].filename}`;
+      }
+      if (req.files.seatMap && req.files.seatMap[0]) {
+        seatMapImage = `/uploads/${req.files.seatMap[0].filename}`;
       }
       if (req.files.images) {
         images = req.files.images.map((f) => `/uploads/${f.filename}`);
@@ -87,6 +93,7 @@ export const createConcert = async (req, res) => {
       saleStartDate: new Date(saleStartDate),
       saleEndDate: new Date(saleEndDate),
       bannerUrl,
+      seatMapImage,
       images,
       status: "DRAFT",
       createdBy: req.user._id,
@@ -111,11 +118,15 @@ export const updateConcert = async (req, res) => {
 
     //xlyfiles từ multer
     let bannerUrl = concert.bannerUrl;
+    let seatMapImage = concert.seatMapImage;
     let images = concert.images;
 
     if (req.files) {
       if (req.files.banner && req.files.banner[0]) {
         bannerUrl = `/uploads/${req.files.banner[0].filename}`;
+      }
+      if (req.files.seatMap && req.files.seatMap[0]) {
+        seatMapImage = `/uploads/${req.files.seatMap[0].filename}`;
       }
       if (req.files.images && req.files.images.length > 0) {
         images = req.files.images.map((f) => `/uploads/${f.filename}`);
@@ -135,6 +146,7 @@ export const updateConcert = async (req, res) => {
           : concert.saleStartDate,
         saleEndDate: saleEndDate ? new Date(saleEndDate) : concert.saleEndDate,
         bannerUrl,
+        seatMapImage,
         images,
       },
       { new: true },

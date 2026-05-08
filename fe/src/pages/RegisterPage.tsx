@@ -53,17 +53,17 @@ export default function RegisterPage() {
               alt="Melotix Logo"
               className="w-28 h-22 object-cover mb-4"
             />
-            <h1 className="text-2xl font-bold text-white tracking-wide">
+            <h1 className="text-2xl font-bold text-foreground tracking-wide">
               Tạo tài khoản mới
             </h1>
-            <p className="text-white/50 text-sm mt-2">
+            <p className="text-foreground/50 text-sm mt-2">
               Tham gia cùng Melotix ngay hôm nay
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-1.5">
+              <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                 Họ và tên
               </label>
               <input
@@ -78,7 +78,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-1.5">
+              <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                 Email
               </label>
               <input
@@ -93,7 +93,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-1.5">
+              <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                 Số điện thoại
               </label>
               <input
@@ -108,7 +108,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">
+                <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                   Mật khẩu
                 </label>
                 <input
@@ -122,7 +122,7 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">
+                <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                   Nhập lại
                 </label>
                 <input
@@ -152,7 +152,7 @@ export default function RegisterPage() {
           </form>
 
           <div className="mt-8 pt-6 border-t border-white/[0.05] text-center">
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-foreground/50">
               Đã có tài khoản?{" "}
               <Link
                 to="/login"

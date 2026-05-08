@@ -35,17 +35,17 @@ export default function LoginPage() {
               alt="Melotix Logo"
               className="w-28 h-22 object-cover mb-4"
             />
-            <h1 className="text-2xl font-bold text-white tracking-wide">
+            <h1 className="text-2xl font-bold text-foreground tracking-wide">
               Chào mừng trở lại
             </h1>
-            <p className="text-white/50 text-sm mt-2">
+            <p className="text-foreground/50 text-sm mt-2">
               Đăng nhập để tiếp tục đến Melotix
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">
+              <label className="block text-sm font-medium text-foreground/70 mb-2">
                 Email
               </label>
               <input
@@ -59,7 +59,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">
+              <label className="block text-sm font-medium text-foreground/70 mb-2">
                 Mật khẩu
               </label>
               <input
@@ -87,7 +87,7 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-8 pt-6 border-t border-white/[0.05] text-center">
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-foreground/50">
               Chưa có tài khoản?{" "}
               <Link
                 to="/register"

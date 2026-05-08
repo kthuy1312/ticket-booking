@@ -45,6 +45,10 @@ const concertSchema = new mongoose.Schema(
       trim: true,
     },
 
+    seatMapImage: {
+      type: String,
+    },
+
     images: [
       {
         type: String,

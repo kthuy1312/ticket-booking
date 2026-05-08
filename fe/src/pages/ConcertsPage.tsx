@@ -28,16 +28,16 @@ export default function ConcertsPage() {
       <div className="relative rounded-3xl overflow-hidden glass-card p-10 flex flex-col items-center justify-center text-center min-h-[300px]">
         <div className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-indigo-600/20" />
         <div className="relative z-10 space-y-4 max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white shimmer-text">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground shimmer-text">
             Săn Vé Sự Kiện Đỉnh Cao
           </h1>
-          <p className="text-lg text-white/70">
+          <p className="text-lg text-foreground/70">
             Khám phá những concert hot nhất và đặt vé ngay hôm nay. Trải nghiệm âm nhạc không giới hạn cùng Melotix.
           </p>
           
           <div className="relative mt-8 max-w-md mx-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-white/40" />
+              <Search className="h-5 w-5 text-foreground/40" />
             </div>
             <input
               type="text"
@@ -53,23 +53,23 @@ export default function ConcertsPage() {
       {/* Main List */}
       <div>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            Sự kiện Đang mở bán <span className="text-sm font-normal text-white/50">({filteredConcerts.length})</span>
+          <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            Sự kiện Đang mở bán <span className="text-sm font-normal text-foreground/50">({filteredConcerts.length})</span>
           </h2>
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 animate-spin text-violet-500 mb-4" />
-            <p className="text-white/50">Đang tải danh sách sự kiện...</p>
+            <p className="text-foreground/50">Đang tải danh sách sự kiện...</p>
           </div>
         ) : filteredConcerts.length === 0 ? (
           <div className="glass-card py-20 flex flex-col items-center text-center">
             <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
-              <Music className="w-8 h-8 text-white/20" />
+              <Music className="w-8 h-8 text-foreground/20" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">Không tìm thấy sự kiện nào</h3>
-            <p className="text-white/50">Vui lòng thử lại với từ khóa khác.</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Không tìm thấy sự kiện nào</h3>
+            <p className="text-foreground/50">Vui lòng thử lại với từ khóa khác.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -85,25 +85,25 @@ export default function ConcertsPage() {
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <Music className="w-12 h-12 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                        <Music className="w-12 h-12 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     )}
-                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-xs font-semibold text-white">
+                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-xs font-semibold text-foreground">
                       Đang mở bán
                     </div>
                   </div>
                   
                   <div className="p-6 flex-1 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-violet-400 transition-colors">
+                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-violet-400 transition-colors">
                       {concert.name}
                     </h3>
                     
                     <div className="space-y-2 mt-auto">
-                      <div className="flex items-center gap-2 text-white/60 text-sm">
+                      <div className="flex items-center gap-2 text-foreground/60 text-sm">
                         <Calendar className="w-4 h-4 text-violet-400" />
                         <span>{fmtDate(concert.eventDate)}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-white/60 text-sm">
+                      <div className="flex items-center gap-2 text-foreground/60 text-sm">
                         <MapPin className="w-4 h-4 text-indigo-400" />
                         <span className="line-clamp-1">{concert.venue}</span>
                       </div>

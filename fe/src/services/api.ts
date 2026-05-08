@@ -70,6 +70,9 @@ export const operationAPI = {
   createTicketType: (concertId: string, data: object) =>
     api.post(`/operation/concerts/${concertId}/ticket-types`, data).then(r => r.data),
 
+  updateTicketType: (id: string, data: object) =>
+    api.put(`/operation/ticket-types/${id}`, data).then(r => r.data),
+
   ticketAvailability: (ticketTypeId: string) =>
     api.get(`/operation/ticket-types/${ticketTypeId}/availability`).then(r => r.data.ticketType),
 

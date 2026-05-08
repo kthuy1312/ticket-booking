@@ -25,7 +25,7 @@ export default function AdminLayout() {
   const navItems = [
     { name: "Tổng quan", path: "/admin", icon: LayoutDashboard },
     { name: "Quản lý Concert", path: "/admin/concerts", icon: Music },
-    { name: "Quản lý Đơn hàng", path: "/admin/bookings", icon: Ticket },
+    { name: "Quản lý Đặt vé", path: "/admin/bookings", icon: Ticket },
     { name: "Mã Giảm giá", path: "/admin/vouchers", icon: Tag },
   ];
 
@@ -34,10 +34,10 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-72 glass-card rounded-none border-y-0 border-l-0 flex flex-col h-screen sticky top-0">
         <div className="h-20 flex items-center px-6 border-b border-foreground/[0.05]">
-          <img 
-            src="/Melotix-logo.png" 
-            alt="Melotix Logo" 
-            className="w-10 h-10 rounded-lg object-cover mr-3"
+          <img
+            src="/logo.png"
+            alt="Melotix Logo"
+            className="w-12 h-12 rounded-lg object-contain mr-3"
           />
           <span className="font-bold text-xl text-foreground tracking-wide">
             Melotix Admin
@@ -104,7 +104,7 @@ export default function AdminLayout() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-y-auto beautiful-scrollbar">
-        <div className="p-8 animate-fade-in-up">
+        <div className="p-8">
           <Outlet />
         </div>
       </main>

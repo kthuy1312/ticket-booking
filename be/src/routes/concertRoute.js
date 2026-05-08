@@ -24,6 +24,7 @@ router.post(
   adminOnly,
   upload.fields([
     { name: "banner", maxCount: 1 },
+    { name: "seatMap", maxCount: 1 },
     { name: "images", maxCount: 10 },
   ]),
   createConcert,
@@ -35,6 +36,7 @@ router.put(
   adminOnly,
   upload.fields([
     { name: "banner", maxCount: 1 },
+    { name: "seatMap", maxCount: 1 },
     { name: "images", maxCount: 10 },
   ]),
   updateConcert,

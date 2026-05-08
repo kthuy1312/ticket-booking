@@ -5,6 +5,7 @@ import {
   updateBookingStatus,
   getAllConcerts,
   createTicketType,
+  updateTicketType,
   getTicketAvailability,
   getVoucherStats,
   getDashboardStats,
@@ -28,6 +29,7 @@ router.post("/concerts/:id/ticket-types", createTicketType);
 
 //ticket types
 router.get("/ticket-types/:id/availability", getTicketAvailability);
+router.put("/ticket-types/:id", updateTicketType);
 
 //vouchers
 router.get("/vouchers", getVoucherStats);

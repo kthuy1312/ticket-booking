@@ -84,8 +84,8 @@ export default function MyBookingsPage() {
           <Ticket className="w-6 h-6 text-violet-400" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-white">Vé của tôi</h1>
-          <p className="text-white/50 text-sm mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Vé của tôi</h1>
+          <p className="text-foreground/50 text-sm mt-1">
             Quản lý các vé sự kiện bạn đã đặt
           </p>
         </div>
@@ -94,12 +94,12 @@ export default function MyBookingsPage() {
       {bookings.length === 0 ? (
         <div className="glass-card py-20 flex flex-col items-center text-center">
           <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
-            <Ticket className="w-10 h-10 text-white/20" />
+            <Ticket className="w-10 h-10 text-foreground/20" />
           </div>
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h3 className="text-xl font-semibold text-foreground mb-2">
             Bạn chưa có đơn đặt vé nào
           </h3>
-          <p className="text-white/50 mb-6">
+          <p className="text-foreground/50 mb-6">
             Hãy khám phá các sự kiện đang diễn ra và chọn cho mình một chỗ ngồi
             nhé.
           </p>
@@ -130,14 +130,14 @@ export default function MyBookingsPage() {
                         <span className={STATUS_CLASS[booking.status]}>
                           {STATUS_LABELS[booking.status]}
                         </span>
-                        <span className="text-xs text-white/30 font-mono">
+                        <span className="text-xs text-foreground/30 font-mono">
                           #{booking._id.slice(-6).toUpperCase()}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-white line-clamp-1">
+                      <h3 className="text-xl font-bold text-foreground line-clamp-1">
                         {concert?.name || "Unknown Concert"}
                       </h3>
-                      <p className="text-sm text-white/60 mt-1 flex items-center gap-2">
+                      <p className="text-sm text-foreground/60 mt-1 flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
                         {concert ? fmtDate(concert.eventDate) : ""}
                       </p>
@@ -146,19 +146,19 @@ export default function MyBookingsPage() {
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
                     <div>
-                      <p className="text-xs text-white/40 mb-1">Loại vé</p>
-                      <p className="font-semibold text-white">
+                      <p className="text-xs text-foreground/40 mb-1">Loại vé</p>
+                      <p className="font-semibold text-foreground">
                         {ticket?.name || "-"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 mb-1">Số lượng</p>
-                      <p className="font-semibold text-white">
+                      <p className="text-xs text-foreground/40 mb-1">Số lượng</p>
+                      <p className="font-semibold text-foreground">
                         {booking.quantity} vé
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 mb-1">Mã Voucher</p>
+                      <p className="text-xs text-foreground/40 mb-1">Mã Voucher</p>
                       <p className="font-semibold text-emerald-400">
                         {typeof booking.voucherId === "object" &&
                         booking.voucherId
@@ -167,7 +167,7 @@ export default function MyBookingsPage() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 mb-1">Tổng tiền</p>
+                      <p className="text-xs text-foreground/40 mb-1">Tổng tiền</p>
                       <p className="font-bold text-violet-400">
                         {fmtCurrency(booking.totalAmount)}
                       </p>
@@ -214,14 +214,14 @@ export default function MyBookingsPage() {
                         </div>
                       ) : (
                         <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
-                          <XCircle className="w-8 h-8 text-white/20" />
+                          <XCircle className="w-8 h-8 text-foreground/20" />
                         </div>
                       )}
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-foreground">
                         {STATUS_LABELS[booking.status]}
                       </p>
                       {booking.status === "CONFIRMED" && (
-                        <p className="text-xs text-white/40 mt-1">
+                        <p className="text-xs text-foreground/40 mt-1">
                           Sẵn sàng sử dụng
                         </p>
                       )}

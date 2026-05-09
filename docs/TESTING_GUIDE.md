@@ -45,7 +45,36 @@ npm run test:run
 
 ---
 
-## 3. Lưu ý khi viết Test
-1. **Cô lập dữ liệu**: Luôn sử dụng DB ảo hoặc mock API để không làm ảnh hưởng đến dữ liệu thật.
-2. **Idempotency**: Đối với các chức năng đặt vé, hãy kiểm tra kỹ tính năng tránh đặt trùng (Idempotency Key).
-3. **Edge Cases**: Đừng chỉ test trường hợp đúng (Happy Path), hãy test cả các trường hợp lỗi (sai mật khẩu, hết vé, voucher hết hạn...).
+## 3. Giả lập tải (Load Test Simulation)
+
+Đây là bài test quan trọng nhất để kiểm tra khả năng chịu tải của hệ thống trong kịch bản **Flash Sale**. Chúng tôi sử dụng một script tùy chỉnh để giả lập hàng trăm người dùng thực hiện đặt vé cùng một lúc.
+
+### Mục tiêu bài test
+- Giả lập **100 người dùng** khác nhau.
+- Tổng cộng **500 yêu cầu đặt vé** được gửi đi trong **1 phút**.
+- Kiểm tra tính công bằng (Rate Limiting) và chống bán quá số lượng (Overselling).
+
+### Cách thực thi
+1. Đảm bảo Backend đang chạy (`npm run dev`).
+2. Chạy lệnh sau:
+```bash
+cd be
+node scratch/load_test.js
+```
+
+### Cách đọc kết quả
+Sau khi script chạy xong (khoảng 60 giây), hãy kiểm tra phần cuối cùng của output:
+- **Thành công:** Số vé đã đặt thành công (thường là 125 vé do dính Rate Limit 5 vé/người).
+- **Thất bại:** Số yêu cầu bị từ chối bởi hệ thống (đây là cơ chế bảo vệ an toàn).
+- **Chênh lệch khớp:** Phải hiển thị **✅ KHỚP TUYỆT ĐỐI**. Điều này xác nhận rằng số vé bị trừ trong database hoàn toàn khớp với số đơn hàng thành công, không có sai lệch dữ liệu.
+
+---
+
+## 4. Reset dữ liệu sau khi test
+
+Do các bài test (đặc biệt là Load Test) sẽ tạo ra nhiều dữ liệu rác trong database, bạn nên reset lại database về trạng thái sạch ban đầu bằng lệnh:
+
+```bash
+cd be
+npm run seed
+```

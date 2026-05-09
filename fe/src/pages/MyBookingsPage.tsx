@@ -146,7 +146,7 @@ export default function MyBookingsPage() {
 
       {bookings.length === 0 ? (
         <div className="glass-card py-24 flex flex-col items-center text-center relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-b from-violet-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-b from-violet-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
             <div className="absolute inset-0 rounded-full bg-violet-500/20 animate-ping opacity-20" />
             <Ticket className="w-12 h-12 text-foreground/10" />

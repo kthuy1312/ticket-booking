@@ -46,8 +46,8 @@ export default function RegisterPage() {
       <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px]" />
 
       <div className="w-full max-w-md animate-fade-in-up z-10">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground mb-4 px-2 transition-colors group"
         >
           <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -111,7 +111,7 @@ export default function RegisterPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 className="input-field"
-                placeholder="09xx xxx xxx"
+                placeholder="09xxxxxxxx"
               />
             </div>
 

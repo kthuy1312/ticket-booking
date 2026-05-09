@@ -62,6 +62,20 @@
               ]
             }
           },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set(\"token\", jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "response": []
         },
         {
@@ -72,7 +86,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -168,7 +182,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -205,7 +219,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -243,7 +257,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -283,7 +297,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -320,7 +334,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -358,7 +372,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -395,7 +409,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -430,7 +444,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -459,7 +473,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -502,7 +516,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -538,7 +552,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -584,7 +598,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -620,7 +634,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -657,7 +671,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -702,7 +716,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -738,7 +752,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -775,7 +789,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -827,7 +841,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -855,7 +869,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -899,7 +913,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -934,7 +948,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "{{vault:authorization-secret}}",
+                      "value": "{{token}}",
                       "type": "string"
                     }
                   ]
@@ -964,7 +978,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{vault:authorization-secret}}",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -1014,7 +1028,7 @@
   "variable": [
     {
       "key": "baseURL",
-      "value": ""
+      "value": "http://localhost:8080/api"
     }
   ]
 }

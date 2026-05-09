@@ -16,7 +16,7 @@
 | 8 | **Không tích hợp payment gateway thật** — `confirm-payment` API là mock (client gọi → status thành CONFIRMED) |
 | 9 | Hệ thống chạy **single instance** (không cần distributed lock), đủ cho 300–500 req/phút với MongoDB |
 | 10 | Auto-expire booking dùng **setInterval mỗi 60 giây** thay vì Redis TTL hay cron job ngoài |
-| 11 | Không implement: email notification, WebSocket, rate limiting, file upload, payment webhook |
+| 11 | Implement: rate limiting (chặn abuse bot), Distributed Lock (Redis) |
 | 12 | Voucher chỉ hỗ trợ **tạo mới và vô hiệu hoá** — không update, không xóa (để giữ audit trail) |
 
 ---
@@ -57,18 +57,21 @@
 - ✅ Postman collection (auto-extract token & IDs)
 - ✅ README + CODING_GUIDE
 
+| Layer | Công nghệ | Chi tiết |
+|---|---|---|
+| **Rate Limit** | express-rate-limit | Chặn Spam (5 req/phút/user) |
+| **Concurrency** | Redis Lock | Chống Race Condition |
+| **Test** | Load Test Script | Giả lập 100 users/500 req |
+
 ## 3. Chưa làm / Ngoài phạm vi
 
 - ❌ Payment gateway thật (VNPay, Stripe, MoMo)
 - ❌ Email confirmation sau khi booking
 - ❌ WebSocket (real-time cập nhật tồn vé)
-- ❌ Rate limiting (chặn abuse bot)
 - ❌ Unit test / integration test tự động
 - ❌ Docker / deployment config
 - ❌ Refresh token (hiện tại chỉ access token 7 ngày)
 - ❌ Xóa / sửa voucher
-- ❌ Upload ảnh cho concert
-- ❌ Hỗ trợ đặt nhiều loại vé trong 1 booking
 
 ---
 
@@ -198,8 +201,10 @@ Admin có thể transition thủ công theo bảng:
 
 | Vấn đề | Giải pháp |
 |---|---|
-| **Overselling** | MongoDB atomic `findOneAndUpdate` với điều kiện `$gte` — chỉ 1 request thắng race condition |
+| **Overselling** | MongoDB atomic `findOneAndUpdate` + **Redis Distributed Lock** |
 | **Double booking (retry)** | `idempotencyKey` unique index — request trùng trả về booking cũ |
+| **Spam / Bot** | **Rate Limiter (5 req/phút/user)** |
+| **Gom vé (Scalping)** | **Max Tickets Per User (Tối đa 10 vé/concert)** |
 | **Voucher abuse** | `VoucherUsage(voucherId, userId)` unique index + atomic `currentUsage` check |
-| **Hệ thống quá tải** | Single MongoDB instance đủ cho 500 req/phút; có thể scale lên với replica set |
+| **Hệ thống quá tải** | Đã test chịu tải 500 req/phút với 100 người dùng giả lập |
 | **Booking bị treo** | Background job tự expire sau 15 phút, hoàn lại vé vào pool |

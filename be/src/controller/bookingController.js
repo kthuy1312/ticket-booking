@@ -97,6 +97,24 @@ export const createBooking = async (req, res) => {
       session.endSession();
       return res.status(404).json({ message: "Loại vé không tồn tại" });
     }
+
+    //ktra giới hạn tổng số vé mỗi người cho mỗi concert
+    const MAX_TICKETS_PER_USER = 10;
+    const userBookings = await Booking.find({
+      userId,
+      concertId,
+      status: { $in: ["RECEIVED", "RESERVED", "WAITING_PAYMENT", "CONFIRMED"] },
+    }).session(session);
+
+    const totalPurchased = userBookings.reduce((sum, b) => sum + b.quantity, 0);
+    if (totalPurchased + quantity > MAX_TICKETS_PER_USER) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(400).json({
+        message: `Bạn đã sở hữu ${totalPurchased} vé. Mỗi người dùng chỉ được mua tối đa ${MAX_TICKETS_PER_USER} vé cho concert này.`,
+      });
+    }
+
     if (quantity > ticketType.maxPerBooking) {
       await session.abortTransaction();
       session.endSession();

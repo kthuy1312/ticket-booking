@@ -496,6 +496,7 @@
         {
           "name": "Reserve Concert Ticket",
           "request": {
+            "description": "Tạo yêu cầu đặt vé. \n\nLưu ý các cơ chế bảo vệ mới:\n1. **Rate Limit**: Tối đa 5 request/phút trên mỗi tài khoản.\n2. **Max Tickets**: Tối đa 10 vé cho mỗi concert trên mỗi người dùng.\n3. **Idempotency**: Bắt buộc gửi `idempotencyKey` để tránh double booking.",
             "auth": {
               "type": "bearer",
               "bearer": [

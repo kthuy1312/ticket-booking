@@ -344,8 +344,9 @@
         "responses": {
           "201": { "description": "Đặt vé thành công, giữ chỗ 15 phút" },
           "200": { "description": "Idempotent — booking đã tồn tại" },
+          "429": { "description": "Rate Limit — Tài khoản gửi quá nhiều yêu cầu (tối đa 5 req/phút)" },
           "409": { "description": "Hết vé" },
-          "400": { "description": "Dữ liệu không hợp lệ hoặc voucher lỗi" }
+          "400": { "description": "Dữ liệu không hợp lệ, voucher lỗi, hoặc vượt quá giới hạn vé/người (tối đa 10 vé/concert)" }
         }
       }
     },

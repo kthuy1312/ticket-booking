@@ -71,10 +71,16 @@ npm start       # Chế độ production
 Hệ thống sử dụng **Jest** và **Supertest** để chạy Integration Tests. Môi trường test hoàn toàn độc lập nhờ `mongodb-memory-server`.
 
 ```bash
-npm test        # Chạy toàn bộ test suite
+npm test        # Chạy toàn bộ test suite (Integration Tests)
 ```
 
-### 7. Kiểm tra
+### 7. Giả lập tải (Load Test)
+Hệ thống đi kèm script giả lập 100 người dùng thật tranh mua 500 vé trong 1 phút để kiểm tra tính ổn định và chống overselling.
+```bash
+node scratch/load_test.js
+```
+
+### 8. Kiểm tra trạng thái
 
 - **Health**: http://localhost:8080/health
 - **Swagger UI**: http://localhost:8080/api-docs

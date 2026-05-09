@@ -109,6 +109,7 @@ Hệ thống đi kèm với bộ test toàn diện đảm bảo tính đúng đ�
 - **Postman Collection:** [Online Link](https://www.postman.com/restless-capsule-236537/workspace/lkt/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?action=share&source=copy-link&creator=37851469) | [Local File](./docs/Event%20Ticket%20Booking.postman_collection.json)
 - **API Reference:** Truy cập `http://localhost:8080/api-docs` khi server đang chạy.
 - **Coding Guidelines:** [docs/CODING_GUIDELINES.md](./docs/CODING_GUIDELINES.md)
+- **Local Setup Guide:** [docs/SETUP_GUIDE.md](./docs/SETUP_GUIDE.md)
 
 ---
 

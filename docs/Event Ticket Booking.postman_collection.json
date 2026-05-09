@@ -1,0 +1,1019 @@
+{
+  "info": {
+    "_postman_id": "8083ccca-d3f8-46b0-9639-d4bb69b6e037",
+    "name": "Event Ticket Booking",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37851469",
+    "_collection_link": "https://go.postman.co/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "SignUp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"mmanh@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"fullName\": \"Mẫn Mẫn\",\r\n  \"phone\": \"0912345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/register",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SignIn",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"ad@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/auth/me",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Concert",
+      "item": [
+        {
+          "name": "Get All Concerts",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/concerts",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Concert By Id",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/concerts/69fdf6416414544b7256396a",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                "69fdf6416414544b7256396a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ticket Types By Concert",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/concerts/69fdf6416414544b7256396a/ticket-types",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                "69fdf6416414544b7256396a",
+                "ticket-types"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN- Create New Concert",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test World Tour 2026\",\r\n  \"description\": \"Concert hoành tráng của test tại Việt Nam\",\r\n  \"venue\": \"My Dinh National Stadium, Hanoi\",\r\n  \"eventDate\": \"2026-08-20\",\r\n  \"saleStartDate\": \"2026-06-01\",\r\n  \"saleEndDate\": \"2026-06-05\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/concerts/",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Change Concert Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t//\"DRAFT\", \"ACTIVE\", \"ENDED\", \"CANCELLED\"\r\n    \"status\":\"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/concerts/69fe0316fe563f14502c1014/status",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                "69fe0316fe563f14502c1014",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Update Concert Info",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Melotix Summer Night 2026\",\r\n  \"description\": \"Đêm nhạc hội quy tụ nhiều nghệ sĩ nổi tiếng với sân khấu hoành tráng và hiệu ứng ánh sáng đặc biệt.\",\r\n  \"venue\": \"SECC Convention Center, TP.HCM\",\r\n  \"eventDate\": \"2026-07-20\",\r\n  \"saleStartDate\": \"2026-05-10\",\r\n  \"saleEndDate\": \"2026-07-19\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/concerts/69fe1ea08e42a2353baa0cde",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                "69fe1ea08e42a2353baa0cde"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Concert",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"code\": \"MELO50\",\r\n  \"description\": \"Giảm giá cho khách hàng đặt vé sớm trong tuần mở bán\",\r\n  \"discountType\": \"PERCENT\",\r\n  \"discountValue\": 50,\r\n  \"maxUsage\": 200,\r\n  \"minOrderAmount\": 1000000,\r\n  \"validFrom\": \"2026-05-10T00:00:00.000Z\",\r\n  \"validUntil\": \"2026-05-20T23:59:59.000Z\",\r\n  \"isActive\": true\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/concerts/",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "concerts",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Voucher",
+      "item": [
+        {
+          "name": "Check Voucher Validity",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/vouchers/validate?code=FLASHSALE50&amount=2000000",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "vouchers",
+                "validate"
+              ],
+              "query": [
+                {
+                  "key": "code",
+                  "value": "FLASHSALE50"
+                },
+                {
+                  "key": "amount",
+                  "value": "2000000"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Create New Voucher",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"code\": \"SALE50\",\r\n  \"description\": \"Giảm 50k cho đơn từ 200k\",\r\n  \"discountType\": \"FIXED\",\r\n  \"discountValue\": 50000,\r\n  \"maxUsage\": 1000,\r\n  \"minOrderAmount\": 200000,\r\n  \"validFrom\": \"2026-06-01\",\r\n  \"validUntil\": \"2026-06-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/vouchers/",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "vouchers",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Get All Vouchers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/vouchers/?isActive=false",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "vouchers",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "isActive",
+                  "value": "false",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Update Voucher Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/vouchers/69fe0641213040b6379494c8/toggle-status",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "vouchers",
+                "69fe0641213040b6379494c8",
+                "toggle-status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ADMIN - Update Voucher Info",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"code\": \"MELO50\",\r\n  \"description\": \"Giảm giá cho khách hàng đặt vé sớm trong tuần mở bán\",\r\n  \"discountType\": \"PERCENT\",\r\n  \"discountValue\": 50,\r\n  \"maxUsage\": 200,\r\n  \"minOrderAmount\": 1000000,\r\n  \"validFrom\": \"2026-05-10T00:00:00.000Z\",\r\n  \"validUntil\": \"2026-05-20T23:59:59.000Z\",\r\n  \"isActive\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/vouchers/69fe1f828e42a2353baa0cdf",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "vouchers",
+                "69fe1f828e42a2353baa0cdf"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Booking",
+      "item": [
+        {
+          "name": "Reserve Concert Ticket",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"concertId\": \"69fdf6416414544b72563969\",\r\n  \"ticketTypeId\": \"69fdf6416414544b7256396b\",\r\n  \"quantity\": 2,\r\n  \"voucherCode\": \"FLASHSALE50\",\r\n  \"idempotencyKey\": \"booking-user123-001\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/bookings",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Booking",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/bookings/my?page=1&limit=10",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "bookings",
+                "my"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Booking By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/bookings/69fe08ad0506253e97ac2891",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "bookings",
+                "69fe08ad0506253e97ac2891"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/bookings/69fe08ad0506253e97ac2891/confirm-payment",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "bookings",
+                "69fe08ad0506253e97ac2891",
+                "confirm-payment"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/bookings/69fe08ad0506253e97ac2891/cancel",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "bookings",
+                "69fe08ad0506253e97ac2891",
+                "cancel"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Operation",
+      "item": [
+        {
+          "name": "Bookings",
+          "item": [
+            {
+              "name": "Get All Bookings",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/bookings",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "bookings"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Booking Detail",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/bookings/69fe08ad0506253e97ac2891",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "bookings",
+                    "69fe08ad0506253e97ac2891"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Booking Status",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n//   RECEIVED: [\"RESERVED\", \"CANCELLED\"],\r\n//   RESERVED: [\"WAITING_PAYMENT\", \"CONFIRMED\", \"CANCELLED\", \"EXPIRED\"],\r\n//   WAITING_PAYMENT: [\"CONFIRMED\", \"CANCELLED\", \"EXPIRED\"],\r\n//   CONFIRMED: [\"CANCELLED\"],\r\n//   CANCELLED: [],\r\n//   EXPIRED: [],\r\n    \"status\":\"CANCELLED\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/operation/bookings/69fe08ad0506253e97ac2891/status",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "bookings",
+                    "69fe08ad0506253e97ac2891",
+                    "status"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Concerts",
+          "item": [
+            {
+              "name": "Get All Concerts",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/concerts",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "concerts"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Ticket Type",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Premium\",\r\n  \"description\": \"Khu vực gần sân khấu với chỗ ngồi ưu tiên\",\r\n  \"price\": 2500000,\r\n  \"totalQuantity\": 800,\r\n  \"maxPerBooking\": 4\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/operation/concerts/69fdf6416414544b72563969/ticket-types",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "concerts",
+                    "69fdf6416414544b72563969",
+                    "ticket-types"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Ticket Types",
+          "item": [
+            {
+              "name": "Get Ticket Availability",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/ticket-types/69fdf6416414544b7256396f/availability",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "ticket-types",
+                    "69fdf6416414544b7256396f",
+                    "availability"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Vouchers",
+          "item": [
+            {
+              "name": "Get Voucher Stats",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{vault:authorization-secret}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/vouchers",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "vouchers"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Stats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{vault:authorization-secret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/operation/stats",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "operation",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": ""
+    }
+  ]
+}

@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 //Swagger
-const swaggerPath = path.join(__dirname, "swagger.json");
+const swaggerPath = path.join(__dirname, "../../docs/swagger.json");
 if (fs.existsSync(swaggerPath)) {
   const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, "utf-8"));
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

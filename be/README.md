@@ -1,98 +1,111 @@
 # Concert Ticket Booking — Backend
 
-Backend Node.js/Express/MongoDB cho nền tảng đặt vé concert.
-
-## Tech Stack
-
-| Layer | Công nghệ |
-|---|---|
-| Runtime | Node.js (ESM) |
-| Framework | Express 5 |
-| Database | MongoDB + Mongoose 9 |
-| Auth | JWT Bearer Token |
-| API Docs | Swagger UI (`/api-docs`) |
+Hệ thống API mạnh mẽ dành cho nền tảng Melotix, xử lý các luồng đặt vé concert, quản lý voucher và chống overselling.
 
 ---
 
-## Cài đặt & Chạy local
+## 🛠 Tech Stack
 
-### 1. Prerequisites
-- Node.js >= 18
-- MongoDB Atlas URI (đã có trong `.env`)
+| Layer | Công nghệ | Chi tiết |
+|---|---|---|
+| **Runtime** | Node.js (ESM) | Phiên bản >= 20 |
+| **Framework** | Express 5 | Sử dụng Express 5.x mới nhất |
+| **Database** | MongoDB | Mongoose 9.x (Hỗ trợ Transactions) |
+| **Caching** | Redis | ioredis (Locking & Caching) |
+| **Auth** | JWT | Bearer Token Authentication |
+| **Storage** | Cloudinary | Lưu trữ ảnh concert/banner |
+| **Docs** | Swagger UI | OpenAPI 3.0 (`/api-docs`) |
 
-### 2. Cài dependencies
+---
+
+## 🚀 Cài đặt & Chạy local
+
+### 1. Yêu cầu hệ thống
+- **Node.js** >= 20
+- **MongoDB** (Local hoặc Atlas)
+- **Redis** (Local hoặc Docker)
+
+### 2. Cài đặt thư viện
 ```bash
-cd be
 npm install
 ```
 
-### 3. Cấu hình `.env`
-File `.env` đã có sẵn. Kiểm tra các biến:
-```
+### 3. Cấu hình biến môi trường
+File `.env` cần có các thông tin sau:
+```env
 PORT=8080
-MONGO_URI=<mongodb atlas uri>
-SECRET=JUST_A_SECRET
+MONGO_URI=mongodb+srv://... (hoặc mongodb://localhost:27017/melotix)
+SECRET=YOUR_JWT_SECRET
 CLIENT_URL=http://localhost:5173
+REDIS_URL=redis://localhost:6379 (Tùy chọn)
+
+# Cloudinary (Dùng cho upload ảnh)
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
 ```
 
-### 4. Seed dữ liệu demo
+### 4. Khởi tạo dữ liệu (Seed)
 ```bash
 npm run seed
 ```
-Tạo sẵn:
-- **Admin**: `admin@concert.vn` / `Admin@123`
-- **User 1**: `user1@example.com` / `User@123`
-- **2 Concert**, 5 loại vé, 3 voucher
+**Tài khoản mặc định sau khi seed:**
+- **Admin:** `ad@gmail.com` / `123456`
+- **User:** `1@gmail.com` / `123456`
 
-### 5. Chạy server
+### 5. Khởi chạy
 ```bash
-npm run dev     # development (nodemon, hot-reload)
-npm start       # production
+npm run dev     # Chế độ phát triển (nodemon)
+npm start       # Chế độ production
 ```
 
-### 6. Testing
-Hệ thống sử dụng Jest + Supertest kết hợp với MongoMemoryReplSet để chạy Integration Tests một cách an toàn (không ảnh hưởng dữ liệu thật).
+---
+
+## 🧪 Testing
+
+Hệ thống sử dụng **Jest** và **Supertest** để chạy Integration Tests. Môi trường test hoàn toàn độc lập nhờ `mongodb-memory-server`.
+
 ```bash
-npm test        # Chạy toàn bộ test suite
+npm test
 ```
-
-### 7. Kiểm tra
-- **Health**: http://localhost:8080/health
-- **Swagger UI**: http://localhost:8080/api-docs
+*Lưu ý: Test sẽ tự động giả lập Redis, bạn không cần chạy Redis thật khi test.*
 
 ---
 
-## Cấu trúc thư mục
-```
-be/
-├── src/
-│   ├── app.js           ← cấu hình app (dùng cho testing)
-│   ├── server.js        ← khởi động server
-│   ├── controller/      ← logic xử lý request
-│   ├── routes/          ← định nghĩa endpoints
-│   ├── models/          ← mongoose schemas
-│   ├── libs/            ← redis/db config
-│   └── jobs/            ← background jobs (expire bookings)
-└── tests/               ← bộ test integration
+## 📂 Cấu trúc mã nguồn
+
+```text
+src/
+├── app.js           # Cấu hình Express app & Middleware
+├── server.js        # Entry point khởi động server & DB
+├── controller/      # Xử lý logic nghiệp vụ (Auth, Booking, Concert...)
+├── routes/          # Định nghĩa các API endpoints
+├── models/          # Mongoose Schemas & Models
+├── libs/            # Thư viện dùng chung (db, redis config)
+├── jobs/            # Background tasks (tự động hủy vé hết hạn)
+├── config/          # Dữ liệu seed và cấu hình tĩnh
+└── middlewares/     # Auth, Admin & Error handlers
 ```
 
 ---
 
-## Cơ chế quan trọng
+## 🔐 Cơ chế lõi
 
-### Chống Overselling & Race Condition
-Sử dụng kết hợp 2 lớp bảo vệ:
-1. **Distributed Lock (Redis):** Chặn các request đồng thời vào cùng một loại vé ngay từ lớp controller.
-2. **Atomic Update (MongoDB):** Dùng toán tử `$inc` kết hợp điều kiện `$gte` để đảm bảo số lượng vé không bao giờ âm ngay cả khi có hàng ngàn request lọt qua lock.
+### 1. Chống bán quá số lượng (Overselling)
+Hệ thống sử dụng **Atomic Update** của MongoDB:
+```javascript
+TicketType.findOneAndUpdate(
+  { _id: id, availableQuantity: { $gte: qty } },
+  { $inc: { availableQuantity: -qty } }
+)
+```
+Kết hợp với **Distributed Lock (Redis)** ở mức Controller để đảm bảo tính toàn vẹn dữ liệu khi có hàng ngàn request cùng lúc.
 
-### Idempotency
-Hỗ trợ `idempotencyKey` trong request tạo booking để tránh việc user nhấn đặt vé nhiều lần do mạng lag dẫn đến việc bị trừ tiền hoặc giữ chỗ nhiều lần.
+### 2. Idempotency Key
+Mỗi request đặt vé bắt buộc gửi kèm một `idempotencyKey`. Nếu người dùng bấm đặt vé 2 lần do mạng lag, hệ thống sẽ trả về kết quả của lần đầu thay vì tạo thêm đơn mới.
 
 ---
 
-## Test với Postman
-- **Online Collection:** [Click để xem trên Postman Web](https://www.postman.com/restless-capsule-236537/workspace/lkt/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?action=share&source=copy-link&creator=37851469)
-- **Local Collection:** Sử dụng file tại thư mục: `docs/Event Ticket Booking.postman_collection.json`.
-1. Import vào Postman.
-2. Cấu hình environment variable `baseURL` thành `http://localhost:8080/api`.
-3. Chạy các request theo thứ tự Auth -> Concert -> Booking.
+## 📖 API Documentation
+- Truy cập: `http://localhost:8080/api-docs`
+- Postman Web: [Click để xem Collection](https://www.postman.com/restless-capsule-236537/workspace/lkt/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?action=share&source=copy-link&creator=37851469)

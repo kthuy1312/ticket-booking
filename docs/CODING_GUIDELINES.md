@@ -46,9 +46,29 @@ melotix/
 ## 3. Phát triển API (Backend)
 
 ### 3.1. Quy trình thêm API mới
-1. **Handler:** Tạo hàm xử lý trong `controller/`. Luôn dùng `try-catch` và `console.error` khi có lỗi.
-2. **Route:** Đăng ký đường dẫn trong `routes/`. Kết hợp các middleware như `protectedRoute` hoặc `adminOnly`.
-3. **Docs:** Cập nhật file `src/swagger.json` để đồng bộ tài liệu API.
+
+1.  **Handler:** Tạo hàm xử lý trong `controller/`.
+    ```javascript
+    // src/controller/exampleController.js
+    export const myNewHandler = async (req, res) => {
+      try {
+        // logic xử lý ở đây
+        return res.status(200).json({ data: "thành công" });
+      } catch (err) {
+        console.error("myNewHandler error:", err);
+        return res.status(500).json({ message: "Lỗi server" });
+      }
+    };
+    ```
+2.  **Route:** Đăng ký đường dẫn trong `routes/`.
+    ```javascript
+    // src/routes/exampleRoute.js
+    import { myNewHandler } from "../controller/exampleController.js";
+    import { protectedRoute } from "../middlewares/authMiddleware.js";
+
+    router.get("/my-new-api", protectedRoute, myNewHandler);
+    ```
+3.  **Docs:** Cập nhật file `src/swagger.json` để đồng bộ tài liệu API.
 
 ### 3.2. Response Format
 Chuẩn hóa dữ liệu trả về:
@@ -106,3 +126,25 @@ try {
   - `feat: thêm chức năng lọc concert`
   - `fix: sửa lỗi hiển thị voucher trên mobile`
   - `docs: cập nhật hướng dẫn cài đặt`
+---
+
+## 7. Kiểm thử (Testing)
+
+Dự án sử dụng Jest cho Backend và Vitest cho Frontend.
+
+- **Chạy Unit Test Backend:**
+  ```bash
+  cd be
+  npm test
+  ```
+- **Chạy Unit Test Frontend:**
+  ```bash
+  cd fe
+  npm run test:run
+  ```
+- **Chạy giả lập tải (Load Test - 500 req/min):**
+  ```bash
+  cd be
+  node scratch/load_test.js
+  ```
+- **Chi tiết về cách viết test và giả lập tải:** Xem tại [TESTING_GUIDE.md](./TESTING_GUIDE.md).

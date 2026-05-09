@@ -37,18 +37,20 @@ npm install
 
 File `.env` cần có các thông tin sau:
 
-````env
+```env
 PORT=8080
 MONGO_URI=mongodb+srv://... (hoặc mongodb://localhost:27017/melotix)
 SECRET=YOUR_JWT_SECRET
 CLIENT_URL=http://localhost:5173
 REDIS_URL=redis://localhost:6379 (Tùy chọn)
 
+```
+
 ### 4. Khởi tạo dữ liệu (Seed)
 
 ```bash
 npm run seed
-````
+```
 
 **Tài khoản mặc định sau khi seed:**
 

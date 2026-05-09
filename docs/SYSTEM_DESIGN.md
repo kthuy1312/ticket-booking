@@ -1,62 +1,73 @@
-# System Design - Melotix
+# System Design — Melotix
 
-Tài liệu này mô tả kiến trúc kỹ thuật của hệ thống đặt vé Melotix.
+Tài liệu này mô tả kiến trúc tổng quan, các luồng xử lý nghiệp vụ và các giải pháp kỹ thuật cho nền tảng Melotix.
 
-## 1. Kiến trúc tổng quan (High-Level Architecture)
-Hệ thống được thiết kế theo mô hình **Monolithic** (để đơn giản hóa triển khai ban đầu) nhưng sẵn sàng tách thành **Microservices** nếu cần mở rộng.
+---
 
-- **Load Balancer:** Điều phối traffic (Nginx/AWS ELB).
-- **App Server:** Node.js (Express) xử lý logic nghiệp vụ.
-- **Cache Layer:** Redis lưu trữ session, cache danh sách concert và đặc biệt là **Distributed Lock** để xử lý tranh chấp vé.
-- **Database:** MongoDB lưu trữ dữ liệu có cấu trúc linh hoạt (Concert, Booking, User).
+## 1. Kiến trúc tổng quan (Architecture)
 
-## 2. Thiết kế Database (Data Model)
+Hệ thống được thiết kế theo mô hình Monolithic hiện đại với khả năng mở rộng ngang:
+- **Backend:** Node.js (Express) sử dụng ES Modules.
+- **Cache & Concurrency Layer:** Redis (Distributed Locking).
+- **Primary Database:** MongoDB (Transactions support).
+- **Background Jobs:** Node.js Internal Interval (Xử lý hết hạn giữ chỗ).
 
-### Collection: `Concerts`
-Lưu thông tin sự kiện.
-- `_id`, `name`, `description`, `venue`, `eventDate`, `status` (DRAFT/ACTIVE/ENDED).
+---
 
-### Collection: `TicketTypes`
-Lưu các hạng vé của từng concert.
-- `concertId`, `name`, `price`, `totalQuantity`, `soldQuantity`, `reservedQuantity`.
-- **Note:** `available = total - sold - reserved`.
+## 2. Luồng đặt vé (Booking Flow)
 
-### Collection: `Bookings`
-Lưu thông tin đặt vé.
-- `userId`, `concertId`, `ticketTypeId`, `quantity`, `totalAmount`, `status`.
-- `expiredAt`: Thời gian hết hạn giữ chỗ (10 phút).
+Hệ thống xử lý đặt vé theo quy trình 3 lớp bảo vệ để đảm bảo tính ổn định:
 
-### Collection: `Vouchers`
-Lưu thông tin khuyến mãi.
-- `code`, `discountType`, `discountValue`, `maxUsage`, `currentUsage`.
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant API as Backend API
+    participant R as Redis (Lock)
+    participant DB as MongoDB (Transaction)
 
-## 3. Giải pháp cho Flash Sale (Concurrency Control)
+    C->>API: Gửi yêu cầu đặt vé (idempotencyKey)
+    API->>R: Kiểm tra & Chiếm Lock (ticketTypeId)
+    alt Không lấy được Lock
+        API-->>C: Trả về lỗi 429 (Hệ thống bận)
+    else Lấy được Lock thành công
+        API->>DB: Bắt đầu Transaction
+        DB->>DB: Check tồn kho & Trừ vé (Atomic $inc)
+        DB->>DB: Kiểm tra Voucher & Giới hạn vé/user
+        DB->>DB: Tạo bản ghi Booking (RESERVED)
+        API->>DB: Kết thúc Transaction
+        API->>R: Giải phóng Lock
+        API-->>C: Trả về kết quả thành công (201)
+    end
+```
 
-### Thách thức: Overselling
-Khi 500 người cùng nhấn "Đặt vé" trong 1 giây cho 10 vé còn lại.
+---
 
-### Giải pháp: Redis Distributed Lock
-1. Khi khách hàng nhấn đặt vé, hệ thống sẽ tạo một `lock` trong Redis dựa trên `ticketTypeId`.
-2. Chỉ 1 request được phép vào xử lý logic kiểm tra tồn kho và trừ số lượng tại một thời điểm.
-3. Sử dụng `atomic update` của MongoDB (`$inc` với điều kiện `$gte`) như một lớp bảo vệ thứ hai.
+## 3. Giải pháp cho các vấn đề Concurrency
 
-### Luồng xử lý (Optimized Flow):
-1. Client gửi yêu cầu.
-2. Server check Redis cache xem vé còn không (Pre-check).
-3. Server Acquire Lock (Redis).
-4. Thực hiện Transaction:
-   - Trừ `availableQuantity` trong DB.
-   - Tạo bản ghi `Booking`.
-5. Release Lock.
-6. Trả kết quả về cho Client.
+| Vấn đề | Giải pháp kỹ thuật |
+|---|---|
+| **Overselling (Bán quá số lượng)** | Kết hợp **Redis Distributed Lock** và **Atomic Update** ở tầng Database. Chỉ 1 request được xử lý tồn kho tại 1 thời điểm. |
+| **Race Condition** | Sử dụng **MongoDB Transactions** để đảm bảo tính ACID: hoặc là tất cả (Trừ vé, tạo đơn, lưu voucher) thành công, hoặc là không có gì thay đổi. |
+| **Double Booking** | Sử dụng **Idempotency Key (UUID)**. Nếu người dùng bấm 2 lần, hệ thống nhận diện key trùng và trả về kết quả cũ thay vì tạo đơn mới. |
+| **Spam / Bot Attack** | **Rate Limiting Middleware** giới hạn 5 request/phút trên mỗi tài khoản người dùng. |
+| **Scalping (Gom vé)** | **Max Tickets Limit** giới hạn tối đa 10 vé cho mỗi Concert trên mỗi tài khoản. |
 
-## 4. Quy trình xử lý đơn hàng (Booking Lifecycle)
-1. **RESERVED:** Khách hàng đặt chỗ, vé bị khóa lại.
-2. **WAITING_PAYMENT:** Chờ xác nhận thanh toán (Webhook từ cổng thanh toán).
-3. **CONFIRMED:** Thanh toán thành công, gửi vé điện tử.
-4. **EXPIRED/CANCELLED:** Nếu quá 10 phút không thanh toán, hệ thống tự động hoàn lại số lượng vé (Background Job).
+---
+
+## 4. Quản lý trạng thái Booking (State Machine)
+
+Booking di chuyển qua các trạng thái nghiêm ngặt để bảo vệ tồn kho:
+
+1. **RESERVED:** Vé đã bị trừ, hệ thống giữ chỗ trong 15 phút.
+2. **WAITING_PAYMENT:** Người dùng xác nhận thanh toán (đang chờ gateway).
+3. **CONFIRMED:** Giao dịch thành công, vé được xác nhận chính thức.
+4. **EXPIRED:** Sau 15 phút không thanh toán, hệ thống tự động hoàn lại vé vào kho.
+5. **CANCELLED:** Người dùng hoặc Admin chủ động hủy đơn, hoàn lại vé.
+
+---
 
 ## 5. Khả năng mở rộng (Scalability)
-- **Database Indexing:** Đánh index cho `status`, `eventDate` và các field tìm kiếm.
-- **Horizontal Scaling:** Chạy nhiều instance Node.js qua PM2 hoặc Docker Swarm.
-- **Rate Limiting:** Sử dụng Middleware để giới hạn số request từ 1 IP để tránh Bot tấn công Flash Sale.
+
+- **Stateless API:** Backend có thể chạy nhiều instance qua Docker/PM2 để chia tải.
+- **Database Indexing:** Đã tối ưu hóa các trường tìm kiếm thường xuyên.
+- **Caching:** Có thể mở rộng để cache danh sách Concert vào Redis nhằm giảm tải cho MongoDB.

@@ -37,13 +37,12 @@ CLIENT_URL=http://localhost:5173
 
 ### 4. Seed dữ liệu demo
 ```bash
-node src/seed.js
+npm run seed
 ```
 Tạo sẵn:
 - **Admin**: `admin@concert.vn` / `Admin@123`
 - **User 1**: `user1@example.com` / `User@123`
-- **User 2**: `user2@example.com` / `User@123`
-- 2 Concert, 5 loại vé, 3 voucher
+- **2 Concert**, 5 loại vé, 3 voucher
 
 ### 5. Chạy server
 ```bash
@@ -51,142 +50,49 @@ npm run dev     # development (nodemon, hot-reload)
 npm start       # production
 ```
 
-### 6. Kiểm tra
+### 6. Testing
+Hệ thống sử dụng Jest + Supertest kết hợp với MongoMemoryReplSet để chạy Integration Tests một cách an toàn (không ảnh hưởng dữ liệu thật).
+```bash
+npm test        # Chạy toàn bộ test suite
+```
+
+### 7. Kiểm tra
 - **Health**: http://localhost:8080/health
 - **Swagger UI**: http://localhost:8080/api-docs
 
 ---
 
 ## Cấu trúc thư mục
-
 ```
 be/
 ├── src/
-│   ├── controller/
-│   │   ├── authController.js
-│   │   ├── concertController.js
-│   │   ├── bookingController.js     ← core business logic
-│   │   ├── voucherController.js
-│   │   └── operationController.js  ← admin dashboard
-│   ├── routes/
-│   │   ├── authRoute.js
-│   │   ├── concertRoute.js
-│   │   ├── bookingRoute.js
-│   │   ├── voucherRoute.js
-│   │   └── operationRoute.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Concert.js
-│   │   ├── TicketType.js
-│   │   ├── Booking.js
-│   │   ├── BookingLog.js
-│   │   ├── Voucher.js
-│   │   └── VoucherUsage.js
-│   ├── middlewares/
-│   │   ├── authMiddleware.js    ← JWT verify
-│   │   └── adminMiddleware.js   ← role check
-│   ├── jobs/
-│   │   └── expireBookings.js    ← auto-expire job (60s)
-│   ├── libs/
-│   │   └── db.js
-│   ├── seed.js
-│   ├── server.js
-│   └── swagger.json
-├── concert-booking.postman_collection.json
-├── .env
-└── package.json
+│   ├── app.js           ← cấu hình app (dùng cho testing)
+│   ├── server.js        ← khởi động server
+│   ├── controller/      ← logic xử lý request
+│   ├── routes/          ← định nghĩa endpoints
+│   ├── models/          ← mongoose schemas
+│   ├── libs/            ← redis/db config
+│   └── jobs/            ← background jobs (expire bookings)
+└── tests/               ← bộ test integration
 ```
 
 ---
 
-## API Endpoints
+## Cơ chế quan trọng
 
-### Auth
-| Method | Path | Auth | Mô tả |
-|--------|------|------|-------|
-| POST | `/api/auth/register` | — | Đăng ký |
-| POST | `/api/auth/login` | — | Đăng nhập → JWT |
-| GET | `/api/auth/me` | USER | Profile |
+### Chống Overselling & Race Condition
+Sử dụng kết hợp 2 lớp bảo vệ:
+1. **Distributed Lock (Redis):** Chặn các request đồng thời vào cùng một loại vé ngay từ lớp controller.
+2. **Atomic Update (MongoDB):** Dùng toán tử `$inc` kết hợp điều kiện `$gte` để đảm bảo số lượng vé không bao giờ âm ngay cả khi có hàng ngàn request lọt qua lock.
 
-### Concerts (Public)
-| Method | Path | Auth | Mô tả |
-|--------|------|------|-------|
-| GET | `/api/concerts` | — | Danh sách ACTIVE |
-| GET | `/api/concerts/:id` | — | Chi tiết |
-| GET | `/api/concerts/:id/ticket-types` | — | Loại vé + tồn kho |
-| POST | `/api/concerts` | ADMIN | Tạo concert |
-| PATCH | `/api/concerts/:id/status` | ADMIN | Cập nhật status |
-
-### Bookings
-| Method | Path | Auth | Mô tả |
-|--------|------|------|-------|
-| POST | `/api/bookings` | USER | Đặt vé (atomic) |
-| GET | `/api/bookings/my` | USER | Lịch sử của tôi |
-| GET | `/api/bookings/:id` | USER | Chi tiết |
-| POST | `/api/bookings/:id/confirm-payment` | USER | Xác nhận thanh toán |
-| POST | `/api/bookings/:id/cancel` | USER | Hủy booking |
-
-### Vouchers
-| Method | Path | Auth | Mô tả |
-|--------|------|------|-------|
-| GET | `/api/vouchers/validate?code=&amount=` | USER | Kiểm tra voucher |
-| POST | `/api/vouchers` | ADMIN | Tạo voucher |
-| GET | `/api/vouchers` | ADMIN | Danh sách |
-| PATCH | `/api/vouchers/:id/deactivate` | ADMIN | Vô hiệu hoá |
-
-### Operation Dashboard (ADMIN)
-| Method | Path | Mô tả |
-|--------|------|-------|
-| GET | `/api/operation/stats` | Tổng quan hệ thống |
-| GET | `/api/operation/bookings` | Tất cả booking |
-| GET | `/api/operation/bookings/:id` | Chi tiết + audit log |
-| PATCH | `/api/operation/bookings/:id/status` | Cập nhật thủ công |
-| GET | `/api/operation/concerts` | Tất cả concert |
-| POST | `/api/operation/concerts/:id/ticket-types` | Tạo loại vé |
-| GET | `/api/operation/ticket-types/:id/availability` | Kiểm tra tồn vé |
-| GET | `/api/operation/vouchers` | Voucher + usage stats |
-
----
-
-## Booking Status State Machine
-
-```
-RECEIVED → RESERVED → WAITING_PAYMENT → CONFIRMED
-                ↓               ↓
-           CANCELLED / EXPIRED  CANCELLED
-```
-
-Khi CANCELLED hoặc EXPIRED: vé và voucher được **hoàn trả tự động**.
-
----
-
-## Chống Overselling
-
-Dùng MongoDB atomic `findOneAndUpdate` với điều kiện `$gte: quantity`:
-```js
-TicketType.findOneAndUpdate(
-  { _id: ticketTypeId, availableQuantity: { $gte: quantity } },
-  { $inc: { availableQuantity: -quantity } },
-  { new: true, session }
-)
-```
-Nếu `availableQuantity` không đủ → query trả `null` → 409 Conflict.
-
----
-
-## Idempotency
-
-Client gửi `idempotencyKey` (UUID) trong mỗi request tạo booking.  
-Nếu key đã tồn tại → trả lại booking cũ, **không** tạo duplicate.
+### Idempotency
+Hỗ trợ `idempotencyKey` trong request tạo booking để tránh việc user nhấn đặt vé nhiều lần do mạng lag dẫn đến việc bị trừ tiền hoặc giữ chỗ nhiều lần.
 
 ---
 
 ## Test với Postman
-
-1. Import `concert-booking.postman_collection.json` vào Postman
-2. Chạy **Login Admin** → token tự động lưu vào variable
-3. Chạy **Login User1** → token tự động lưu
-4. Chạy **List Active Concerts** → `concertId` tự động lưu
-5. Chạy **Get Ticket Types** → `ticketTypeId` tự động lưu
-6. Chạy **Create Booking** → `bookingId` tự động lưu
-7. Chạy **Confirm Payment** hoặc **Cancel Booking**
+- **Online Collection:** [Click để xem trên Postman Web](https://www.postman.com/restless-capsule-236537/workspace/lkt/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?action=share&source=copy-link&creator=37851469)
+- **Local Collection:** Sử dụng file tại thư mục: `docs/Event Ticket Booking.postman_collection.json`.
+1. Import vào Postman.
+2. Cấu hình environment variable `baseURL` thành `http://localhost:8080/api`.
+3. Chạy các request theo thứ tự Auth -> Concert -> Booking.

@@ -1,88 +1,127 @@
-# Melotix - Concert Booking Platform
+# Melotix - Modern Concert Booking Platform
 
-Nền tảng đặt vé concert trực tuyến hiện đại, được thiết kế để xử lý các chiến dịch Flash Sale với lưu lượng truy cập cao.
+![Melotix Banner](./be/uploads/default-banner.png) 
 
-## 🚀 Tính năng chính
+**Melotix** là một nền tảng đặt vé concert trực tuyến hiện đại, được tối ưu hóa cho các chiến dịch **Flash Sale** với lưu lượng truy cập lớn. Hệ thống kết hợp trải nghiệm người dùng cao cấp (Luxury SaaS Aesthetic) với các giải pháp kỹ thuật mạnh mẽ để xử lý tranh chấp vé và bảo mật giao dịch.
 
-### Khách hàng (Customer-facing)
+---
 
-- **Khám phá:** Xem danh sách concert đang mở bán với bộ lọc thông minh (tháng, địa điểm).
-- **Chi tiết:** Xem sơ đồ vé, mô tả và chọn loại vé (VIP, Standard...).
-- **Đặt chỗ (Reservation):** Giữ chỗ vé trong 10 phút, áp dụng voucher giảm giá.
-- **Thanh toán:** Quy trình giả lập thanh toán an toàn.
-- **Vé của tôi:** Quản lý lịch sử đặt vé và xem mã QR check-in.
+## 💎 Key Features
 
-### Vận hành (Operation Dashboard)
+### 👤 Customer Experience
+- **Cinematic Discovery:** Khám phá sự kiện với Hero Banner hiệu ứng động, bộ lọc thông minh theo địa điểm và thời gian.
+- **Glassmorphic UI:** Giao diện hiện đại, hỗ trợ Light/Dark mode với độ tương phản cao.
+- **Robust Reservation:** Giữ chỗ vé trong 15 phút, hỗ trợ áp dụng Voucher thông minh.
+- **QR Ticket Management:** Quản lý lịch sử đặt vé và nhận vé điện tử kèm mã QR check-in ngay lập tức.
+- **Anti-Overselling:** Cơ chế bảo vệ 3 lớp (Atomic Update, DB Locking, Redis Distributed Lock) đảm bảo không bao giờ bán quá số lượng vé.
 
-- **Dashboard:** Thống kê doanh thu, số lượng vé đã bán và trạng thái đơn hàng.
-- **Quản lý Concert:** Tạo mới, chỉnh sửa concert và quản lý các loại vé.
-- **Quản lý Đặt vé:** Theo dõi danh sách đơn hàng, cập nhật trạng thái thủ công (Xử lý gian lận/lỗi).
-- **Quản lý Voucher:** Tạo chiến dịch khuyến mãi với giới hạn số lượng và thời gian.
+### 🛡 Admin & Operations
+- **SaaS Dashboard:** Thống kê doanh thu, tỷ lệ lấp đầy sân vận động và hiệu quả voucher bằng biểu đồ trực quan.
+- **Concert Management:** Toàn quyền CRUD concert, hạng vé (Ticket Types) và sơ đồ chỗ ngồi.
+- **Voucher Campaign:** Tạo các chiến dịch khuyến mãi với giới hạn số lượt sử dụng và điều kiện áp dụng nghiêm ngặt.
+- **Audit Logs:** Theo dõi mọi thay đổi trạng thái của đơn hàng để đối soát và xử lý lỗi/gian lận.
 
-## 🛠 Công nghệ sử dụng
+---
 
-- **Backend:** Node.js, Express.
-- **Database:** MongoDB (Mongoose) - Lưu trữ dữ liệu bền vững.
-- **Caching & Locking:** Redis - Xử lý tranh chấp (concurrency) khi Flash Sale.
-- **Frontend:** React, Vite, Tailwind CSS, Ant Design.
-- **Documentation:** Swagger (OpenAPI 3.0).
+## 🛠 Technology Stack
 
-## 📦 Hướng dẫn cài đặt
+### Backend (Node.js Ecosystem)
+- **Framework:** Express.js (ES Modules)
+- **Database:** MongoDB with Mongoose (Transaction support)
+- **Caching & Concurrency:** Redis (Distributed Locking via ioredis)
+- **Documentation:** Swagger UI (OpenAPI 3.0)
+- **Validation:** Zod & Mongoose Schema Validation
 
-### Yêu cầu hệ thống
+### Frontend (React Ecosystem)
+- **Framework:** React 19 + Vite
+- **Styling:** Tailwind CSS (Custom Luxury Design System)
+- **Components:** Radix UI, Lucide Icons, Shadcn/UI patterns
+- **State Management:** Zustand
+- **Data Fetching:** Axios
 
-- Node.js >= 18
-- Docker & Docker Compose (Khuyên dùng để chạy Redis/MongoDB nhanh chóng)
+### Testing Tools
+- **Backend:** Jest + Supertest + MongoMemoryReplSet
+- **Frontend:** Vitest + JSDOM
 
-### Khởi tạo môi trường với Docker
+---
 
-Để chạy Redis và MongoDB nhanh chóng mà không cần cài đặt lên máy, hãy chạy lệnh sau ở thư mục gốc:
+## 📦 Getting Started
 
+### Prerequisites
+- Node.js >= 20
+- Docker & Docker Compose (để chạy Redis/MongoDB nhanh chóng)
+
+### 1. Infrastructure Setup
+Chạy lệnh sau tại thư mục gốc để khởi động Redis và MongoDB:
 ```bash
 docker-compose up -d
 ```
 
-Lệnh này sẽ khởi động:
+### 2. Backend Setup
+```bash
+cd be
+npm install
+# Tạo file .env từ .env.example và điền thông tin
+npm run seed  # Seed dữ liệu mẫu (Admin, Concerts, Vouchers)
+npm run dev
+```
 
-- **Redis:** Port 6379 (Dùng cho Distributed Locking)
-- **MongoDB:** Port 27017 (Dùng cho Database local)
-
-### Cài đặt Backend
-
-1. Di chuyển vào thư mục `be`: `cd be`
-2. Cài đặt thư viện: `npm install`
-3. Cấu hình file `.env` (Dựa trên `.env.example`):
-   ```env
-   PORT=8080
-   MONGODB_URI=mongodb://localhost:27017/ticket-booking
-   JWT_SECRET=your_jwt_secret
-   REDIS_URL=redis://localhost:6379 (Tùy chọn)
-   ```
-4. Chạy seed dữ liệu mẫu: `npm run seed`
-5. Khởi chạy: `npm run dev`
-
-### Cài đặt Frontend
-
-1. Di chuyển vào thư mục `fe`: `cd fe`
-2. Cài đặt thư viện: `npm install`
-3. Cấu hình file `.env`:
-   ```env
-   VITE_API_URL=http://localhost:8080/api
-   ```
-4. Khởi chạy: `npm run dev`
-
-## 📖 Tài liệu hướng dẫn
-
-- **Thiết kế hệ thống:** [docs/SYSTEM_DESIGN.md](./docs/SYSTEM_DESIGN.md)
-- **Giả định & Phạm vi:** [docs/ASSUMPTIONS.md](./docs/ASSUMPTIONS.md)
-- **Coding Guidelines:** [docs/CODING_GUIDELINES.md](./docs/CODING_GUIDELINES.md)
-- **API Docs:** Truy cập `http://localhost:8080/api-docs` khi server đang chạy.
-
-## 🧪 Testing
-
-- **Unit Test:** `npm test` (Đang cập nhật)
-- **API Test:** Sử dụng Postman Collection trong thư mục `docs/Melotix.postman_collection.json`.
+### 3. Frontend Setup
+```bash
+cd fe
+npm install
+npm run dev
+```
 
 ---
 
-© 2026 Melotix Team.
+## 🧪 Testing & Quality Assurance
+
+Hệ thống đi kèm với bộ test toàn diện đảm bảo tính đúng đắn của các nghiệp vụ quan trọng.
+
+- **Backend Integration Tests:** Kiểm tra Auth, Concert, và đặc biệt là luồng Booking (bao gồm Transactions & Locking).
+  ```bash
+  cd be
+  npm test
+  ```
+- **Frontend Unit Tests:** Kiểm tra các logic utility và format dữ liệu.
+  ```bash
+  cd fe
+  npm run test:run
+  ```
+- **Chi tiết xem tại:** [docs/TESTING_GUIDE.md](./docs/TESTING_GUIDE.md)
+
+---
+
+## 📖 Documentation & Architecture
+
+- **Database Schema:** [ERD Diagram](./ERD.png)
+- **System Architecture:** [docs/SYSTEM_DESIGN.md](./docs/SYSTEM_DESIGN.md)
+- **Assumptions & Scope:** [docs/ASSUMPTIONS.md](./docs/ASSUMPTIONS.md)
+- **Postman Collection:** [Online Link](https://www.postman.com/restless-capsule-236537/workspace/lkt/collection/37851469-8083ccca-d3f8-46b0-9639-d4bb69b6e037?action=share&source=copy-link&creator=37851469) | [Local File](./docs/Event%20Ticket%20Booking.postman_collection.json)
+- **API Reference:** Truy cập `http://localhost:8080/api-docs` khi server đang chạy.
+
+---
+
+## 🤝 Project Structure
+```text
+melotix/
+├── be/                 # Backend Node.js
+│   ├── src/
+│   │   ├── controller/ # Logic xử lý request
+│   │   ├── libs/       # Cấu hình DB, Redis, Middlewares
+│   │   ├── models/     # Mongoose Schemas
+│   │   └── routes/     # Định nghĩa API endpoints
+│   └── tests/          # Integration Tests
+├── fe/                 # Frontend React
+│   ├── src/
+│   │   ├── components/ # Reusable UI components
+│   │   ├── pages/      # View layers
+│   │   └── store/      # Zustand state management
+├── docs/               # System documentation & Postman
+└── docker-compose.yml  # Local infrastructure
+```
+
+---
+
+© 2026 **Melotix Team**. Built with ❤️ for the music community.

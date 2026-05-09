@@ -290,7 +290,7 @@ export default function ConcertsPage() {
               />
             </div>
 
-            {/* Search (Secondary) */}
+            {/* Search*/}
             <div className="space-y-3 relative z-10">
               <label className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em] ml-1 block">
                 Từ khóa nhanh

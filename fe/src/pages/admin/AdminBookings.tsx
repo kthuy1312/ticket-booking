@@ -10,7 +10,8 @@ import {
 } from "@/lib/utils";
 import { toast } from "sonner";
 import { Ticket, Loader2, Edit, AlertCircle } from "lucide-react";
-import { Select } from "antd";
+import { Select, Pagination } from "antd";
+import type { Pagination as PaginationType } from "@/types";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -21,12 +22,24 @@ export default function AdminBookings() {
   const [newStatus, setNewStatus] = useState("");
   const [reason, setReason] = useState("");
   const [updating, setUpdating] = useState(false);
+  const [pagination, setPagination] = useState<PaginationType | null>(null);
+  const [page, setPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
-  const fetchBookings = () => {
+  const fetchBookings = (p = page, status = statusFilter, q = search) => {
     setLoading(true);
     operationAPI
-      .allBookings({ limit: 50 })
-      .then((res) => setBookings(res.bookings))
+      .allBookings({ 
+        page: p, 
+        limit: 10,
+        status: status === "all" ? undefined : status,
+        q: q || undefined
+      })
+      .then((res) => {
+        setBookings(res.bookings);
+        setPagination(res.pagination);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
@@ -44,8 +57,12 @@ export default function AdminBookings() {
   };
 
   useEffect(() => {
-    fetchBookings();
-  }, []);
+    const timer = setTimeout(() => {
+      setPage(1);
+      fetchBookings(1, statusFilter, search);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [statusFilter, search]);
 
   const handleUpdateStatus = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +107,32 @@ export default function AdminBookings() {
             Theo dõi và cập nhật trạng thái đặt vé
           </p>
         </div>
+      </div>
+
+      <div className="glass-card p-4 mb-8 flex flex-wrap gap-4 items-center">
+        <div className="flex-1 min-w-[200px]">
+          <input 
+            type="text" 
+            placeholder="Tìm kiếm khách hàng, sự kiện..." 
+            className="input-field !py-2"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <Select
+          className="w-48 h-10"
+          value={statusFilter}
+          onChange={setStatusFilter}
+          options={[
+            { value: "all", label: "Tất cả trạng thái" },
+            { value: "RECEIVED", label: "Đã nhận" },
+            { value: "RESERVED", label: "Đang giữ chỗ" },
+            { value: "WAITING_PAYMENT", label: "Chờ thanh toán" },
+            { value: "CONFIRMED", label: "Đã xác nhận" },
+            { value: "CANCELLED", label: "Đã hủy" },
+            { value: "EXPIRED", label: "Đã hết hạn" },
+          ]}
+        />
       </div>
 
       <div className="glass-card overflow-hidden">
@@ -175,6 +218,23 @@ export default function AdminBookings() {
           )}
         </div>
       </div>
+
+      {pagination && pagination.total > 0 && (
+        <div className="flex justify-center mt-8">
+          <Pagination
+            current={page}
+            total={pagination.total}
+            pageSize={pagination.limit}
+            onChange={(p) => {
+              setPage(p);
+              fetchBookings(p);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            showSizeChanger={false}
+            className="glass-card px-4 py-2 border-foreground/10"
+          />
+        </div>
+      )}
 
       {/* Modal Chi tiết & Cập nhật Trạng thái */}
       {selectedBooking && (

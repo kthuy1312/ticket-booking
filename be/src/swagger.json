@@ -88,6 +88,15 @@
       "Error": {
         "type": "object",
         "properties": { "message": { "type": "string" } }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" },
+          "total": { "type": "integer" },
+          "totalPages": { "type": "integer" }
+        }
       }
     }
   },
@@ -159,8 +168,29 @@
       "get": {
         "tags": ["Concerts"],
         "summary": "Danh sách concert đang mở bán (ACTIVE)",
+        "parameters": [
+          { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 12 } },
+          { "in": "query", "name": "q", "description": "Tìm kiếm theo tên hoặc địa điểm", "schema": { "type": "string" } },
+          { "in": "query", "name": "month", "description": "Lọc theo tháng (YYYY-MM)", "schema": { "type": "string" } },
+          { "in": "query", "name": "venue", "description": "Lọc theo địa điểm", "schema": { "type": "string" } },
+          { "in": "query", "name": "sort", "schema": { "type": "string", "enum": ["date-asc", "date-desc", "name-asc"], "default": "date-asc" } }
+        ],
         "responses": {
-          "200": { "description": "Danh sách concert" }
+          "200": { 
+            "description": "Danh sách concert có phân trang",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "concerts": { "type": "array", "items": { "$ref": "#/components/schemas/Concert" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "post": {
@@ -191,6 +221,28 @@
         "responses": {
           "201": { "description": "Tạo concert thành công" },
           "403": { "description": "Forbidden" }
+        }
+      }
+    },
+    "/api/concerts/filters": {
+      "get": {
+        "tags": ["Concerts"],
+        "summary": "Lấy danh sách các địa điểm và tháng có sự kiện để làm bộ lọc",
+        "responses": {
+          "200": {
+            "description": "Danh sách địa điểm và tháng",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "venues": { "type": "array", "items": { "type": "string" } },
+                    "months": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -307,7 +359,22 @@
           { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } },
           { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 10 } }
         ],
-        "responses": { "200": { "description": "Danh sách booking có phân trang" } }
+        "responses": { 
+          "200": { 
+            "description": "Danh sách booking có phân trang",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bookings": { "type": "array", "items": { "$ref": "#/components/schemas/Booking" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          } 
+        }
       }
     },
     "/api/bookings/{id}": {
@@ -401,7 +468,22 @@
         "parameters": [
           { "in": "query", "name": "isActive", "schema": { "type": "boolean" } }
         ],
-        "responses": { "200": { "description": "Danh sách voucher" } }
+        "responses": { 
+          "200": { 
+            "description": "Danh sách voucher",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vouchers": { "type": "array", "items": { "$ref": "#/components/schemas/Voucher" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          } 
+        }
       }
     },
     "/api/vouchers/{id}": {
@@ -463,10 +545,26 @@
           { "in": "query", "name": "status", "schema": { "type": "string" } },
           { "in": "query", "name": "concertId", "schema": { "type": "string" } },
           { "in": "query", "name": "userId", "schema": { "type": "string" } },
+          { "in": "query", "name": "q", "schema": { "type": "string" }, "description": "Tìm kiếm theo tên khách hàng, email hoặc tên sự kiện" },
           { "in": "query", "name": "page", "schema": { "type": "integer" } },
           { "in": "query", "name": "limit", "schema": { "type": "integer" } }
         ],
-        "responses": { "200": { "description": "Danh sách booking có phân trang" } }
+        "responses": { 
+          "200": { 
+            "description": "Danh sách booking có phân trang",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bookings": { "type": "array", "items": { "$ref": "#/components/schemas/Booking" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          } 
+        }
       }
     },
     "/api/operation/bookings/{id}": {
@@ -507,8 +605,28 @@
         "tags": ["Operation"],
         "summary": "[ADMIN] Tất cả concert (kể cả DRAFT)",
         "security": [{ "BearerAuth": [] }],
-        "parameters": [{ "in": "query", "name": "status", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "Danh sách concert" } }
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string" } },
+          { "in": "query", "name": "q", "schema": { "type": "string" }, "description": "Tìm kiếm theo tên hoặc địa điểm sự kiện" },
+          { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": { 
+          "200": { 
+            "description": "Danh sách concert",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "concerts": { "type": "array", "items": { "$ref": "#/components/schemas/Concert" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          } 
+        }
       }
     },
     "/api/operation/concerts/{id}/ticket-types": {
@@ -552,7 +670,28 @@
         "tags": ["Operation"],
         "summary": "[ADMIN] Danh sách voucher + usage stats",
         "security": [{ "BearerAuth": [] }],
-        "responses": { "200": { "description": "Danh sách voucher kèm thống kê" } }
+        "parameters": [
+          { "in": "query", "name": "q", "schema": { "type": "string" }, "description": "Tìm kiếm theo mã voucher" },
+          { "in": "query", "name": "isActive", "schema": { "type": "boolean" }, "description": "Lọc theo trạng thái hoạt động" },
+          { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": { 
+          "200": { 
+            "description": "Danh sách voucher kèm thống kê",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vouchers": { "type": "array", "items": { "$ref": "#/components/schemas/Voucher" } },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          } 
+        }
       }
     },
     "/health": {

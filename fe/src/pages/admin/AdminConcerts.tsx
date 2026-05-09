@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Pagination, Select } from 'antd';
 import { operationAPI, concertAPI } from '@/services/api';
-import type { Concert, TicketType } from '@/types';
+import type { Concert, TicketType, Pagination as PaginationType } from '@/types';
 import { fmtDate, fmtCurrency, CONCERT_STATUS_LABELS, getAssetUrl, cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Music, Plus, Edit2, CheckCircle2, Ticket, Loader2, X, Upload, Image as ImageIcon, Map } from 'lucide-react';
@@ -10,6 +11,10 @@ export default function AdminConcerts() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingConcert, setEditingConcert] = useState<Concert | null>(null);
+  const [pagination, setPagination] = useState<PaginationType | null>(null);
+  const [page, setPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   // Ticket Modal states
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
@@ -40,16 +45,29 @@ export default function AdminConcerts() {
   const [existingBanner, setExistingBanner] = useState<string | null>(null);
   const [existingSeatMap, setExistingSeatMap] = useState<string | null>(null);
 
-  const fetchConcerts = () => {
-    operationAPI.allConcerts()
-      .then(setConcerts)
+  const fetchConcerts = (p = page, status = statusFilter, q = search) => {
+    setLoading(true);
+    operationAPI.allConcerts({ 
+      page: p, 
+      limit: 10,
+      status: status === "all" ? undefined : status,
+      q: q || undefined
+    })
+      .then(res => {
+        setConcerts(res.concerts);
+        setPagination(res.pagination);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    fetchConcerts();
-  }, []);
+    const timer = setTimeout(() => {
+      setPage(1);
+      fetchConcerts(1, statusFilter, search);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [statusFilter, search]);
 
   const formatDateForInput = (dateStr: string) => {
     if (!dateStr) return '';
@@ -225,11 +243,35 @@ export default function AdminConcerts() {
           </button>
         </div>
 
+        <div className="glass-card p-4 flex flex-wrap gap-4 items-center">
+          <div className="flex-1 min-w-[200px]">
+            <input 
+              type="text" 
+              placeholder="Tìm kiếm sự kiện, địa điểm..." 
+              className="input-field !py-2"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+          <Select
+            className="w-48 h-10"
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={[
+              { value: "all", label: "Tất cả trạng thái" },
+              { value: "DRAFT", label: "Bản nháp" },
+              { value: "ACTIVE", label: "Đang mở bán" },
+              { value: "ENDED", label: "Đã kết thúc" },
+              { value: "CANCELLED", label: "Đã hủy" },
+            ]}
+          />
+        </div>
+
         <div className="glass-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white/5 border-b border-white/10 text-foreground/60 text-sm uppercase tracking-wider">
+                <tr className="bg-foreground/5 border-b border-foreground/10 text-foreground/60 text-sm uppercase tracking-wider">
                   <th className="p-4 font-semibold">Tên Sự Kiện</th>
                   <th className="p-4 font-semibold">Trạng Thái</th>
                   <th className="p-4 font-semibold">Thời Gian Diễn Ra</th>
@@ -241,7 +283,7 @@ export default function AdminConcerts() {
                   <tr key={concert._id} className="table-row">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/5 flex-shrink-0">
+                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-foreground/5 flex-shrink-0">
                           {(concert.bannerUrl || (concert.images && concert.images.length > 0)) ? (
                             <img 
                               src={getAssetUrl(concert.bannerUrl || concert.images?.[0])} 
@@ -303,6 +345,23 @@ export default function AdminConcerts() {
             )}
           </div>
         </div>
+
+        {pagination && pagination.total > 0 && (
+          <div className="flex justify-center mt-8">
+            <Pagination
+              current={page}
+              total={pagination.total}
+              pageSize={pagination.limit}
+              onChange={(p) => {
+                setPage(p);
+                fetchConcerts(p);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              showSizeChanger={false}
+              className="glass-card px-4 py-2 border-foreground/10"
+            />
+          </div>
+        )}
       </div>
 
       {isModalOpen && (
@@ -345,7 +404,7 @@ export default function AdminConcerts() {
                       "relative overflow-hidden border-2 border-dashed rounded-2xl transition-all duration-300 h-40 flex flex-col items-center justify-center",
                       bannerFile 
                         ? "border-emerald-500/50 bg-emerald-500/5" 
-                        : (existingBanner ? "border-white/20" : "border-white/10 bg-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/5")
+                        : (existingBanner ? "border-white/20" : "border-foreground/10 bg-foreground/5 hover:border-emerald-500/30 hover:bg-emerald-500/5")
                     )}>
                       {existingBanner && !bannerFile ? (
                         <>
@@ -385,7 +444,7 @@ export default function AdminConcerts() {
                       "relative overflow-hidden border-2 border-dashed rounded-2xl transition-all duration-300 h-40 flex flex-col items-center justify-center",
                       seatMapFile 
                         ? "border-sky-500/50 bg-sky-500/5" 
-                        : (existingSeatMap ? "border-white/20" : "border-white/10 bg-white/5 hover:border-sky-500/30 hover:bg-sky-500/5")
+                        : (existingSeatMap ? "border-white/20" : "border-foreground/10 bg-foreground/5 hover:border-sky-500/30 hover:bg-sky-500/5")
                     )}>
                       {existingSeatMap && !seatMapFile ? (
                         <>
@@ -425,7 +484,7 @@ export default function AdminConcerts() {
                       "flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-2xl transition-all duration-300",
                       galleryFiles && galleryFiles.length > 0
                         ? "border-violet-500/50 bg-violet-500/5" 
-                        : "border-white/10 bg-white/5 hover:border-violet-500/30 hover:bg-violet-500/5"
+                        : "border-foreground/10 bg-foreground/5 hover:border-violet-500/30 hover:bg-violet-500/5"
                     )}>
                       <ImageIcon className={cn("w-8 h-8 mb-2 transition-colors", galleryFiles && galleryFiles.length > 0 ? "text-violet-400" : "text-foreground/20")} />
                       <span className="text-sm font-medium text-foreground/60 group-hover:text-violet-400 transition-colors">
@@ -446,9 +505,9 @@ export default function AdminConcerts() {
                 {existingImages.length > 0 && (
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-foreground/70 mb-3 text-violet-400">Thư viện ảnh hiện tại</label>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 p-4 bg-foreground/5 rounded-2xl border border-foreground/10">
                       {existingImages.map((img, idx) => (
-                        <div key={idx} className="relative group aspect-square rounded-xl overflow-hidden border border-white/10 bg-black/20">
+                        <div key={idx} className="relative group aspect-square rounded-xl overflow-hidden border border-foreground/10 bg-black/20">
                           <img 
                             src={getAssetUrl(img)} 
                             alt="" 
@@ -499,7 +558,7 @@ export default function AdminConcerts() {
                   {editingTicketId ? <Edit2 className="w-4 h-4 text-violet-400" /> : <Plus className="w-4 h-4 text-violet-400" />}
                   {editingTicketId ? 'Cập nhật loại vé' : 'Thêm loại vé mới'}
                 </h3>
-                <form onSubmit={handleTicketSubmit} className="space-y-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <form onSubmit={handleTicketSubmit} className="space-y-4 bg-foreground/5 p-4 rounded-2xl border border-foreground/10">
                   <div>
                     <label className="block text-xs font-medium text-foreground/50 mb-1 uppercase tracking-wider">Tên loại vé</label>
                     <input required type="text" value={ticketName} onChange={e => setTicketName(e.target.value)} className="input-field" placeholder="Ví dụ: VIP, GA, Standard..." />
@@ -543,12 +602,12 @@ export default function AdminConcerts() {
                 ) : (
                   <div className="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-2">
                     {concertTickets.length === 0 ? (
-                      <div className="text-center py-10 text-foreground/30 border-2 border-dashed border-white/5 rounded-2xl">
+                      <div className="text-center py-10 text-foreground/30 border-2 border-dashed border-foreground/5 rounded-2xl">
                         Chưa có loại vé nào được tạo.
                       </div>
                     ) : (
                       concertTickets.map(ticket => (
-                        <div key={ticket._id} className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/30 transition-all group">
+                        <div key={ticket._id} className="p-4 rounded-2xl bg-foreground/5 border border-foreground/10 hover:border-violet-500/30 transition-all group">
                           <div className="flex justify-between items-start">
                             <div>
                               <div className="flex items-center gap-2">
@@ -564,7 +623,7 @@ export default function AdminConcerts() {
                             </div>
                             <button 
                               onClick={() => handleEditTicket(ticket)}
-                              className="p-2 rounded-lg bg-white/5 text-foreground/40 hover:text-violet-400 hover:bg-violet-400/10 transition-colors"
+                              className="p-2 rounded-lg bg-foreground/5 text-foreground/40 hover:text-violet-400 hover:bg-violet-400/10 transition-colors"
                             >
                               <Edit2 className="w-4 h-4" />
                             </button>

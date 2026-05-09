@@ -12,7 +12,9 @@ export const authAPI = {
 
 // ── Concerts ─────────────────────────────────────────────────
 export const concertAPI = {
-  list: () => api.get('/concerts').then(r => r.data.concerts as Concert[]),
+  list: (params?: { page?: number; limit?: number; q?: string; month?: string; venue?: string; sort?: string }) => 
+    api.get('/concerts', { params }).then(r => r.data as { concerts: Concert[]; pagination: Pagination }),
+  filters: () => api.get('/concerts/filters').then(r => r.data as { venues: string[]; months: string[] }),
   get: (id: string) => api.get(`/concerts/${id}`).then(r => r.data.concert as Concert),
   ticketTypes: (id: string) => api.get(`/concerts/${id}/ticket-types`).then(r => r.data.ticketTypes as TicketType[]),
   create: (data: object) => api.post('/concerts', data).then(r => r.data),
@@ -46,8 +48,8 @@ export const voucherAPI = {
     api.get('/vouchers/validate', { params: { code, amount } }).then(r => r.data),
   create: (data: object) => api.post('/vouchers', data).then(r => r.data),
   update: (id: string, data: object) => api.put(`/vouchers/${id}`, data).then(r => r.data),
-  list: (params?: { isActive?: boolean }) =>
-    api.get('/vouchers', { params }).then(r => r.data.vouchers as Voucher[]),
+  list: (params?: { isActive?: boolean; page?: number; limit?: number }) =>
+    api.get('/vouchers', { params }).then(r => r.data as { vouchers: Voucher[]; pagination: Pagination }),
   toggleStatus: (id: string) => api.patch(`/vouchers/${id}/toggle-status`).then(r => r.data),
 };
 
@@ -64,8 +66,8 @@ export const operationAPI = {
   updateBookingStatus: (id: string, status: string, reason?: string) =>
     api.patch(`/operation/bookings/${id}/status`, { status, reason }).then(r => r.data),
 
-  allConcerts: (params?: { status?: string }) =>
-    api.get('/operation/concerts', { params }).then(r => r.data.concerts as Concert[]),
+  allConcerts: (params?: { status?: string; page?: number; limit?: number }) =>
+    api.get('/operation/concerts', { params }).then(r => r.data as { concerts: Concert[]; pagination: Pagination }),
 
   createTicketType: (concertId: string, data: object) =>
     api.post(`/operation/concerts/${concertId}/ticket-types`, data).then(r => r.data),
@@ -76,5 +78,6 @@ export const operationAPI = {
   ticketAvailability: (ticketTypeId: string) =>
     api.get(`/operation/ticket-types/${ticketTypeId}/availability`).then(r => r.data.ticketType),
 
-  voucherStats: () => api.get('/operation/vouchers').then(r => r.data.vouchers as Voucher[]),
+  voucherStats: (params?: { page?: number; limit?: number }) => 
+    api.get('/operation/vouchers', { params }).then(r => r.data as { vouchers: Voucher[]; pagination: Pagination }),
 };

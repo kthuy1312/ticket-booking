@@ -28,18 +28,25 @@ import {
   Info,
 } from "lucide-react";
 import { Link } from "react-router";
-import { Modal, QRCode, Divider } from "antd";
+import { Modal, QRCode, Divider, Pagination } from "antd";
+import type { Pagination as PaginationType } from "@/types";
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [pagination, setPagination] = useState<PaginationType | null>(null);
+  const [page, setPage] = useState(1);
 
-  const fetchBookings = () => {
+  const fetchBookings = (p = page) => {
+    setLoading(true);
     bookingAPI
-      .myBookings()
-      .then((res) => setBookings(res.bookings))
+      .myBookings({ page: p, limit: 10 })
+      .then((res) => {
+        setBookings(res.bookings);
+        setPagination(res.pagination);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
@@ -127,7 +134,7 @@ export default function MyBookingsPage() {
                 Tổng đơn
               </p>
               <p className="text-xl font-bold text-foreground">
-                {bookings.length}
+                {pagination?.total || 0}
               </p>
             </div>
             <div className="w-10 h-10 rounded-xl bg-violet-600/20 flex items-center justify-center">
@@ -346,6 +353,23 @@ export default function MyBookingsPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {pagination && pagination.total > 0 && (
+        <div className="flex justify-center pt-8">
+          <Pagination
+            current={page}
+            total={pagination.total}
+            pageSize={pagination.limit}
+            onChange={(p) => {
+              setPage(p);
+              fetchBookings(p);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            showSizeChanger={false}
+            className="glass-card px-4 py-2 border-white/10"
+          />
         </div>
       )}
 

@@ -116,7 +116,7 @@ export default function AdminLayout() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-y-auto beautiful-scrollbar">
-        <div className="p-8">
+        <div className="p-8 pb-32">
           <Outlet />
         </div>
       </main>

@@ -6,6 +6,7 @@ import {
   createConcert,
   updateConcert,
   updateConcertStatus,
+  getFilterValues,
 } from "../controller/concertController.js";
 import { protectedRoute } from "../middlewares/authMiddleware.js";
 import { adminOnly } from "../middlewares/adminMiddleware.js";
@@ -14,6 +15,7 @@ import { upload } from "../middlewares/uploadMiddleware.js";
 const router = express.Router();
 
 router.get("/", listConcerts);
+router.get("/filters", getFilterValues);
 router.get("/:id", getConcert);
 router.get("/:id/ticket-types", getTicketTypes);
 

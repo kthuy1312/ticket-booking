@@ -3,11 +3,59 @@ import TicketType from "../models/TicketType.js";
 
 export const listConcerts = async (req, res) => {
   try {
-    const concerts = await Concert.find({ status: "ACTIVE" })
-      .sort({ eventDate: 1 })
-      .select("-__v");
+    const {
+      page = 1,
+      limit = 12,
+      q,
+      month,
+      venue,
+      sort = "date-asc",
+    } = req.query;
 
-    return res.status(200).json({ concerts });
+    //phân trang, lọc, sort
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const filter = { status: "ACTIVE" };
+
+    if (q) {
+      filter.$or = [
+        { name: { $regex: q, $options: "i" } },
+        { venue: { $regex: q, $options: "i" } },
+      ];
+    }
+
+    if (month && month !== "all") {
+      const [year, m] = month.split("-");
+      const startDate = new Date(parseInt(year), parseInt(m) - 1, 1);
+      const endDate = new Date(parseInt(year), parseInt(m), 0, 23, 59, 59);
+      filter.eventDate = { $gte: startDate, $lte: endDate };
+    }
+
+    if (venue && venue !== "all") {
+      filter.venue = venue;
+    }
+
+    let sortOption = { eventDate: 1 };
+    if (sort === "date-desc") sortOption = { eventDate: -1 };
+    if (sort === "name-asc") sortOption = { name: 1 };
+
+    const [concerts, total] = await Promise.all([
+      Concert.find(filter)
+        .sort(sortOption)
+        .skip(skip)
+        .limit(parseInt(limit))
+        .select("-__v"),
+      Concert.countDocuments(filter),
+    ]);
+
+    return res.status(200).json({
+      concerts,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Lỗi server" });
@@ -184,6 +232,33 @@ export const updateConcertStatus = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Cập nhật trạng thái thành công", concert });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Lỗi server" });
+  }
+};
+
+export const getFilterValues = async (req, res) => {
+  try {
+    //lấy tất cả giá trị venue, dates không trùng nhau
+    const venues = await Concert.distinct("venue", { status: "ACTIVE" });
+    const dates = await Concert.distinct("eventDate", { status: "ACTIVE" });
+
+    //tạo Set để không bị trùng tháng, dễ gom dlieu theo tháng
+    const months = new Set();
+
+    //chuyển từng ngày thành "YYYY-MM"
+    dates.forEach((d) => {
+      const date = new Date(d);
+      months.add(
+        `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`,
+      );
+    });
+
+    return res.status(200).json({
+      venues: venues.sort(),
+      months: Array.from(months).sort(),
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Lỗi server" });

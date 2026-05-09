@@ -1,21 +1,21 @@
 # Melotix - Modern Concert Booking Platform
 
-![Melotix Banner](./be/uploads/default-banner.png) 
-
 **Melotix** là một nền tảng đặt vé concert trực tuyến hiện đại, được tối ưu hóa cho các chiến dịch **Flash Sale** với lưu lượng truy cập lớn. Hệ thống kết hợp trải nghiệm người dùng cao cấp (Luxury SaaS Aesthetic) với các giải pháp kỹ thuật mạnh mẽ để xử lý tranh chấp vé và bảo mật giao dịch.
 
 ---
 
 ## 💎 Key Features
 
-### 👤 Customer Experience
+### Customer Experience
+
 - **Cinematic Discovery:** Khám phá sự kiện với Hero Banner hiệu ứng động, bộ lọc thông minh theo địa điểm và thời gian.
 - **Glassmorphic UI:** Giao diện hiện đại, hỗ trợ Light/Dark mode với độ tương phản cao.
 - **Robust Reservation:** Giữ chỗ vé trong 15 phút, hỗ trợ áp dụng Voucher thông minh.
 - **QR Ticket Management:** Quản lý lịch sử đặt vé và nhận vé điện tử kèm mã QR check-in ngay lập tức.
 - **Anti-Overselling:** Cơ chế bảo vệ 3 lớp (Atomic Update, DB Locking, Redis Distributed Lock) đảm bảo không bao giờ bán quá số lượng vé.
 
-### 🛡 Admin & Operations
+### Admin & Operations
+
 - **SaaS Dashboard:** Thống kê doanh thu, tỷ lệ lấp đầy sân vận động và hiệu quả voucher bằng biểu đồ trực quan.
 - **Concert Management:** Toàn quyền CRUD concert, hạng vé (Ticket Types) và sơ đồ chỗ ngồi.
 - **Voucher Campaign:** Tạo các chiến dịch khuyến mãi với giới hạn số lượt sử dụng và điều kiện áp dụng nghiêm ngặt.
@@ -26,6 +26,7 @@
 ## 🛠 Technology Stack
 
 ### Backend (Node.js Ecosystem)
+
 - **Framework:** Express.js (ES Modules)
 - **Database:** MongoDB with Mongoose (Transaction support)
 - **Caching & Concurrency:** Redis (Distributed Locking via ioredis)
@@ -33,6 +34,7 @@
 - **Validation:** Zod & Mongoose Schema Validation
 
 ### Frontend (React Ecosystem)
+
 - **Framework:** React 19 + Vite
 - **Styling:** Tailwind CSS (Custom Luxury Design System)
 - **Components:** Radix UI, Lucide Icons, Shadcn/UI patterns
@@ -40,6 +42,7 @@
 - **Data Fetching:** Axios
 
 ### Testing Tools
+
 - **Backend:** Jest + Supertest + MongoMemoryReplSet
 - **Frontend:** Vitest + JSDOM
 
@@ -48,16 +51,20 @@
 ## 📦 Getting Started
 
 ### Prerequisites
+
 - Node.js >= 20
 - Docker & Docker Compose (để chạy Redis/MongoDB nhanh chóng)
 
 ### 1. Infrastructure Setup
+
 Chạy lệnh sau tại thư mục gốc để khởi động Redis và MongoDB:
+
 ```bash
 docker-compose up -d
 ```
 
 ### 2. Backend Setup
+
 ```bash
 cd be
 npm install
@@ -67,6 +74,7 @@ npm run dev
 ```
 
 ### 3. Frontend Setup
+
 ```bash
 cd fe
 npm install
@@ -104,6 +112,7 @@ Hệ thống đi kèm với bộ test toàn diện đảm bảo tính đúng đ�
 ---
 
 ## 🤝 Project Structure
+
 ```text
 melotix/
 ├── be/                 # Backend Node.js

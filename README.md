@@ -113,6 +113,17 @@ Hệ thống đi kèm với bộ test toàn diện đảm bảo tính đúng đ�
 
 ---
 
+## 🔑 Demo Accounts
+
+Sau khi chạy lệnh `npm run seed`, bạn có thể sử dụng các tài khoản sau để trải nghiệm:
+
+| Vai trò | Email | Mật khẩu |
+|---|---|---|
+| **Quản trị viên** | `ad@gmail.com` | `123456` |
+| **Người dùng** | `1@gmail.com` | `123456` |
+
+---
+
 ## 🤝 Project Structure
 
 ```text

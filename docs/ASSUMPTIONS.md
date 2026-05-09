@@ -1,28 +1,47 @@
 # Giả định & Phạm vi Hệ thống (Assumptions & Scope)
 
-Tài liệu này làm rõ các giả định và giới hạn của phiên bản hiện tại.
+Tài liệu này xác định các ranh giới thiết kế, các giả định nghiệp vụ và phạm vi triển khai thực tế của hệ thống Melotix.
 
-## 1. Giả định (Assumptions)
-- **Thanh toán:** Giả định việc thanh toán được thực hiện qua một cổng bên thứ 3 (như VNPay, Momo). Trong phạm vi bài làm này, bước thanh toán được giả lập bằng một API xác nhận thủ công hoặc tự động.
-- **Thời gian giữ chỗ:** Mặc định là 10 phút. Sau thời gian này, nếu không thanh toán, vé sẽ tự động được giải phóng.
-- **Tài khoản:** Người dùng phải đăng nhập để thực hiện đặt vé.
-- **Thông báo:** Giả định hệ thống gửi email vé điện tử sau khi thanh toán thành công (Chưa implement thực tế gửi mail, chỉ log ra console).
+---
 
-## 2. Phạm vi thực hiện (Scope)
-### Những gì ĐÃ làm:
-- Toàn bộ luồng CRUD cho Concert, Ticket Types, Vouchers (Admin).
-- Luồng đặt vé hoàn chỉnh cho khách hàng: Chọn vé -> Áp dụng Voucher -> Giữ chỗ -> Thanh toán.
-- Cơ chế chống bán quá số lượng (Overselling) bằng Atomic Updates và Redis Locking logic.
-- Giao diện Admin Dashboard quản lý và theo dõi số liệu thực tế.
-- Chế độ Sáng/Tối (Light/Dark mode) tối ưu cho người dùng.
-- Tìm kiếm và lọc nâng cao trên tất cả các trang quản trị.
+## 1. Các Giả định Kỹ thuật & Nghiệp vụ (Assumptions)
 
-### Những gì CHƯA làm (Out of Scope):
-- **Tích hợp thanh toán thực tế:** Cần API Key từ nhà cung cấp dịch vụ thanh toán.
-- **Gửi Email/SMS thực:** Cần SMTP server hoặc dịch vụ như SendGrid/Twilio.
-- **Quản lý phân quyền chi tiết (RBAC):** Hiện tại chỉ có 2 role đơn giản là USER và ADMIN.
-- **Sơ đồ ghế ngồi chi tiết (Seat Map):** Hiện tại chỉ quản lý theo số lượng (Quantity) của từng hạng vé, chưa chọn chính xác tọa độ ghế.
+### 1.1. Trạng thái Đơn hàng (Booking States)
+Chúng tôi giả định một quy trình đặt vé an toàn gồm **6 trạng thái**. Hệ thống đã implement logic chuyển đổi trạng thái (State Machine) nghiêm ngặt để bảo vệ tồn kho:
+- `RECEIVED`: Hệ thống đã nhận yêu cầu.
+- `RESERVED`: Đã trừ vé trong kho và giữ chỗ (mặc định 15 phút).
+- `WAITING_PAYMENT`: Người dùng đã chọn phương thức thanh toán.
+- `CONFIRMED`: Giao dịch thành công, vé được xác nhận chính thức.
+- `CANCELLED`: Người dùng chủ động hủy đơn.
+- `EXPIRED`: Quá 15 phút giữ chỗ mà không thanh toán thành công.
 
-## 3. Xử lý lỗi & Gian lận
-- Đơn hàng nghi ngờ gian lận (ví dụ: một user đặt quá nhiều vé trong thời gian ngắn) sẽ được gắn cờ để Admin xử lý thủ công trong Operation Dashboard.
-- Hệ thống log lại mọi thay đổi trạng thái của Booking để đối soát (Audit Log).
+### 1.2. Xác thực & Bảo mật
+- Giả định mọi hành động liên quan đến đặt vé hoặc quản trị đều yêu cầu **JWT Auth**.
+- Hệ thống giả định mỗi người dùng là một thực thể riêng biệt dựa trên `userId` để áp dụng Rate Limit và Giới hạn số vé.
+
+### 1.3. Thanh toán & Thông báo
+- **Thanh toán:** Không tích hợp cổng thanh toán thực (Stripe/VNPay). Hệ thống cung cấp API `confirm-payment` để giả lập (Mock) việc nhận callback thành công từ cổng thanh toán.
+- **Thông báo:** Giả định việc gửi Email/SMS vé điện tử sẽ do một service khác xử lý qua Message Queue. Phiên bản hiện tại chỉ ghi Log để xác nhận luồng.
+
+---
+
+## 2. Phạm vi Thực hiện (Scope)
+
+### 2.1. Những gì ĐÃ làm (Implemented)
+- **Luồng Khách hàng:** Đăng ký/đăng nhập, tìm kiếm concert (filter theo tháng/địa điểm), đặt vé (Atomic Update + Redis Lock), áp dụng voucher, quản lý lịch sử đơn hàng.
+- **Luồng Quản trị (Admin):** Dashboard thống kê, CRUD Concert, CRUD Ticket Types, Quản lý trạng thái Booking (Audit Log), Tạo và Vô hiệu hóa Voucher.
+- **Bảo vệ Hệ thống:** Chống Overselling (không bao giờ bán quá số lượng), Chống Spam (Rate Limit 5 req/phút), Chống đầu cơ (Max 10 vé/concert/user).
+- **Hạ tầng:** Idempotency Key (chống đặt trùng khi bấm nhanh), Background Job (tự động giải phóng vé khi hết hạn giữ chỗ).
+
+### 2.2. Những gì CHƯA làm (Out of Scope)
+- **Quản lý Voucher:** Hệ thống chỉ hỗ trợ **Tạo mới** và **Vô hiệu hóa (Toggle Active)**. Chúng tôi KHÔNG hỗ trợ cập nhật hoặc xóa voucher đã có để đảm bảo tính toàn vẹn của dữ liệu đối soát (Audit Trail).
+- **Sơ đồ chỗ ngồi thực tế:** Hệ thống quản lý vé theo Hạng vé (Ticket Type) và Số lượng (Quantity), chưa hỗ trợ chọn chính xác tọa độ ghế (Seat Selection) trên bản đồ.
+- **Real-time:** Chưa tích hợp WebSocket để cập nhật số lượng vé còn lại theo thời gian thực trên giao diện.
+
+---
+
+## 3. Quản lý Dữ liệu mẫu (Data Seeding)
+
+Hệ thống được thiết kế để có thể chạy ngay lập tức thông qua cơ chế Seed dữ liệu:
+- Không cần thao tác Admin để tạo dữ liệu ban đầu.
+- Chỉ cần chạy `npm run seed`, hệ thống sẽ tự nạp 10 Concerts, 37 loại vé, và các Voucher mẫu để phục vụ việc kiểm thử luồng nghiệp vụ.

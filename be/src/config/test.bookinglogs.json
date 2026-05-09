@@ -1,0 +1,252 @@
+[{
+  "_id": {
+    "$oid": "69ff053c2268f2548ce7494c"
+  },
+  "bookingId": {
+    "$oid": "69ff053c2268f2548ce7494b"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T09:58:20.079Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:58:20.079Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05682268f2548ce7494f"
+  },
+  "bookingId": {
+    "$oid": "69ff05672268f2548ce7494d"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T09:59:04.034Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:04.034Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff057b2268f2548ce74951"
+  },
+  "bookingId": {
+    "$oid": "69ff057b2268f2548ce74950"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T09:59:23.229Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:23.229Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05802268f2548ce74952"
+  },
+  "bookingId": {
+    "$oid": "69ff053c2268f2548ce7494b"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CANCELLED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Khách hàng tự hủy",
+  "createdAt": {
+    "$date": "2026-05-09T09:59:28.651Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:28.651Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05822268f2548ce74953"
+  },
+  "bookingId": {
+    "$oid": "69ff05672268f2548ce7494d"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CONFIRMED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Khách hàng xác nhận thanh toán",
+  "createdAt": {
+    "$date": "2026-05-09T09:59:30.853Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:30.853Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05832268f2548ce74954"
+  },
+  "bookingId": {
+    "$oid": "69ff057b2268f2548ce74950"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CONFIRMED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "reason": "Khách hàng xác nhận thanh toán",
+  "createdAt": {
+    "$date": "2026-05-09T09:59:31.914Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:31.914Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05a82268f2548ce74957"
+  },
+  "bookingId": {
+    "$oid": "69ff05a82268f2548ce74955"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:08.186Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:08.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05b92268f2548ce7495a"
+  },
+  "bookingId": {
+    "$oid": "69ff05b92268f2548ce74958"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:25.196Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:25.196Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05bb2268f2548ce7495b"
+  },
+  "bookingId": {
+    "$oid": "69ff05b92268f2548ce74958"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CONFIRMED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Khách hàng xác nhận thanh toán",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:27.788Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:27.788Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05bd2268f2548ce7495c"
+  },
+  "bookingId": {
+    "$oid": "69ff05a82268f2548ce74955"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CONFIRMED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Khách hàng xác nhận thanh toán",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:29.377Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:29.377Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05c52268f2548ce7495e"
+  },
+  "bookingId": {
+    "$oid": "69ff05c52268f2548ce7495d"
+  },
+  "previousStatus": "RECEIVED",
+  "newStatus": "RESERVED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Booking tạo thành công, vé được giữ chỗ",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:37.334Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:37.334Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05c92268f2548ce7495f"
+  },
+  "bookingId": {
+    "$oid": "69ff05c52268f2548ce7495d"
+  },
+  "previousStatus": "RESERVED",
+  "newStatus": "CONFIRMED",
+  "changedBy": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "reason": "Khách hàng xác nhận thanh toán",
+  "createdAt": {
+    "$date": "2026-05-09T10:00:41.331Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:41.331Z"
+  },
+  "__v": 0
+}]

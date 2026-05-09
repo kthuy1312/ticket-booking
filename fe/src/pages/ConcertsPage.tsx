@@ -202,7 +202,7 @@ export default function ConcertsPage() {
         <div className="flex flex-col gap-6 mb-8">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
-              Sự kiện Đang mở bán{" "}
+              Khám phá Sự kiện{" "}
               <span className="text-sm font-normal text-foreground/50">
                 ({total})
               </span>
@@ -335,9 +335,31 @@ export default function ConcertsPage() {
                         <Music className="w-12 h-12 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     )}
-                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-xs font-semibold text-foreground">
-                      Đang mở bán
-                    </div>
+                    {(() => {
+                      const now = new Date();
+                      const start = new Date(concert.saleStartDate);
+                      const end = new Date(concert.saleEndDate);
+
+                      if (now < start) {
+                        return (
+                          <div className="absolute top-4 right-4 bg-amber-500/80 backdrop-blur-md border border-amber-500/20 px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+                            Sắp mở bán
+                          </div>
+                        );
+                      } else if (now >= start && now <= end) {
+                        return (
+                          <div className="absolute top-4 right-4 bg-emerald-500/80 backdrop-blur-md border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+                            Đang mở bán
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div className="absolute top-4 right-4 bg-red-500/80 backdrop-blur-md border border-red-500/20 px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+                            Hết hạn
+                          </div>
+                        );
+                      }
+                    })()}
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col">

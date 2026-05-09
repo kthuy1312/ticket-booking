@@ -1,0 +1,355 @@
+[{
+  "_id": {
+    "$oid": "69fdf6416414544b72563969"
+  },
+  "name": "BTS World Tour 2026",
+  "description": "BTS World Tour 2026 tại SVĐ Quân Khu 7, TP.HCM hứa hẹn mang đến một đêm concert bùng nổ cảm xúc dành cho cộng đồng ARMY Việt Nam. Với sân khấu quy mô lớn, hệ thống âm thanh – ánh sáng hiện đại cùng những màn trình diễn đầy năng lượng, sự kiện sẽ đưa khán giả hòa mình vào không khí âm nhạc đỉnh cao và những khoảnh khắc đáng nhớ cùng BTS.\r\n\r\nConcert sẽ trình diễn hàng loạt ca khúc nổi tiếng như Dynamite, Butter, Fake Love, Spring Day và nhiều sân khấu đặc biệt được chuẩn bị riêng cho world tour lần này. Đây không chỉ là một sự kiện âm nhạc mà còn là nơi kết nối hàng chục nghìn người hâm mộ, tạo nên một đêm hội tràn ngập cảm xúc, tiếng hát và ánh sáng tím đặc trưng của ARMY.",
+  "venue": "SVĐ Quân Khu 7, TP.HCM",
+  "eventDate": {
+    "$date": "2026-08-12T21:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-05T22:42:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-06-04T23:42:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778265322935-878139912.jpg",
+  "seatMapImage": "/uploads/seatMap-1778269119262-501374744.jpg",
+  "images": [
+    "/uploads/images-1778264885796-816302571.webp",
+    "/uploads/images-1778264885800-559652100.jpg",
+    "/uploads/images-1778264885805-75569785.jpg",
+    "/uploads/images-1778323366432-911364075.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T14:42:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:42:46.493Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fdf6416414544b7256396a"
+  },
+  "name": "Sơn Tùng M-TP – Sky Tour",
+  "description": "Sơn Tùng M-TP – Sky Tour tại Nhà thi đấu Quân Khu 7, TP.HCM sẽ mang đến một đêm nhạc bùng nổ với sân khấu hiện đại, hiệu ứng ánh sáng mãn nhãn và bầu không khí cuồng nhiệt dành cho cộng đồng SKY. Khán giả sẽ được hòa mình vào những giai điệu quen thuộc, những màn trình diễn đầy năng lượng cùng phong cách trình diễn đặc trưng của Sơn Tùng M-TP.\r\n\r\nĐêm concert hứa hẹn khuấy động sân khấu với loạt hit đình đám như Hãy Trao Cho Anh, Lạc Trôi, Chạy Ngay Đi, Có Chắc Yêu Là Đây và nhiều tiết mục đặc biệt được đầu tư công phu. Đây sẽ là một trải nghiệm âm nhạc đáng nhớ, nơi hàng nghìn fan cùng cháy hết mình trong không gian âm nhạc đầy cảm xúc và bùng nổ.",
+  "venue": "SVĐ Quân Khu 7, TP.HCM",
+  "eventDate": {
+    "$date": "2026-09-18T19:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-05T20:42:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-07-05T20:42:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778266610050-483939939.png",
+  "seatMapImage": "/uploads/seatMap-1778266610060-361929824.jpg",
+  "images": [
+    "/uploads/images-1778266767240-628338813.jpg",
+    "/uploads/images-1778266767251-171735891.jpg",
+    "/uploads/images-1778266767253-143659197.jpg",
+    "/uploads/images-1778323417911-297358741.webp"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T14:42:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:43:37.964Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe0316fe563f14502c1014"
+  },
+  "name": "BlackPink World Tour 2026",
+  "description": "BLACKPINK Hanoi Tour 2026 là đêm concert bùng nổ dành cho cộng đồng BLINK tại Hà Nội, nơi hàng chục nghìn khán giả sẽ cùng hòa mình vào không khí âm nhạc sôi động, ánh đèn sân khấu rực rỡ và những màn trình diễn đầy năng lượng từ BLACKPINK. Sự kiện mang đến trải nghiệm concert đẳng cấp với nhiều hạng vé, khu vực chỗ ngồi đa dạng cùng hiệu ứng âm thanh – ánh sáng hoành tráng tại sân vận động quốc gia Mỹ Đình.\r\n\r\nĐây không chỉ là một đêm nhạc, mà còn là khoảnh khắc kết nối cảm xúc giữa người hâm mộ và những bản hit đình đám như Pink Venom, How You Like That, Shut Down hay DDU-DU DDU-DU. BLACKPINK Hanoi Tour hứa hẹn sẽ trở thành một trong những sự kiện âm nhạc đáng nhớ nhất năm dành cho fan K-pop tại Việt Nam.",
+  "venue": "SVĐ Mỹ Đình, Hà Nội",
+  "eventDate": {
+    "$date": "2026-08-17T16:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-08T16:00:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-06-02T16:00:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778265400995-804336219.png",
+  "seatMapImage": "/uploads/seatMap-1778266402676-117101289.jpeg",
+  "images": [
+    "/uploads/images-1778265401009-849062795.jpg",
+    "/uploads/images-1778265401012-129176046.jpeg",
+    "/uploads/images-1778265401018-279481262.webp",
+    "/uploads/images-1778323316043-297077443.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T15:36:54.036Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:41:56.093Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe1ea08e42a2353baa0cde"
+  },
+  "name": "Melotix Summer Night 2026",
+  "description": "Đêm nhạc hội quy tụ nhiều nghệ sĩ nổi tiếng với sân khấu hoành tráng và hiệu ứng ánh sáng đặc biệt.",
+  "venue": "SECC Convention Center, TP.HCM",
+  "eventDate": {
+    "$date": "2026-07-20T00:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-10T00:00:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-07-19T00:00:00.000Z"
+  },
+  "status": "DRAFT",
+  "bannerUrl": "",
+  "images": [],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T17:34:24.902Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T17:34:57.775Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe424c8f4f93bff516733f"
+  },
+  "name": "Taylor Swift - The Eras Tour Vietnam",
+  "description": "Taylor Swift - The Eras Tour Vietnam sẽ mang đến một đêm concert hoành tráng tại Hà Nội với sân khấu đẳng cấp quốc tế, hiệu ứng ánh sáng mãn nhãn và hành trình âm nhạc xuyên suốt các “era” nổi tiếng trong sự nghiệp của Taylor Swift. Khán giả sẽ được hòa mình vào những ca khúc đình đám như Love Story, Blank Space, Cruel Summer, Anti-Hero và nhiều màn trình diễn đặc biệt được đầu tư công phu cho world tour lần này.\r\n\r\nĐây hứa hẹn sẽ là một trong những sự kiện âm nhạc quốc tế nổi bật nhất năm tại Việt Nam, nơi hàng chục nghìn Swifties cùng nhau tạo nên bầu không khí cuồng nhiệt, đầy cảm xúc và đáng nhớ.",
+  "venue": "SVĐ Mỹ Đình, Hà Nội",
+  "eventDate": {
+    "$date": "2026-06-29T22:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-04-30T19:00:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-06-07T13:00:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778270883789-419231672.jpg",
+  "seatMapImage": "/uploads/seatMap-1778271096546-483634804.jpg",
+  "images": [
+    "/uploads/images-1778270796788-619981040.webp",
+    "/uploads/images-1778270796796-596775356.png",
+    "/uploads/images-1778270796803-854199393.webp",
+    "/uploads/images-1778323125132-733919531.jpg",
+    "/uploads/images-1778323125140-292088114.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T20:06:36.815Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:38:45.191Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe46358f4f93bff5167344"
+  },
+  "name": "Hoàng Thùy Linh Vietnamese Concert 2026",
+  "description": "Hoàng Thùy Linh Vietnamese Concert 2026 sẽ mang đến không gian âm nhạc hiện đại kết hợp đậm chất văn hóa Việt với sân khấu được đầu tư công phu cùng hiệu ứng hình ảnh mãn nhãn. Khán giả sẽ được thưởng thức những ca khúc nổi bật như See Tình, Để Mị Nói Cho Mà Nghe, Kẻ Cắp Gặp Bà Già và nhiều màn trình diễn mang đậm màu sắc nghệ thuật đặc trưng của Hoàng Thùy Linh.",
+  "venue": "SVĐ Phú Thọ, TP.HCM",
+  "eventDate": {
+    "$date": "2026-07-20T22:30:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-07T06:20:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-06-29T06:20:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778271797394-480197598.jpg",
+  "seatMapImage": "/uploads/seatMap-1778271797406-456067498.jpg",
+  "images": [
+    "/uploads/images-1778271797411-397722652.jpg",
+    "/uploads/images-1778271797416-999033681.jpg",
+    "/uploads/images-1778271797429-849735530.webp",
+    "/uploads/images-1778323265538-363420629.webp"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T20:23:17.445Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:41:05.586Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69fe49d28f4f93bff5167349"
+  },
+  "name": "Mỹ Tâm – Tri Âm & See The Light Concert 2026",
+  "description": "Mỹ Tâm – Tri Âm & See The Light Concert 2026 sẽ mang đến một đêm nhạc giàu cảm xúc với sân khấu hoành tráng, hệ thống âm thanh ánh sáng hiện đại và những màn trình diễn đầy nội lực từ Mỹ Tâm. Khán giả sẽ được hòa mình vào các bản hit gắn liền với thanh xuân như Người Hãy Quên Em Đi, Đừng Hỏi Em, Họa Mi Tóc Nâu, Ước Gì cùng nhiều tiết mục đặc biệt được đầu tư dành riêng cho đêm concert lần này.",
+  "venue": "SVĐ Phú Thọ, TP.HCM",
+  "eventDate": {
+    "$date": "2026-12-12T15:40:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-10-08T23:40:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-12-08T23:40:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778272722207-746008944.jpg",
+  "seatMapImage": "/uploads/seatMap-1778272731049-596329331.jpg",
+  "images": [
+    "/uploads/images-1778272891984-139651778.webp",
+    "/uploads/images-1778272891985-62406862.webp",
+    "/uploads/images-1778272891986-71860462.webp",
+    "/uploads/images-1778323213934-151252132.webp"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-08T20:38:42.229Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:40:13.986Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff08f3e7fb6a240af4c263"
+  },
+  "name": "Justice World Live 2026",
+  "description": "Đêm nhạc hoành tráng của Justin Bieber là một sự kiện âm nhạc quy mô lớn, nơi khán giả sẽ được đắm chìm trong không gian biểu diễn đẳng cấp quốc tế với hệ thống sân khấu ánh sáng hiện đại, hiệu ứng 3D sống động và dàn band live chuyên nghiệp. Toàn bộ chương trình được thiết kế để tái hiện hành trình âm nhạc ấn tượng của Justin Bieber, từ những bản hit đầu tiên cho đến các ca khúc mới nhất, mang lại cảm xúc bùng nổ và kết nối mạnh mẽ với người hâm mộ.\r\n\r\nKhông chỉ là một buổi concert, đây còn là một trải nghiệm giải trí toàn diện với sự kết hợp giữa âm thanh chất lượng cao, visual mapping công nghệ tiên tiến và không gian sân khấu được dàn dựng công phu. Khán giả sẽ được hòa mình vào bầu không khí trẻ trung, sôi động nhưng cũng đầy cảm xúc, nơi mỗi bài hát đều gợi lại những kỷ niệm và cảm xúc đặc biệt.",
+  "venue": "SVĐ Thống Nhất, TP.HCM",
+  "eventDate": {
+    "$date": "2026-12-11T12:15:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-10-31T21:00:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-11-30T09:00:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778321911681-527171043.jpg",
+  "seatMapImage": "/uploads/seatMap-1778321911700-649397485.jpg",
+  "images": [
+    "/uploads/images-1778322902775-51789818.jpg",
+    "/uploads/images-1778322902776-123421110.webp",
+    "/uploads/images-1778322902776-914473530.jpg",
+    "/uploads/images-1778322902778-68913685.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:14:11.842Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:35:02.832Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff0c77e7fb6a240af4c264"
+  },
+  "name": "TWICE World Tour 2026  “THIS IS FOR”",
+  "description": "“THIS IS FOR” là world tour toàn cầu của TWICE, đánh dấu một trong những giai đoạn bùng nổ nhất trong sự nghiệp của nhóm. Đây là chuỗi concert quy mô stadium, được tổ chức tại nhiều quốc gia trên thế giới, mang đến trải nghiệm âm nhạc đỉnh cao với sân khấu hiện đại, hệ thống ánh sáng LED khổng lồ, hiệu ứng 3D và âm thanh chuẩn quốc tế.\r\n\r\nMỗi đêm diễn trong tour là một hành trình cảm xúc, nơi TWICE trình diễn loạt hit nổi bật cùng những ca khúc mới trong concept “THIS IS FOR”, thể hiện thông điệp dành cho người hâm mộ toàn cầu. Sân khấu được thiết kế mở, kết hợp vũ đạo đồng đều, visual theo từng “era” và hiệu ứng sân khấu hoành tráng, tạo nên trải nghiệm trọn vẹn từ mọi góc nhìn.\r\n\r\nKhông chỉ là một concert, “THIS IS FOR” là lời tri ân dành cho fan trên toàn thế giới, với những khoảnh khắc giao lưu, fan service và màn encore đặc biệt ở mỗi thành phố, biến mỗi điểm dừng trong tour thành một kỷ niệm không thể quên.",
+  "venue": "SVĐ Mỹ Đình, Hà Nội",
+  "eventDate": {
+    "$date": "2026-10-06T10:30:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-08-30T09:30:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-09-28T09:30:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778324061694-621329019.jpg",
+  "seatMapImage": "/uploads/seatMap-1778322551058-500348093.jpg",
+  "images": [
+    "/uploads/images-1778323087171-168900067.jpg",
+    "/uploads/images-1778323087173-556831437.avif",
+    "/uploads/images-1778323087177-858367621.webp",
+    "/uploads/images-1778323087182-369532114.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:29:11.085Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:56:24.236Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff10910ce70269133927ab"
+  },
+  "name": "NGỌT 2026 – “Các Khoảnh Khắc Rất Ngọt”",
+  "description": "Đêm nhạc của Ngọt mang phong cách indie pop đặc trưng, nơi âm nhạc được kể bằng những câu chuyện đời thường, gần gũi nhưng đầy cảm xúc. Không gian concert được thiết kế ấm áp, tập trung vào trải nghiệm âm thanh mộc mạc, chân thật, kết hợp ánh sáng nhẹ và sân khấu tối giản để làm nổi bật phần trình diễn.\r\n\r\nKhán giả sẽ được sống lại hành trình âm nhạc của Ngọt qua các ca khúc quen thuộc, từ những bài hát đầu tiên đến các sáng tác mới, tạo nên một dòng cảm xúc liền mạch, nhẹ nhàng nhưng sâu lắng. Đây không chỉ là một buổi biểu diễn, mà là một buổi “kể chuyện bằng âm nhạc”, nơi người nghe có thể tìm thấy chính mình trong từng giai điệu.",
+  "venue": "SVĐ Quân khu 7, TP.HCM",
+  "eventDate": {
+    "$date": "2026-06-30T08:00:00.000Z"
+  },
+  "saleStartDate": {
+    "$date": "2026-05-07T06:50:00.000Z"
+  },
+  "saleEndDate": {
+    "$date": "2026-06-24T06:50:00.000Z"
+  },
+  "status": "ACTIVE",
+  "bannerUrl": "/uploads/banner-1778323707015-128602805.png",
+  "seatMapImage": "",
+  "images": [
+    "/uploads/images-1778323707019-300627247.jpg",
+    "/uploads/images-1778323707028-415920261.webp",
+    "/uploads/images-1778323707030-498721403.webp",
+    "/uploads/images-1778323707032-455301688.jpg"
+  ],
+  "createdBy": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:46:41.459Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:55:48.436Z"
+  },
+  "__v": 0
+}]

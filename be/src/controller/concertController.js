@@ -164,10 +164,20 @@ export const updateConcert = async (req, res) => {
       return res.status(404).json({ message: "Concert không tồn tại" });
     }
 
-    //xlyfiles từ multer
+    //xly files từ multer
     let bannerUrl = concert.bannerUrl;
     let seatMapImage = concert.seatMapImage;
-    let images = concert.images;
+    let images = [...concert.images];
+
+    //xly xóa ảnh cũ nếu có yêu cầu từ frontend
+    if (req.body.removedImages) {
+      try {
+        const toRemove = JSON.parse(req.body.removedImages);
+        images = images.filter((img) => !toRemove.includes(img));
+      } catch (e) {
+        console.error("Error parsing removedImages:", e);
+      }
+    }
 
     if (req.files) {
       if (req.files.banner && req.files.banner[0]) {
@@ -177,7 +187,8 @@ export const updateConcert = async (req, res) => {
         seatMapImage = `/uploads/${req.files.seatMap[0].filename}`;
       }
       if (req.files.images && req.files.images.length > 0) {
-        images = req.files.images.map((f) => `/uploads/${f.filename}`);
+        const newImages = req.files.images.map((f) => `/uploads/${f.filename}`);
+        images = [...images, ...newImages];
       }
     }
 

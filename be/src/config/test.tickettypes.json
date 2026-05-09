@@ -1,0 +1,816 @@
+[
+  {
+    "_id": {
+      "$oid": "69fdf6416414544b7256396b"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b72563969"
+    },
+    "name": "D ZONE",
+    "description": "Khu vực D ZONE dành cho khán giả muốn tham gia và tận hưởng không khí đại nhạc hội đầy cảm xúc của BTS World Tour 2026 với mức giá dễ tiếp cận. Dù ở vị trí phổ thông, người tham dự vẫn có thể hòa mình vào không gian âm nhạc, ánh sáng và năng lượng cuồng nhiệt của cộng đồng ARMY.",
+    "price": 1500000,
+    "totalQuantity": 2000,
+    "availableQuantity": 1999,
+    "maxPerBooking": 4,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2026-05-08T14:42:09.533Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T09:59:23.133Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fdf6416414544b7256396c"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b72563969"
+    },
+    "name": "B ZONE",
+    "description": "Khu vực B ZONE mang đến góc nhìn rộng cùng không gian thưởng thức âm nhạc sống động, phù hợp cho khán giả muốn trải nghiệm đầy đủ không khí concert với mức giá cân bằng. Người tham dự có thể tận hưởng các màn trình diễn, hiệu ứng sân khấu và sự cuồng nhiệt của hàng chục nghìn ARMY trong đêm diễn đặc biệt.",
+    "price": 4800000,
+    "totalQuantity": 900,
+    "availableQuantity": 900,
+    "maxPerBooking": 6,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T14:42:09.533Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:42:18.418Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fdf6416414544b7256396d"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b72563969"
+    },
+    "name": "A ZONE",
+    "description": "Khu vực A ZONE sở hữu vị trí gần sân khấu với tầm nhìn trực diện, mang đến trải nghiệm concert bùng nổ cùng hệ thống âm thanh và ánh sáng đẳng cấp trong BTS World Tour 2026. Đây là khu vực lý tưởng dành cho ARMY muốn hòa mình vào không khí cuồng nhiệt và tận hưởng những màn trình diễn đỉnh cao của BTS ở khoảng cách gần nhất.",
+    "price": 6500000,
+    "totalQuantity": 600,
+    "availableQuantity": 600,
+    "maxPerBooking": 2,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T14:42:09.534Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:46:51.082Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fdf6416414544b7256396e"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b7256396a"
+    },
+    "name": "VIP",
+    "description": "Khu vực VIP sở hữu vị trí đẹp gần sân khấu với góc nhìn rộng và chất lượng âm thanh sống động. Đây là lựa chọn phù hợp dành cho khán giả muốn tận hưởng không khí cuồng nhiệt của Sky Tour với trải nghiệm concert nổi bật và thuận tiện.",
+    "price": 5500000,
+    "totalQuantity": 700,
+    "availableQuantity": 700,
+    "maxPerBooking": 4,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T14:42:09.534Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:42:40.612Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fdf6416414544b7256396f"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b7256396a"
+    },
+    "name": "VVIP",
+    "description": "Khu vực VVIP với vị trí sát sân khấu, mang đến trải nghiệm xem concert đẳng cấp cùng tầm nhìn trực diện và không khí bùng nổ nhất của Sky Tour. Vé VVIP đi kèm lối check-in ưu tiên, quà tặng giới hạn và nhiều quyền lợi đặc biệt dành cho fan muốn tận hưởng trọn vẹn đêm diễn của Sơn Tùng M-TP.",
+    "price": 8000000,
+    "totalQuantity": 500,
+    "availableQuantity": 498,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T14:42:09.534Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:00:07.953Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe0d890612f2389d715745"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b72563969"
+    },
+    "name": "C ZONE",
+    "description": "Khu vực C ZONE là lựa chọn phổ biến dành cho khán giả yêu thích không khí sôi động của BTS World Tour với mức giá hợp lý và tầm nhìn tốt đến sân khấu chính. Đây là khu vực phù hợp để hòa mình vào những màn fanchant, ánh đèn ARMY Bomb và các tiết mục bùng nổ xuyên suốt concert.",
+    "price": 3200000,
+    "totalQuantity": 1200,
+    "availableQuantity": 1200,
+    "maxPerBooking": 4,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T16:21:29.289Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:44:13.591Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe36a48f4f93bff5167337"
+    },
+    "concertId": {
+      "$oid": "69fe0316fe563f14502c1014"
+    },
+    "name": "VIP L SEATING",
+    "description": "Khu vực ghế ngồi VIP L SEATING với tầm nhìn cận sân khấu, mang đến trải nghiệm concert đẳng cấp cùng hệ thống âm thanh và ánh sáng sống động. Vé bao gồm lối check-in ưu tiên, quà tặng độc quyền từ chương trình và khu vực chỗ ngồi giới hạn dành cho fan muốn tận hưởng không khí biểu diễn trọn vẹn nhất.",
+    "price": 9800000,
+    "totalQuantity": 500,
+    "availableQuantity": 499,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T19:16:52.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T09:59:03.802Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe36c98f4f93bff5167338"
+    },
+    "concertId": {
+      "$oid": "69fe0316fe563f14502c1014"
+    },
+    "name": "VIP R SEATING",
+    "description": "Khu vực ghế ngồi VIP R SEATING với tầm nhìn cận sân khấu, mang đến trải nghiệm concert đẳng cấp cùng hệ thống âm thanh và ánh sáng sống động. Vé bao gồm lối check-in ưu tiên, quà tặng độc quyền từ chương trình và khu vực chỗ ngồi giới hạn dành cho fan muốn tận hưởng không khí biểu diễn trọn vẹn nhất.",
+    "price": 9800000,
+    "totalQuantity": 500,
+    "availableQuantity": 500,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T19:17:29.406Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:43:03.361Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe37158f4f93bff5167339"
+    },
+    "concertId": {
+      "$oid": "69fe0316fe563f14502c1014"
+    },
+    "name": "PLATINUM L SEATING",
+    "description": "Khu vực PLATINUM L SEATING sở hữu vị trí ngồi đẹp với góc nhìn rộng hướng trực tiếp đến sân khấu, phù hợp để tận hưởng trọn vẹn các màn trình diễn và hiệu ứng sân khấu hoành tráng. Vé đi kèm lối vào riêng, khu vực check-in thuận tiện và những quyền lợi đặc biệt dành cho người tham dự hạng Platinum.",
+    "price": 7800000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T19:18:45.046Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:43:06.487Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe37338f4f93bff516733a"
+    },
+    "concertId": {
+      "$oid": "69fe0316fe563f14502c1014"
+    },
+    "name": "PLATINUM R SEATING",
+    "description": "Khu vực PLATINUM R SEATING sở hữu vị trí ngồi đẹp với góc nhìn rộng hướng trực tiếp đến sân khấu, phù hợp để tận hưởng trọn vẹn các màn trình diễn và hiệu ứng sân khấu hoành tráng. Vé đi kèm lối vào riêng, khu vực check-in thuận tiện và những quyền lợi đặc biệt dành cho người tham dự hạng Platinum.",
+    "price": 7800000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T19:19:15.880Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:43:09.448Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe37698f4f93bff516733b"
+    },
+    "concertId": {
+      "$oid": "69fe0316fe563f14502c1014"
+    },
+    "name": "CAT 1 STANDING",
+    "description": "Khu vực CAT 1 STANDING dành cho khán giả yêu thích không khí sôi động và muốn hòa mình trực tiếp vào đám đông cuồng nhiệt gần sân khấu. Với vị trí đứng có tầm nhìn tốt cùng không gian năng động, đây là lựa chọn lý tưởng để cháy hết mình cùng âm nhạc và các màn trình diễn bùng nổ xuyên suốt concert.",
+    "price": 6800000,
+    "totalQuantity": 400,
+    "availableQuantity": 400,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T19:20:09.925Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:43:12.195Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe39348f4f93bff516733c"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b7256396a"
+    },
+    "name": "GA-A",
+    "description": "Khu vực GA-A là khu vực standing năng động với vị trí gần sân khấu, phù hợp cho những khán giả muốn hòa mình vào không khí sôi động và cháy hết mình cùng các màn trình diễn bùng nổ của Sơn Tùng M-TP.",
+    "price": 3500000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T19:27:48.785Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:42:44.190Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe39608f4f93bff516733d"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b7256396a"
+    },
+    "name": "GA-B",
+    "description": "Khu vực GA-B mang đến trải nghiệm concert thoải mái với tầm nhìn tốt và không gian rộng rãi để tận hưởng âm nhạc, ánh sáng và bầu không khí cuồng nhiệt của hàng nghìn SKY trong đêm diễn.",
+    "price": 3500000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T19:28:32.338Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:42:48.864Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe39908f4f93bff516733e"
+    },
+    "concertId": {
+      "$oid": "69fdf6416414544b7256396a"
+    },
+    "name": "GA-C",
+    "description": "Khu vực GA-C là lựa chọn phổ thông dành cho khán giả muốn tham gia và hòa mình vào không khí sôi động của Sky Tour với mức giá hợp lý nhưng vẫn đảm bảo trải nghiệm âm nhạc đầy cảm xúc.",
+    "price": 1800000,
+    "totalQuantity": 400,
+    "availableQuantity": 400,
+    "maxPerBooking": 5,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2026-05-08T19:29:20.956Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T19:42:52.184Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe43da8f4f93bff5167340"
+    },
+    "concertId": {
+      "$oid": "69fe424c8f4f93bff516733f"
+    },
+    "name": "A ZONE",
+    "description": "Khu vực A ZONE là khu vực lớn nhất của concert với vị trí trung tâm và tầm nhìn rộng hướng trực tiếp đến sân khấu chính. Đây là lựa chọn lý tưởng dành cho khán giả muốn hòa mình vào không khí cuồng nhiệt của The Eras Tour cùng hàng nghìn Swifties trong không gian âm nhạc bùng nổ và đầy cảm xúc.",
+    "price": 7500000,
+    "totalQuantity": 700,
+    "availableQuantity": 700,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T20:13:14.376Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T08:42:46.779Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe43fa8f4f93bff5167341"
+    },
+    "concertId": {
+      "$oid": "69fe424c8f4f93bff516733f"
+    },
+    "name": "B ZONE",
+    "description": "Khu vực B ZONE mang đến trải nghiệm concert sống động với góc nhìn đẹp và không gian rộng rãi để tận hưởng các màn trình diễn đặc sắc của Taylor Swift. Đây là khu vực có sức chứa lớn thứ hai, phù hợp cho khán giả muốn trải nghiệm không khí đại nhạc hội đẳng cấp quốc tế.",
+    "price": 5500000,
+    "totalQuantity": 1300,
+    "availableQuantity": 1300,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T20:13:46.171Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T08:43:10.655Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe442d8f4f93bff5167342"
+    },
+    "concertId": {
+      "$oid": "69fe424c8f4f93bff516733f"
+    },
+    "name": "C ZONE",
+    "description": "Khu vực C ZONE sở hữu tầm nhìn tốt đến sân khấu cùng mức giá cân bằng, phù hợp với người hâm mộ muốn tham gia đêm concert đáng nhớ của Taylor Swift trong không gian sôi động và tràn ngập ánh sáng từ cộng đồng Swifties.",
+    "price": 3200000,
+    "totalQuantity": 2000,
+    "availableQuantity": 1999,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T20:14:37.331Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:00:24.955Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe44888f4f93bff5167343"
+    },
+    "concertId": {
+      "$oid": "69fe424c8f4f93bff516733f"
+    },
+    "name": "D ZONE",
+    "description": "Khu vực D ZONE là khu vực có số lượng giới hạn nhất với không gian riêng và trải nghiệm concert gần gũi dành cho khán giả yêu thích sự thoải mái khi thưởng thức âm nhạc. Dù quy mô nhỏ hơn các khu vực khác, D ZONE vẫn mang đến không khí cuồng nhiệt và trải nghiệm đáng nhớ trong The Eras Tour Vietnam.",
+    "price": 1500000,
+    "totalQuantity": 600,
+    "availableQuantity": 600,
+    "maxPerBooking": 5,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2026-05-08T20:16:08.034Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T21:00:21.322Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe46d28f4f93bff5167345"
+    },
+    "concertId": {
+      "$oid": "69fe46358f4f93bff5167344"
+    },
+    "name": "SEE TÌNH (SVIP)",
+    "description": "Khu vực SEE TÌNH (SVIP) là hạng vé cao cấp nhất với vị trí sát sân khấu, mang đến trải nghiệm âm nhạc trọn vẹn cùng góc nhìn trực diện đến các màn trình diễn nghệ thuật đặc sắc của Hoàng Thùy Linh. Vé SVIP đi kèm lối check-in ưu tiên, quà tặng giới hạn từ concert và nhiều quyền lợi đặc biệt dành cho khán giả muốn tận hưởng đêm diễn ở không gian đẳng cấp nhất.",
+    "price": 3900000,
+    "totalQuantity": 800,
+    "availableQuantity": 800,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T20:25:54.984Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T09:59:28.600Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe470d8f4f93bff5167346"
+    },
+    "concertId": {
+      "$oid": "69fe46358f4f93bff5167344"
+    },
+    "name": "GIEO QUẺ (VIP)",
+    "description": "Khu vực GIEO QUẺ (VIP) sở hữu vị trí đẹp gần sân khấu với không gian thưởng thức âm nhạc sôi động và tầm nhìn rộng đến toàn bộ sân khấu biểu diễn. Đây là lựa chọn phù hợp dành cho khán giả muốn hòa mình vào không khí cuồng nhiệt của concert Hoàng Thùy Linh cùng những màn trình diễn được đầu tư công phu và đầy màu sắc nghệ thuật.",
+    "price": 3300000,
+    "totalQuantity": 500,
+    "availableQuantity": 500,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T20:26:53.637Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:27:03.025Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe477a8f4f93bff5167347"
+    },
+    "concertId": {
+      "$oid": "69fe46358f4f93bff5167344"
+    },
+    "name": "C1 - KẺ CẮP",
+    "description": "Khu vực C1 - KẺ CẮP mang đến không gian thưởng thức concert sôi động với tầm nhìn tốt hướng đến sân khấu chính và hệ thống âm thanh ánh sáng sống động. Đây là khu vực phù hợp cho khán giả muốn tận hưởng trọn vẹn không khí cuồng nhiệt của đêm diễn cùng những màn trình diễn đầy năng lượng từ Hoàng Thùy Linh.",
+    "price": 2700000,
+    "totalQuantity": 200,
+    "availableQuantity": 200,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T20:28:42.150Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:28:42.150Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe47d28f4f93bff5167348"
+    },
+    "concertId": {
+      "$oid": "69fe46358f4f93bff5167344"
+    },
+    "name": "B1 - BÀ GIÀ",
+    "description": "Khu vực B1 - BÀ GIÀ mang đến không gian thưởng thức concert sôi động với tầm nhìn tốt hướng đến sân khấu chính và hệ thống âm thanh ánh sáng sống động. Đây là khu vực phù hợp cho khán giả muốn tận hưởng trọn vẹn không khí cuồng nhiệt của đêm diễn cùng những màn trình diễn đầy năng lượng từ Hoàng Thùy Linh.",
+    "price": 2700000,
+    "totalQuantity": 200,
+    "availableQuantity": 199,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T20:30:10.209Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:00:37.237Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe4af58f4f93bff516734a"
+    },
+    "concertId": {
+      "$oid": "69fe49d28f4f93bff5167349"
+    },
+    "name": "SEASOUL LOUNGE",
+    "description": "Khu vực SEASOUL LOUNGE là hạng vé cao cấp nhất với không gian lounge riêng sang trọng, vị trí cực gần sân khấu và trải nghiệm concert đẳng cấp dành cho khán giả VIP. Vé bao gồm lối check-in ưu tiên, khu vực nghỉ riêng, quà tặng giới hạn cùng nhiều quyền lợi đặc biệt để tận hưởng trọn vẹn không khí bùng nổ của đêm diễn.",
+    "price": 12000000,
+    "totalQuantity": 150,
+    "availableQuantity": 150,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-08T20:43:33.762Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:43:33.762Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe4b388f4f93bff516734b"
+    },
+    "concertId": {
+      "$oid": "69fe49d28f4f93bff5167349"
+    },
+    "name": "SVIP",
+    "description": "Khu vực SVIP sở hữu vị trí sát sân khấu với tầm nhìn trực diện, mang đến trải nghiệm âm nhạc sống động và không khí cuồng nhiệt xuyên suốt concert. Vé SVIP đi kèm lối check-in ưu tiên, quà tặng độc quyền và nhiều quyền lợi đặc biệt dành cho khán giả muốn tận hưởng đêm diễn ở không gian nổi bật nhất.",
+    "price": 4600000,
+    "totalQuantity": 400,
+    "availableQuantity": 400,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-08T20:44:40.921Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:44:40.921Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe4b7e8f4f93bff516734c"
+    },
+    "concertId": {
+      "$oid": "69fe49d28f4f93bff5167349"
+    },
+    "name": "VVIP",
+    "description": "Vé VVIP – Mỹ Tâm “Tri Âm & See The Light Concert 2026” mang đến vị trí gần sân khấu nhất, tầm nhìn đẹp, cùng một số quyền lợi ưu tiên và quà tặng giới hạn, cho trải nghiệm xem show trọn vẹn và đẳng cấp.",
+    "price": 4000000,
+    "totalQuantity": 400,
+    "availableQuantity": 400,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-08T20:45:50.201Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:45:50.201Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe4bb18f4f93bff516734d"
+    },
+    "concertId": {
+      "$oid": "69fe49d28f4f93bff5167349"
+    },
+    "name": "VIP",
+    "description": "Vé VIP – Mỹ Tâm “Tri Âm & See The Light Concert 2026” mang đến vị trí ngồi đẹp gần sân khấu, trải nghiệm âm nhạc chất lượng cao và một số ưu đãi đi kèm, phù hợp cho khán giả muốn thưởng thức show một cách trọn vẹn và thoải mái.",
+    "price": 3400000,
+    "totalQuantity": 800,
+    "availableQuantity": 800,
+    "maxPerBooking": 5,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2026-05-08T20:46:41.127Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:46:41.127Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69fe4bdc8f4f93bff516734e"
+    },
+    "concertId": {
+      "$oid": "69fe49d28f4f93bff5167349"
+    },
+    "name": "GA",
+    "description": "Vé GA – Mỹ Tâm “Tri Âm & See The Light Concert 2026” là khu vé phổ thông, cho phép khán giả tự do lựa chọn vị trí trong khu vực quy định, mang đến trải nghiệm sôi động và hòa mình cùng không khí concert.",
+    "price": 1500000,
+    "totalQuantity": 600,
+    "availableQuantity": 600,
+    "maxPerBooking": 5,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2026-05-08T20:47:24.915Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-08T20:47:24.915Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff11860ce70269133927ac"
+    },
+    "concertId": {
+      "$oid": "69ff10910ce70269133927ab"
+    },
+    "name": "VVIP",
+    "description": "Vé VVIP mang đến trải nghiệm cao cấp nhất trong toàn bộ concert của Ngọt. Khán giả sở hữu vé này sẽ được bố trí vị trí cực gần sân khấu, tầm nhìn trực diện, dễ dàng cảm nhận từng chi tiết biểu diễn và cảm xúc của nghệ sĩ. Ngoài ra, khu vực VVIP thường có lối vào riêng, hạn chế chen lấn, giúp trải nghiệm thoải mái và riêng tư hơn. Đây là lựa chọn dành cho những người muốn thưởng thức âm nhạc một cách trọn vẹn và sâu sắc nhất.",
+    "price": 1500000,
+    "totalQuantity": 100,
+    "availableQuantity": 100,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-09T10:50:46.417Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:50:53.199Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff11b10ce70269133927ad"
+    },
+    "concertId": {
+      "$oid": "69ff10910ce70269133927ab"
+    },
+    "name": "VIP",
+    "description": "Vé VIP mang lại trải nghiệm cân bằng giữa chất lượng và sự thoải mái khi tham dự concert của Ngọt. Người sở hữu vé sẽ được ngồi ở khu vực có tầm nhìn tốt, âm thanh rõ ràng và không gian dễ chịu để thưởng thức trọn vẹn buổi biểu diễn. Đây là lựa chọn phù hợp cho những khán giả muốn tận hưởng âm nhạc với trải nghiệm tốt nhưng vẫn tối ưu chi phí.",
+    "price": 1200000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-09T10:51:29.117Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:51:29.117Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff11d00ce70269133927ae"
+    },
+    "concertId": {
+      "$oid": "69ff10910ce70269133927ab"
+    },
+    "name": "GA",
+    "description": "Vé GA là khu vực phổ thông dành cho đông đảo khán giả tham dự concert của Ngọt. Với không gian mở, người xem có thể tự do lựa chọn vị trí đứng hoặc ngồi trong khu vực quy định, tận hưởng không khí gần gũi, sôi động và đậm chất fan. Đây là lựa chọn lý tưởng cho những ai muốn hòa mình vào đám đông và cảm nhận năng lượng trực tiếp từ sân khấu.",
+    "price": 600000,
+    "totalQuantity": 1000,
+    "availableQuantity": 1000,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-09T10:52:00.371Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:52:00.371Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff13440ce70269133927af"
+    },
+    "concertId": {
+      "$oid": "69ff0c77e7fb6a240af4c264"
+    },
+    "name": "STANDING A",
+    "description": "STANDING A là khu vực đứng gần sân khấu trong concert world tour của TWICE, mang đến trải nghiệm sôi động và cuồng nhiệt nhất. Khán giả sẽ được hòa mình trực tiếp vào không khí biểu diễn, cảm nhận rõ năng lượng từ âm nhạc, vũ đạo và hiệu ứng sân khấu hoành tráng. Đây là khu vực lý tưởng cho fan muốn đứng gần thần tượng, tham gia fan chant và tận hưởng trọn vẹn không khí concert K-pop đỉnh cao.",
+    "price": 5800000,
+    "totalQuantity": 800,
+    "availableQuantity": 800,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-09T10:58:12.029Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:58:12.029Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff13650ce70269133927b0"
+    },
+    "concertId": {
+      "$oid": "69ff0c77e7fb6a240af4c264"
+    },
+    "name": "STANDING B",
+    "description": "STANDING B là khu vực đứng gần sân khấu trong concert world tour của TWICE, mang đến trải nghiệm sôi động và cuồng nhiệt nhất. Khán giả sẽ được hòa mình trực tiếp vào không khí biểu diễn, cảm nhận rõ năng lượng từ âm nhạc, vũ đạo và hiệu ứng sân khấu hoành tráng. Đây là khu vực lý tưởng cho fan muốn đứng gần thần tượng, tham gia fan chant và tận hưởng trọn vẹn không khí concert K-pop đỉnh cao.",
+    "price": 5800000,
+    "totalQuantity": 800,
+    "availableQuantity": 800,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-09T10:58:45.674Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:58:45.674Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff13a10ce70269133927b1"
+    },
+    "concertId": {
+      "$oid": "69ff0c77e7fb6a240af4c264"
+    },
+    "name": "VIP SEATED",
+    "description": "VIP SEATED là khu vực ghế ngồi cao cấp trong concert world tour của TWICE, mang đến tầm nhìn trực diện và rõ ràng nhất đến sân khấu. Khán giả sẽ được trải nghiệm không gian thoải mái với chỗ ngồi cố định, dễ dàng theo dõi toàn bộ phần trình diễn, ánh sáng và hiệu ứng sân khấu một cách trọn vẹn. Đây là lựa chọn phù hợp cho những fan muốn tận hưởng concert một cách thư giãn nhưng vẫn đảm bảo chất lượng trải nghiệm cao cấp.",
+    "price": 6900000,
+    "totalQuantity": 700,
+    "availableQuantity": 700,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-09T10:59:45.781Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T10:59:45.781Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff13f50ce70269133927b2"
+    },
+    "concertId": {
+      "$oid": "69ff0c77e7fb6a240af4c264"
+    },
+    "name": "GENERAL SEATED",
+    "description": "GENERAL SEATED là khu ghế ngồi phổ thông trong concert world tour của TWICE, nằm xa hơn khu VIP nhưng vẫn đảm bảo tầm nhìn ổn định, âm thanh rõ ràng và trải nghiệm trọn vẹn toàn bộ sân khấu. Đây là lựa chọn phù hợp cho khán giả muốn tham gia concert với chi phí hợp lý nhưng vẫn tận hưởng được không khí sôi động của sự kiện.",
+    "price": 4800000,
+    "totalQuantity": 1500,
+    "availableQuantity": 1500,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-09T11:01:09.227Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T11:06:28.591Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff14880ce70269133927b3"
+    },
+    "concertId": {
+      "$oid": "69ff08f3e7fb6a240af4c263"
+    },
+    "name": "CAT 2",
+    "description": "CAT 2 là khu vực ghế ngồi tầm trung trong concert world tour của Justin Bieber, mang đến tầm nhìn khá tốt đến sân khấu với khoảng cách vừa phải, giúp khán giả vẫn cảm nhận rõ không khí biểu diễn, ánh sáng và hiệu ứng sân khấu. Đây là lựa chọn cân bằng giữa giá vé và trải nghiệm, phù hợp cho những người muốn thưởng thức concert trọn vẹn mà không cần ở khu vực quá gần sân khấu.",
+    "price": 8880000,
+    "totalQuantity": 300,
+    "availableQuantity": 300,
+    "maxPerBooking": 5,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2026-05-09T11:03:36.980Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T11:04:32.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff14dc0ce70269133927b4"
+    },
+    "concertId": {
+      "$oid": "69ff08f3e7fb6a240af4c263"
+    },
+    "name": "CAT 3",
+    "description": "CAT 3 là khu vực ghế ngồi bao quanh phía ngoài sân khấu trong concert world tour của Justin Bieber, nằm xa hơn so với CAT 2 nhưng vẫn đảm bảo tầm nhìn tổng thể qua màn hình LED lớn và hệ thống âm thanh chất lượng cao. Đây là khu vực dành cho khán giả muốn hòa mình vào không khí concert đông vui, sôi động, với mức giá dễ tiếp cận hơn nhưng vẫn được trải nghiệm trọn vẹn chương trình.",
+    "price": 7280000,
+    "totalQuantity": 900,
+    "availableQuantity": 900,
+    "maxPerBooking": 5,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2026-05-09T11:05:00.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T11:05:00.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ff15060ce70269133927b5"
+    },
+    "concertId": {
+      "$oid": "69ff08f3e7fb6a240af4c263"
+    },
+    "name": "CAT 1",
+    "description": "CAT 1 là khu vực ghế ngồi cao cấp và gần sân khấu nhất trong concert world tour của Justin Bieber, mang đến tầm nhìn trực diện, rõ nét từng khoảnh khắc trình diễn, ánh sáng và hiệu ứng sân khấu. Đây là vị trí lý tưởng để cảm nhận trọn vẹn năng lượng, cảm xúc và sự kết nối từ nghệ sĩ, dành cho những khán giả muốn trải nghiệm concert ở mức độ đỉnh cao nhất.",
+    "price": 10880000,
+    "totalQuantity": 100,
+    "availableQuantity": 100,
+    "maxPerBooking": 5,
+    "sortOrder": 0,
+    "createdAt": {
+      "$date": "2026-05-09T11:05:42.769Z"
+    },
+    "updatedAt": {
+      "$date": "2026-05-09T11:05:42.769Z"
+    },
+    "__v": 0
+  }
+]

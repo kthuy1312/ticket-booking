@@ -6,16 +6,32 @@ import TicketType from "../models/TicketType.js";
 import Voucher from "../models/Voucher.js";
 import VoucherUsage from "../models/VoucherUsage.js";
 
+//2 hàm liên quan đến cơ chế (locking) bằng redis
+import { acquireLock, releaseLock } from "../libs/redis.js";
+
 const RESERVATION_MINUTES = 15; // giữ chỗ 15 phút
 
-//đặt vé (chống overselling)
+//đặt vé (chống overselling + redis lock)
 export const createBooking = async (req, res) => {
+  const { concertId, ticketTypeId, quantity, voucherCode, idempotencyKey } =
+    req.body;
+
+  //acquire Lock (chặn Race Condition ở mức cao nhất)
+  //mỗi loại vé có 1 ổ khóa riêng
+  const lockKey = `ticket:${ticketTypeId}`;
+
+  const hasLock = await acquireLock(lockKey, 3000); //lock tồn tại trong 3s
+  if (!hasLock) {
+    return res.status(429).json({
+      message:
+        "Hệ thống đang bận xử lý lượt đặt chỗ của bạn. Vui lòng thử lại sau giây lát.",
+    });
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const { concertId, ticketTypeId, quantity, voucherCode, idempotencyKey } =
-      req.body;
     const userId = req.user._id;
 
     //validate
@@ -232,6 +248,9 @@ export const createBooking = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
+    //release lock thành công
+    await releaseLock(lockKey);
+
     return res.status(201).json({
       message: "Đặt vé thành công. Vui lòng thanh toán trong 15 phút.",
       booking: {
@@ -254,6 +273,10 @@ export const createBooking = async (req, res) => {
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
+
+    //luôn giải phóng lock khi có lỗi
+    await releaseLock(lockKey);
+
     console.error("createBooking error:", err);
     return res.status(500).json({ message: "Lỗi server" });
   }

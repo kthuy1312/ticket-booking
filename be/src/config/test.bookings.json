@@ -1,0 +1,225 @@
+[{
+  "_id": {
+    "$oid": "69ff053c2268f2548ce7494b"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "concertId": {
+    "$oid": "69fe46358f4f93bff5167344"
+  },
+  "ticketTypeId": {
+    "$oid": "69fe46d28f4f93bff5167345"
+  },
+  "voucherId": null,
+  "quantity": 1,
+  "unitPrice": 3900000,
+  "discountAmount": 0,
+  "totalAmount": 3900000,
+  "status": "CANCELLED",
+  "idempotencyKey": "1778320699741-tk0zubw6b",
+  "reservedAt": {
+    "$date": "2026-05-09T09:58:19.919Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:13:19.919Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T09:58:20.028Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:28.524Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ff05672268f2548ce7494d"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "concertId": {
+    "$oid": "69fe0316fe563f14502c1014"
+  },
+  "ticketTypeId": {
+    "$oid": "69fe36a48f4f93bff5167337"
+  },
+  "voucherId": {
+    "$oid": "69ff000f162169943e7b1061"
+  },
+  "quantity": 1,
+  "unitPrice": 9800000,
+  "discountAmount": 4900000,
+  "totalAmount": 4900000,
+  "status": "CONFIRMED",
+  "idempotencyKey": "1778320743587-on126u0pp",
+  "reservedAt": {
+    "$date": "2026-05-09T09:59:03.755Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:14:03.755Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T09:59:03.940Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:30.802Z"
+  },
+  "__v": 0,
+  "completedAt": {
+    "$date": "2026-05-09T09:59:30.800Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff057b2268f2548ce74950"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "concertId": {
+    "$oid": "69fdf6416414544b72563969"
+  },
+  "ticketTypeId": {
+    "$oid": "69fdf6416414544b7256396b"
+  },
+  "voucherId": null,
+  "quantity": 1,
+  "unitPrice": 1500000,
+  "discountAmount": 0,
+  "totalAmount": 1500000,
+  "status": "CONFIRMED",
+  "idempotencyKey": "1778320762922-mzbje5fdi",
+  "reservedAt": {
+    "$date": "2026-05-09T09:59:23.087Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:14:23.087Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T09:59:23.182Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:59:31.863Z"
+  },
+  "__v": 0,
+  "completedAt": {
+    "$date": "2026-05-09T09:59:31.862Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff05a82268f2548ce74955"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "concertId": {
+    "$oid": "69fdf6416414544b7256396a"
+  },
+  "ticketTypeId": {
+    "$oid": "69fdf6416414544b7256396f"
+  },
+  "voucherId": {
+    "$oid": "69ff000f162169943e7b1061"
+  },
+  "quantity": 2,
+  "unitPrice": 8000000,
+  "discountAmount": 8000000,
+  "totalAmount": 8000000,
+  "status": "CONFIRMED",
+  "idempotencyKey": "1778320807744-abvqvdlce",
+  "reservedAt": {
+    "$date": "2026-05-09T10:00:07.906Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:15:07.906Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:00:08.093Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:29.326Z"
+  },
+  "__v": 0,
+  "completedAt": {
+    "$date": "2026-05-09T10:00:29.325Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff05b92268f2548ce74958"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "concertId": {
+    "$oid": "69fe424c8f4f93bff516733f"
+  },
+  "ticketTypeId": {
+    "$oid": "69fe442d8f4f93bff5167342"
+  },
+  "voucherId": {
+    "$oid": "69ff000f162169943e7b1062"
+  },
+  "quantity": 1,
+  "unitPrice": 3200000,
+  "discountAmount": 200000,
+  "totalAmount": 3000000,
+  "status": "CONFIRMED",
+  "idempotencyKey": "1778320824739-m8osk8id1",
+  "reservedAt": {
+    "$date": "2026-05-09T10:00:24.905Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:15:24.905Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:00:25.101Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:27.736Z"
+  },
+  "__v": 0,
+  "completedAt": {
+    "$date": "2026-05-09T10:00:27.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff05c52268f2548ce7495d"
+  },
+  "userId": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "concertId": {
+    "$oid": "69fe46358f4f93bff5167344"
+  },
+  "ticketTypeId": {
+    "$oid": "69fe47d28f4f93bff5167348"
+  },
+  "voucherId": null,
+  "quantity": 1,
+  "unitPrice": 2700000,
+  "discountAmount": 0,
+  "totalAmount": 2700000,
+  "status": "CONFIRMED",
+  "idempotencyKey": "1778320837017-pq4n7sb7z",
+  "reservedAt": {
+    "$date": "2026-05-09T10:00:37.188Z"
+  },
+  "expiredAt": {
+    "$date": "2026-05-09T10:15:37.188Z"
+  },
+  "createdAt": {
+    "$date": "2026-05-09T10:00:37.286Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T10:00:41.280Z"
+  },
+  "__v": 0,
+  "completedAt": {
+    "$date": "2026-05-09T10:00:41.279Z"
+  }
+}]

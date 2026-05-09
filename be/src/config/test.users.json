@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "69fdf6416414544b72563966"
+  },
+  "email": "ad@gmail.com",
+  "passwordHash": "$2b$10$LAo4Tr9yR2B5ATO/70kpQO0.pxIluR/vNhTpAdpvjTD1yIWqSJbge",
+  "fullName": "Super Admin",
+  "phone": "0900000001",
+  "role": "ADMIN",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-05-09T09:36:15.678Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:36:15.678Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff000f162169943e7b103d"
+  },
+  "email": "1@gmail.com",
+  "passwordHash": "$2b$10$QWeRmmt8b1OdkdFig0vLSOfTNAnUyiyBdOdubU2qE4IrScwaq.xBy",
+  "fullName": "Nguyễn Văn A",
+  "phone": "0900000002",
+  "role": "USER",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-05-09T09:36:15.679Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:36:15.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69ff000f162169943e7b103e"
+  },
+  "email": "2@gmail.com",
+  "passwordHash": "$2b$10$QWeRmmt8b1OdkdFig0vLSOfTNAnUyiyBdOdubU2qE4IrScwaq.xBy",
+  "fullName": "Trần Thị B",
+  "phone": "0900000003",
+  "role": "USER",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-05-09T09:36:15.679Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T09:36:15.679Z"
+  }
+}]

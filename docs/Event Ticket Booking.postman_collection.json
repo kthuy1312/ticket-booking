@@ -996,7 +996,31 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/operation/stats",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "operation",
+                    "stats"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"stats\": {\n        \"totalBookings\": 150,\n        \"bookingsByStatus\": {\n            \"CONFIRMED\": 120,\n            \"CANCELLED\": 10,\n            \"PENDING\": 20\n        },\n        \"confirmedRevenue\": 450000000,\n        \"confirmedBookings\": 120,\n        \"totalConcerts\": 12,\n        \"totalVouchers\": 5,\n        \"dailyRevenue\": [\n            { \"date\": \"2026-05-04\", \"revenue\": 45000000 },\n            { \"date\": \"2026-05-05\", \"revenue\": 32000000 },\n            { \"date\": \"2026-05-06\", \"revenue\": 0 },\n            { \"date\": \"2026-05-07\", \"revenue\": 56000000 },\n            { \"date\": \"2026-05-08\", \"revenue\": 89000000 },\n            { \"date\": \"2026-05-09\", \"revenue\": 12000000 },\n            { \"date\": \"2026-05-10\", \"revenue\": 4500000 }\n        ]\n    },\n    \"recentBookings\": []\n}"
+            }
+          ]
         }
       ]
     }

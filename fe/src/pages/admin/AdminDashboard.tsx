@@ -10,7 +10,10 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     operationAPI.stats()
-      .then(setStats)
+      .then(data => {
+        console.log('Dashboard stats:', data);
+        setStats(data);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
@@ -71,12 +74,101 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="glass-card p-6 flex flex-col items-center justify-center text-center">
-            <Users className="w-16 h-16 text-foreground/10 mb-4" />
-            <h3 className="text-lg font-medium text-foreground mb-2">Biểu đồ đang phát triển</h3>
-            <p className="text-sm text-foreground/40 max-w-sm">
-              Tính năng biểu đồ doanh thu chi tiết sẽ được cập nhật trong phiên bản tiếp theo của Admin Dashboard.
-            </p>
+          <div className="glass-card p-6">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h3 className="text-xl font-bold text-foreground">Doanh thu 7 ngày qua</h3>
+                <p className="text-xs text-foreground/50 mt-1">Thống kê doanh thu thực tế từ đơn hàng đã xác nhận</p>
+              </div>
+              <div className="text-xs font-bold text-violet-600 dark:text-violet-400 bg-violet-500/10 px-3 py-1.5 rounded-full border border-violet-500/20">
+                VNĐ
+              </div>
+            </div>
+            
+            <div className="h-[300px] w-full relative mt-4">
+              {/* Grid Lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                {[0, 1, 2, 3, 4].map((_, i) => (
+                  <div key={i} className="w-full border-t border-foreground/5 flex justify-end">
+                    <span className="text-[8px] text-foreground/20 -mt-2 mr-1"></span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bars Container */}
+              <div className="absolute inset-0 flex items-end justify-around gap-3 px-2 pt-10 pb-6">
+                {(() => {
+                  const dailyData = stats.dailyRevenue || [];
+                  if (dailyData.length === 0) {
+                    return (
+                      <div className="flex items-center justify-center w-full h-full text-foreground/20 text-sm italic">
+                        Chưa có dữ liệu doanh thu
+                      </div>
+                    );
+                  }
+                  
+                  const revenues = dailyData.map(d => d.revenue);
+                  const maxRevenueValue = Math.max(...(revenues.length ? revenues : [0]));
+                  const maxChartValue = maxRevenueValue > 0 ? maxRevenueValue * 1.2 : 1000000;
+                  
+                  return dailyData.map((day, idx) => {
+                    const height = (day.revenue / maxChartValue) * 100;
+                    const isToday = idx === dailyData.length - 1;
+                    
+                    return (
+                      <div key={day.date} className="flex-1 h-full flex flex-col items-center justify-end group relative">
+                        {/* Revenue Tooltip/Label */}
+                        {day.revenue > 0 && (
+                          <div 
+                            className="absolute z-10 bottom-[calc(var(--bar-h)+35px)] left-1/2 -translate-x-1/2 bg-violet-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-90 group-hover:scale-100"
+                            style={{ '--bar-h': `${height}%` } as any}
+                          >
+                            {fmtCurrency(day.revenue)}
+                          </div>
+                        )}
+                        
+                        {/* Compact Label above bar */}
+                        {day.revenue > 0 && (
+                          <div 
+                            className="absolute bottom-[calc(var(--bar-h)+10px)] left-1/2 -translate-x-1/2 text-[9px] font-bold text-violet-500 whitespace-nowrap"
+                            style={{ '--bar-h': `${height}%` } as any}
+                          >
+                            {new Intl.NumberFormat('vi-VN', { notation: 'compact' }).format(day.revenue)}
+                          </div>
+                        )}
+
+                        {/* The Bar */}
+                        <div 
+                          className={`w-full max-w-[40px] rounded-t-md transition-all duration-1000 ease-out relative group-hover:filter group-hover:brightness-110 shadow-md ${
+                            isToday 
+                              ? 'bg-gradient-to-t from-violet-600 to-violet-400' 
+                              : day.revenue > 0 
+                                ? 'bg-violet-500/40' 
+                                : 'bg-foreground/5'
+                          }`}
+                          style={{ height: `${Math.max(height, 4)}%` }}
+                        >
+                          {/* Inner Shine */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
+                        </div>
+
+                        {/* X-Axis Label */}
+                        <div className="absolute top-[calc(100%+8px)] flex flex-col items-center">
+                          <span className={`text-[10px] font-bold whitespace-nowrap ${
+                            isToday ? 'text-violet-600' : 'text-foreground/50'
+                          }`}>
+                            {new Date(day.date).toLocaleDateString('vi-VN', { weekday: 'short' })}
+                          </span>
+                          <span className="text-[8px] text-foreground/30">
+                            {new Date(day.date).getDate()}/{new Date(day.date).getMonth() + 1}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </div>
           </div>
         </div>
       </div>

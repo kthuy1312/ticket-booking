@@ -426,7 +426,49 @@ export const getDashboardStats = async (req, res) => {
         .select("status totalAmount quantity createdAt"),
     ]);
 
-    //doanh thu từ CONFIRMED bookings
+    //doanh thu theo ngày (7 ngày gần nhất)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); //lấy cả hnay và 6 ngày trước
+
+    const dailyRevenueAgg = await Booking.aggregate([
+      {
+        $match: {
+          status: "CONFIRMED",
+          createdAt: { $gte: sevenDaysAgo },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt",
+              timezone: "+07:00",
+            },
+          },
+          revenue: { $sum: "$totalAmount" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+    //chuẩn hóa dlieu để luôn có đủ 7 ngày (kể cả ngày không có doanh thu)
+    const dailyRevenue = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i));
+      // Tạo chuỗi YYYY-MM-DD theo giờ địa phương
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+      const found = dailyRevenueAgg.find((item) => item._id === dateStr);
+      dailyRevenue.push({
+        date: dateStr,
+        revenue: found ? found.revenue : 0,
+      });
+    }
+
+    // doanh thu từ CONFIRMED bookings
     const revenueAgg = await Booking.aggregate([
       { $match: { status: "CONFIRMED" } },
       {
@@ -452,6 +494,7 @@ export const getDashboardStats = async (req, res) => {
         confirmedBookings: revenue.count,
         totalConcerts,
         totalVouchers,
+        dailyRevenue,
       },
       recentBookings,
     });

@@ -97,4 +97,5 @@ export interface DashboardStats {
   confirmedBookings: number;
   totalConcerts: number;
   totalVouchers: number;
+  dailyRevenue: { date: string; revenue: number }[];
 }

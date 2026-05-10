@@ -533,8 +533,52 @@
       "get": {
         "tags": ["Operation"],
         "summary": "[ADMIN] Tổng quan dashboard",
+        "description": "Lấy thông tin thống kê tổng quan bao gồm doanh thu, số lượng booking và biểu đồ doanh thu 7 ngày gần nhất.",
         "security": [{ "BearerAuth": [] }],
-        "responses": { "200": { "description": "Thống kê tổng quan" } }
+        "responses": {
+          "200": {
+            "description": "Thống kê tổng quan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "totalBookings": { "type": "integer" },
+                        "bookingsByStatus": { 
+                          "type": "object",
+                          "additionalProperties": { "type": "integer" },
+                          "description": "Số lượng booking theo từng trạng thái"
+                        },
+                        "confirmedRevenue": { "type": "number", "description": "Tổng doanh thu từ các đơn hàng đã xác nhận" },
+                        "confirmedBookings": { "type": "integer", "description": "Tổng số đơn hàng đã xác nhận" },
+                        "totalConcerts": { "type": "integer" },
+                        "totalVouchers": { "type": "integer" },
+                        "dailyRevenue": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "date": { "type": "string", "example": "2026-05-10" },
+                              "revenue": { "type": "number", "example": 5000000 }
+                            }
+                          },
+                          "description": "Dữ liệu doanh thu 7 ngày gần nhất để vẽ biểu đồ"
+                        }
+                      }
+                    },
+                    "recentBookings": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Booking" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/operation/bookings": {

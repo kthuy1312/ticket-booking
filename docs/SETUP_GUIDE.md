@@ -80,6 +80,7 @@ Sau khi chạy lệnh `seed`, bạn có thể đăng nhập bằng các tài kho
 | ----------------- | -------------- | -------- |
 | **Quản trị viên** | `ad@gmail.com` | `123456` |
 | **Người dùng**    | `1@gmail.com`  | `123456` |
+| **Người dùng**    | `2@gmail.com`  | `123456` |
 
 ---
 

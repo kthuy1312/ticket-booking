@@ -57,7 +57,7 @@ export const voucherAPI = {
 export const operationAPI = {
   stats: () => api.get('/operation/stats').then(r => r.data.stats as DashboardStats),
   
-  allBookings: (params?: { status?: string; concertId?: string; userId?: string; page?: number; limit?: number }) =>
+  allBookings: (params?: { status?: string; concertId?: string; userId?: string; page?: number; limit?: number; q?: string }) =>
     api.get('/operation/bookings', { params }).then(r => r.data as { bookings: Booking[]; pagination: Pagination }),
   
   bookingDetail: (id: string) =>
@@ -66,7 +66,7 @@ export const operationAPI = {
   updateBookingStatus: (id: string, status: string, reason?: string) =>
     api.patch(`/operation/bookings/${id}/status`, { status, reason }).then(r => r.data),
 
-  allConcerts: (params?: { status?: string; page?: number; limit?: number }) =>
+  allConcerts: (params?: { status?: string; page?: number; limit?: number; q?: string }) =>
     api.get('/operation/concerts', { params }).then(r => r.data as { concerts: Concert[]; pagination: Pagination }),
 
   createTicketType: (concertId: string, data: object) =>
@@ -78,6 +78,6 @@ export const operationAPI = {
   ticketAvailability: (ticketTypeId: string) =>
     api.get(`/operation/ticket-types/${ticketTypeId}/availability`).then(r => r.data.ticketType),
 
-  voucherStats: (params?: { page?: number; limit?: number }) => 
+  voucherStats: (params?: { page?: number; limit?: number; q?: string }) => 
     api.get('/operation/vouchers', { params }).then(r => r.data as { vouchers: Voucher[]; pagination: Pagination }),
 };
